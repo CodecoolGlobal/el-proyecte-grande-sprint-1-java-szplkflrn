@@ -12,7 +12,7 @@ public class BoardGameService {
 
     private BoardGameStorage storage;
 
-    @Autowired
+
     public BoardGameService(BoardGameStorage storage) {
         this.storage = storage;
     }
@@ -29,8 +29,8 @@ public class BoardGameService {
         storage.addBoardGame(boardGame);
     }
 
-    public boolean deleteBoardGame(int id) {
-        return storage.removeGameById(id);
+    public void deleteBoardGame(int id) {
+         storage.removeGameById(id);
     }
 }
 
