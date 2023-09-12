@@ -1,0 +1,48 @@
+@startuml
+
+package byteBattlers <<Folder>> {
+
+entity User {
+* name : varchar(50) Unique Not null
+* email : varchar(50) Unique Not null
+* password : varchar(50) Unique Not null
+* favourite_game : {game_id}
+--
+* id : serial key
+}
+
+entity BoardGame {
+* name : varchar(50) Unique Not null
+* min_player : smallint Not null
+* max_player : smallint Not null
+* playtime_duration : smallint Not null
+* recommended_min_age : smallint Not null
+* description : varchar(1000) Not null
+* rating : real
+* category_id : foreign_key
+* publisher : foreign_key
+--
+* id : serial key
+}
+
+entity Publisher {
+* name : varchar(50) Unique Not null
+--
+* id : serial key
+}
+
+entity Category {
+* name : varchar(50) Unique Not null
+* description : varchar(50) Unique Not null
+--
+* id : serial key
+}
+
+BoardGame <-- Category
+BoardGame <-- Publisher
+User <-- BoardGame
+
+}
+
+
+@enduml
