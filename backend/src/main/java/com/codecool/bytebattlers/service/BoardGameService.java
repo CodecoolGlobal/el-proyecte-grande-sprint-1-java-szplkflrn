@@ -1,37 +1,36 @@
 package com.codecool.bytebattlers.service;
 
 import com.codecool.bytebattlers.dao.model.BoardGame;
-import com.codecool.bytebattlers.dao.model.DAO.BoardGameDAO;
-import org.springframework.aop.target.LazyInitTargetSource;
+import com.codecool.bytebattlers.service.storage.BoardGameStorage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Set;
 
 @Service
 public class BoardGameService {
 
-    private BoardGameDAO boardGameDAO;
+    private BoardGameStorage storage;
 
     @Autowired
-    public BoardGameService(BoardGameDAO boardGameDAO) {
-        this.boardGameDAO = boardGameDAO;
+    public BoardGameService(BoardGameStorage storage) {
+        this.storage = storage;
     }
 
-    public List<BoardGame> getAllBoardGames() {
-        return BoardGameDAO.getAllBoardGames();
+    public Set<BoardGame> getAllBoardGames() {
+        return storage.getAllGame();
     }
 
     public BoardGame getBoardGameById(int id){
-        return BoardGameDAO.getBoardGameById(id);
+        return storage.getBoardGame(id);
     }
 
-    public int addNewBoardGame(BoardGame boardGame) {
-        return BoardGameDAO.addNewBoardGame(boardGame);
+    public void addNewBoardGame(BoardGame boardGame) {
+        storage.addBoardGame(boardGame);
     }
 
     public boolean deleteBoardGame(int id) {
-        return BoardGameDAO.deleteBoardGame(id);
+        return storage.removeGameById(id);
     }
 }
 
