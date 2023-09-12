@@ -1,7 +1,11 @@
 package com.codecool.bytebattlers.controller;
 
+import com.codecool.bytebattlers.dao.model.BoardGame;
+import com.codecool.bytebattlers.service.BoardGameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/")
@@ -15,23 +19,23 @@ public class BoardGameController {
     }
 
     @GetMapping("/games")
-    public String getAllBoardGame() {
-        return "BoardGameService.getAllBoardGames()";
+    public List<BoardGame> getAllBoardGame() {
+        return BoardGameService.getAllBoardGames();
     }
 
     @GetMapping("/{id}")
     public BoardGame getBoardGameById(@PathVariable int id) {
-       return "BoardGameService.getQuestionById(id)";
+       return BoardGameService.getBoardGameById(id);
     }
 
     @PostMapping("/newGame")
-    public int addNewBoardGame(RequestBody BoardGame newBoardGame) {
-        return "BoardGameService.addNewBoardGame(newBoardGame)";
+    public int addNewBoardGame(RequestBody BoardGame boardGame) {
+        return BoardGameService.addNewBoardGame(boardGame);
     }
 
     @DeleteMapping("/{id}")
     public boolean deleteGameBoardById(@PathVariable int id) {
-        return "BoardGameService.deleteBoardGameById(id)";
+        return BoardGameService.deleteBoardGame(id);
     }
 
 }
