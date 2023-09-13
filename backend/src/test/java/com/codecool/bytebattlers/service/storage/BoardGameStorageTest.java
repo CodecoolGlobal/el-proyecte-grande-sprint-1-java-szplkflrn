@@ -77,4 +77,42 @@ class BoardGameStorageTest {
         // Assert
         assertThrows(NoSuchElementException.class, () -> this.storage.getBoardGame(1));
     }
+
+    @Test
+    void test_removeGameById_withExistingId() {
+        // Arrange
+        int expected = 0;
+        BoardGame game = new BoardGame(
+                1, "A", 1, 2, 20,
+                10, "aa", 2, 1, 1);
+
+        // Act
+        this.storage.addBoardGame(game);
+        this.storage.removeGameById(1);
+        int actual = this.storage.getAllGame().size();
+
+        // Assert
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void test_removeGameById_withNonExistingId() {
+        // Arrange
+        int expected = 1;
+        BoardGame game = new BoardGame(
+                1, "A", 1, 2, 20,
+                10, "aa", 2, 1, 1);
+
+        // Act
+        this.storage.addBoardGame(game);
+        int actual = this.storage.getAllGame().size();
+
+        // Assert
+        try {
+            this.storage.removeGameById(2);
+            fail("Expected NoSuchElementException was not thrown.");
+        } catch (NoSuchElementException ignored) {}
+
+        assertEquals(expected, actual);
+    }
 }
