@@ -1,13 +1,13 @@
 package com.codecool.bytebattlers.service.storage;
 
 import com.codecool.bytebattlers.dao.model.BoardGame;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashSet;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
-@Component
+@Repository
 public class BoardGameStorage {
 
     private final Set<BoardGame> boardGames;
