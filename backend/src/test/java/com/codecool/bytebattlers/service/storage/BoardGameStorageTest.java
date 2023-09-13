@@ -4,6 +4,9 @@ import com.codecool.bytebattlers.dao.model.BoardGame;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class BoardGameStorageTest {
@@ -53,5 +56,28 @@ class BoardGameStorageTest {
 
         // Assert
         assertEquals(expected, actual);
+    }
+
+    @Test
+    void test_getBoardGame_withExistingId() {
+        // Arrange
+        BoardGame expectedGame = new BoardGame(
+                1, "A", 1, 2, 20,
+                10, "aa", 2, 1, 1);
+
+        // Act
+        this.storage.addBoardGame(expectedGame);
+        BoardGame actualGame = this.storage.getBoardGame(1);
+
+        // Assert
+        assertEquals(expectedGame, actualGame);
+    }
+
+    @Test
+    void test_getBoardGame_withNonExistingId() {
+        // Assert
+        assertThrows(NoSuchElementException.class, () -> {
+            this.storage.getBoardGame(1);
+        });
     }
 }
