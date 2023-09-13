@@ -17,7 +17,7 @@ function App() {
           Lets see all of the board games
         </button>
       </div>
-      {showGameList && <GameList />}
+       <GameList />
     </>
   );
 }

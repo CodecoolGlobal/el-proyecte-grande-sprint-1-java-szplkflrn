@@ -4,16 +4,22 @@ const GameList = () => {
 
     const [games, setGames] = useState([]);
     const [loading, setLoading] = useState(false);
+
+
+const gamesFetch = async () => {
+  try {
+    const response = await fetch("/api/games");
+    const data = await response.json();
+    setGames(data);
+    setLoading(false);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
   
     useEffect(() => {
-      setLoading(false);
-  
-      fetch('/games')
-        .then(response => response.json())
-        .then(data => {
-          setGames(data);
-          setLoading(false);
-        })
+      gamesFetch();
     }, []);
 
   const remove = async (id) => {
@@ -33,16 +39,25 @@ const GameList = () => {
     return <p>Loading...</p>;
   }
 
-  const gameList = games.map(game => {
-    <div key={game.id}>
-      {game.name}
-    </div>
-  });
 
   return (
     <div>
-      <h1>ITT A LISTA</h1>
-          {gameList}
+      <table>
+        <thead>
+    <tr>
+      <th>
+        Name
+      </th>
+    </tr>
+        </thead>
+        <tbody>
+        {games.map((game) => (
+         <tr key={game.id}>
+           <td>{game.gameName}</td>
+         </tr>
+  ))}
+        </tbody>
+      </table>
     </div>
   );
 };

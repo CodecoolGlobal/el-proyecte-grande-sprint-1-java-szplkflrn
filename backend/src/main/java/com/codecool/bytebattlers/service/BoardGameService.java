@@ -10,7 +10,6 @@ import java.util.Set;
 @Service
 public class BoardGameService {
 
-
     private BoardGameStorage storage;
 
     @Autowired
