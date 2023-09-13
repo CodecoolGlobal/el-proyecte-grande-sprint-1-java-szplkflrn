@@ -5,7 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -76,8 +75,6 @@ class BoardGameStorageTest {
     @Test
     void test_getBoardGame_withNonExistingId() {
         // Assert
-        assertThrows(NoSuchElementException.class, () -> {
-            this.storage.getBoardGame(1);
-        });
+        assertThrows(NoSuchElementException.class, () -> this.storage.getBoardGame(1));
     }
 }
