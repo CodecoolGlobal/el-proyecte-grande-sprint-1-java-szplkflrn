@@ -1,4 +1,4 @@
-package com.codecool.bytebattlers.dao.model.DAO;
+package com.codecool.bytebattlers.dao;
 
 import com.codecool.bytebattlers.dao.model.BoardGame;
 
