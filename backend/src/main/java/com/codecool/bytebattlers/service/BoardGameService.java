@@ -2,7 +2,6 @@ package com.codecool.bytebattlers.service;
 
 import com.codecool.bytebattlers.dao.model.BoardGame;
 import com.codecool.bytebattlers.service.storage.BoardGameStorage;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -25,8 +24,9 @@ public class BoardGameService {
         return storage.getBoardGame(id);
     }
 
-    public void addNewBoardGame(BoardGame boardGame) {
+    public int addNewBoardGame(BoardGame boardGame) {
         storage.addBoardGame(boardGame);
+        return boardGame.id();
     }
 
     public void deleteBoardGame(int id) {
