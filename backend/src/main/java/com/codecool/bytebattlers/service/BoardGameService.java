@@ -2,6 +2,7 @@ package com.codecool.bytebattlers.service;
 
 import com.codecool.bytebattlers.dao.model.BoardGame;
 import com.codecool.bytebattlers.service.storage.BoardGameStorage;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -9,9 +10,10 @@ import java.util.Set;
 @Service
 public class BoardGameService {
 
+
     private BoardGameStorage storage;
 
-
+    @Autowired
     public BoardGameService(BoardGameStorage storage) {
         this.storage = storage;
     }
