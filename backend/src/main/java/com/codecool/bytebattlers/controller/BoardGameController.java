@@ -26,7 +26,7 @@ public class BoardGameController {
     }
 
     @PostMapping("/newGame")
-    public int addNewBoardGame(RequestBody BoardGame boardGame) {
+    public int addNewBoardGame(@RequestBody BoardGame boardGame) {
         return boardGameService.addNewBoardGame(boardGame);
     }
 
