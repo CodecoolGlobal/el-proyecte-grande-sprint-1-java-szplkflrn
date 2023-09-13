@@ -1,6 +1,7 @@
 package com.codecool.bytebattlers.controller;
 import com.codecool.bytebattlers.dao.model.BoardGame;
 import com.codecool.bytebattlers.service.BoardGameService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
@@ -9,8 +10,9 @@ import java.util.Set;
 @RequestMapping("/")
 public class BoardGameController {
 
-    private final BoardGameService boardGameService;
 
+    private final BoardGameService boardGameService;
+    @Autowired
     public BoardGameController(BoardGameService boardGameService) {
         this.boardGameService = boardGameService;
     }
