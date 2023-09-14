@@ -6,7 +6,7 @@ function App() {
 
   return (
     <div className='home-page'>
-      <h1>Welcome</h1>
+      <h1>Welcome in ByteBattlers</h1>
       <div className="card">
         <button>
           Lets see all of the board games
