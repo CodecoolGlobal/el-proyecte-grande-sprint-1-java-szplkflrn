@@ -31,6 +31,7 @@ const BoardGameForm = ({ onSave, disabled, boardGame, onCancel }) => {
   };
 
   return (
+    <div className="BoardForm">
     <form className="BoardGameForm" onSubmit={onSubmit}>
       {boardGame && <input type="hidden" name="_id" defaultValue={boardGame.id} />}
       
@@ -127,6 +128,7 @@ const BoardGameForm = ({ onSave, disabled, boardGame, onCancel }) => {
         </button>
       </div>
     </form>
+    </div>
   );
 };
 
