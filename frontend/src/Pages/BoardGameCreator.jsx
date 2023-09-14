@@ -25,7 +25,7 @@ const BoardGameCreator = () => {
       createGame(boardGame)
         .then(() => {
           setLoading(false);
-          navigate("/");
+          navigate("/games");
         })
     };
   

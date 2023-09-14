@@ -22,3 +22,7 @@
 .grow {
   flex: 1;
 }
+
+.buttons {
+  text-align: center;
+}

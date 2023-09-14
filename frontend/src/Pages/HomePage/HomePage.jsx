@@ -9,7 +9,10 @@ function App() {
       <h1>Welcome in ByteBattlers</h1>
       <div className="card">
         <button>
-          Lets see all of the board games
+          Login
+        </button>
+        <button>
+          Sign up
         </button>
       </div>
     </div>
