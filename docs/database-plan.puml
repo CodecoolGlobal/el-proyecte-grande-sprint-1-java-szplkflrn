@@ -7,6 +7,7 @@ entity User {
 * email : varchar(50) Unique Not null
 * password : varchar(50) Unique Not null
 * favourite_game : {game_id}
+* reviews : {review_id}
 --
 * id : serial key
 }
@@ -21,6 +22,7 @@ entity BoardGame {
 * rating : real
 * category_id : foreign_key
 * publisher : foreign_key
+* reviews : {review_id}
 --
 * id : serial key
 }
@@ -38,10 +40,19 @@ entity Category {
 * id : serial key
 }
 
+entity Review {
+* description : varchar(500) Unique Not null
+* user_id : foreign_key
+* board_game_id : foreign_key
+--
+* id : serial key
+}
+
 BoardGame <-- Category
 BoardGame <-- Publisher
 User <-- BoardGame
-
+User <-- Review
+BoardGame <- Review
 }
 
 
