@@ -1,29 +1,29 @@
 package com.codecool.bytebattlers.controller;
 
+import com.codecool.bytebattlers.controller.dto.UserDTO;
 import com.codecool.bytebattlers.dao.model.User;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.codecool.bytebattlers.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
-@RestController
+
 @RequestMapping("/api/user")
 public class UserController {
 
     private final UserService userService;
 
-    @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
     @GetMapping("/users")
-    public Set<User> getAllUsers() {
+    public Set<UserDTO> getAllUsers() {
         return userService.getAllUsers();
     }
 
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable int id) {
+    public UserDTO getUserById(@PathVariable int id) {
         return userService.getUserById(id);
     }
 
