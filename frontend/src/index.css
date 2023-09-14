@@ -115,10 +115,20 @@ button:focus-visible {
   margin: auto;
   justify-content: center;
   display: flex;
+  padding: 5rem;
 }
 
 .BoardGameForm {
   margin: auto;
   text-align: end;
+  background-color: hsl(0, 0%, 100%, 70%);
+    box-shadow: 0 2rem 5rem 1rem rgba(0, 0, 0, 0.1);
+    font-size: 1rem;
+    width: 23rem;
+    border-radius: 0.7rem;
+    margin-top: 5px;
+    overflow: hidden;
+    font-weight: 700;
+    color: black;
 }
 
