@@ -110,3 +110,15 @@ button:focus-visible {
 .read-the-docs {
   color: #888;
 }
+
+.BoardForm {
+  margin: auto;
+  justify-content: center;
+  display: flex;
+}
+
+.BoardGameForm {
+  margin: auto;
+  text-align: end;
+}
+
