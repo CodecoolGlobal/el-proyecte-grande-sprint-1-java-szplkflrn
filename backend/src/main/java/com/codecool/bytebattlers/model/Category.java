@@ -1,4 +1,4 @@
-package com.codecool.bytebattlers.dao.model;
+package com.codecool.bytebattlers.model;
 
 public record Category(Integer id, String categoryName, String description) {
 }

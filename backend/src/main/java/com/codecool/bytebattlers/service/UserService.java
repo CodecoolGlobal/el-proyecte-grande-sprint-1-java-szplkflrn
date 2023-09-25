@@ -3,7 +3,7 @@ package com.codecool.bytebattlers.service;
 import com.codecool.bytebattlers.controller.dto.UserDTO;
 import com.codecool.bytebattlers.dao.BoardGameDAO;
 import com.codecool.bytebattlers.dao.UsersDAO;
-import com.codecool.bytebattlers.dao.model.User;
+import com.codecool.bytebattlers.model.User;
 
 
 import java.util.Set;

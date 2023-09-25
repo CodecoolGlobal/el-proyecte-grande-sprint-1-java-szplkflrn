@@ -1,6 +1,6 @@
 package com.codecool.bytebattlers.dao;
 
-import com.codecool.bytebattlers.dao.model.BoardGame;
+import com.codecool.bytebattlers.model.BoardGame;
 
 import java.util.List;
 

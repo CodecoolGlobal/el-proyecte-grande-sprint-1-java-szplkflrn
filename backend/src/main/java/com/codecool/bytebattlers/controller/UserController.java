@@ -1,7 +1,7 @@
 package com.codecool.bytebattlers.controller;
 
 import com.codecool.bytebattlers.controller.dto.UserDTO;
-import com.codecool.bytebattlers.dao.model.User;
+import com.codecool.bytebattlers.model.User;
 import com.codecool.bytebattlers.service.UserService;
 import org.springframework.web.bind.annotation.*;
 

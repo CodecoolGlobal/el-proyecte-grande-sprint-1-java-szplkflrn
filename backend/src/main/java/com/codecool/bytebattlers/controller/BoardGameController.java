@@ -1,5 +1,5 @@
 package com.codecool.bytebattlers.controller;
-import com.codecool.bytebattlers.dao.model.BoardGame;
+import com.codecool.bytebattlers.model.BoardGame;
 import com.codecool.bytebattlers.service.BoardGameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

@@ -1,6 +1,6 @@
 package com.codecool.bytebattlers.dao;
 
-import com.codecool.bytebattlers.dao.model.User;
+import com.codecool.bytebattlers.model.User;
 
 import java.util.Set;
 

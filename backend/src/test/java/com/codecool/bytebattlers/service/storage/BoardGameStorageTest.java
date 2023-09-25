@@ -1,6 +1,6 @@
 package com.codecool.bytebattlers.service.storage;
 
-import com.codecool.bytebattlers.dao.model.BoardGame;
+import com.codecool.bytebattlers.model.BoardGame;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

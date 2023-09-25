@@ -1,6 +1,6 @@
 package com.codecool.bytebattlers.service.storage;
 
-import com.codecool.bytebattlers.dao.model.BoardGame;
+import com.codecool.bytebattlers.model.BoardGame;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashSet;
