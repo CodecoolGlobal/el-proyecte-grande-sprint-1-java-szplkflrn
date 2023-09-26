@@ -3,9 +3,12 @@ package com.codecool.bytebattlers.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -15,6 +18,10 @@ public class BoardGame {
     @Id
     @Column(name = "id", nullable = false)
     private Long id;
+
+    @Column(name = "public_id", nullable = false, unique = true)
+    @JdbcTypeCode(SqlTypes.UUID)
+    private UUID publicID = UUID.randomUUID();
 
     @Column(name = "game_name")
     private String gameName;
@@ -28,6 +35,12 @@ public class BoardGame {
     @Column(name = "play_time_in_minutes", nullable = false)
     private int playTimeInMinutes;
 
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinTable(name = "board_game_categories",
+            joinColumns = @JoinColumn(name = "boardGame_id"),
+            inverseJoinColumns = @JoinColumn(name = "categories_id"))
+    private Set<Category> categories = new LinkedHashSet<>();
+
     @Column(name = "recommended_age", nullable = false)
     private int recommendedAge;
 
@@ -37,8 +50,6 @@ public class BoardGame {
     @Column(name = "rating", nullable = false)
     private double rating;
 
-    @Column(name = "category_id")
-    private Integer categoryId;
 
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "publisher_id", nullable = false)
