@@ -1,10 +1,10 @@
 package com.codecool.bytebattlers.controller;
-import com.codecool.bytebattlers.model.BoardGame;
+import com.codecool.bytebattlers.controller.dto.BoardGameDto;
 import com.codecool.bytebattlers.service.BoardGameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Set;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -18,23 +18,23 @@ public class BoardGameController {
     }
 
     @GetMapping("/games")
-    public Set<BoardGame> getAllBoardGame() {
-        return boardGameService.getAllBoardGames();
+    public List<BoardGameDto> getAllBoardGame() {
+        return boardGameService.findAll();
     }
 
     @GetMapping("/{id}")
-    public BoardGame getBoardGameById(@PathVariable int id) {
-       return boardGameService.getBoardGameById(id);
+    public BoardGameDto getBoardGameById(@PathVariable Long id) {
+       return boardGameService.findById(id);
     }
 
     @PostMapping("/newGame")
-    public int addNewBoardGame(@RequestBody BoardGame boardGame) {
-        return boardGameService.addNewBoardGame(boardGame);
+    public void addNewBoardGame(@RequestBody BoardGameDto board) {
+        boardGameService.save(board);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteGameBoardById(@PathVariable int id) {
-         boardGameService.deleteBoardGame(id);
+    public void deleteGameBoardById(@PathVariable Long id) {
+         boardGameService.deleteById(id);
     }
 
 }
