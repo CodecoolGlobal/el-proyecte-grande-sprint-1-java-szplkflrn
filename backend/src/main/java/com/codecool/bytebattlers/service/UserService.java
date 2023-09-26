@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -25,8 +24,7 @@ public class UserService {
 
     public List<UserDto> findAll() {
         return userRepository.findAll().stream()
-                .map(entityMapper::toDto1)
-                .collect(Collectors.toList());
+                .map(entityMapper::toDto).toList();
     }
 
     public void save(UserDto entity) {
@@ -35,7 +33,7 @@ public class UserService {
 
     public UserDto findById(Long aLong) {
         return userRepository.findById(aLong)
-                .map(entityMapper::toDto1)
+                .map(entityMapper::toDto)
                 .orElseThrow(NoSuchElementException::new);
     }
 
