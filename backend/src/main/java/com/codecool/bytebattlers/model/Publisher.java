@@ -8,6 +8,7 @@ import org.hibernate.type.SqlTypes;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -18,6 +19,10 @@ public class Publisher {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Long id;
+
+    @Column(name = "public_id", nullable = false, unique = true)
+    @JdbcTypeCode(SqlTypes.UUID)
+    private UUID publicID = UUID.randomUUID();
 
     @Column(name = "publisher_name", nullable = false, unique = true, length = 50)
     @JdbcTypeCode(SqlTypes.VARCHAR)

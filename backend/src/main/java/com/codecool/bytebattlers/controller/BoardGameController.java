@@ -33,7 +33,7 @@ public class BoardGameController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteGameBoardById(@PathVariable Long id) {
+    public void deleteBoardGameById(@PathVariable Long id) {
          boardGameService.deleteById(id);
     }
 

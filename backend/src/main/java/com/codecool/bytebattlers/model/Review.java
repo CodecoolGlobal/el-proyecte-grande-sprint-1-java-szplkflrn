@@ -8,6 +8,7 @@ import org.hibernate.proxy.HibernateProxy;
 import org.hibernate.type.SqlTypes;
 
 import java.util.Objects;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -18,6 +19,10 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Long id;
+
+    @Column(name = "public_id", nullable = false, unique = true)
+    @JdbcTypeCode(SqlTypes.UUID)
+    private UUID publicID = UUID.randomUUID();
 
     @Column(name = "description")
     @JdbcTypeCode(SqlTypes.VARCHAR)
