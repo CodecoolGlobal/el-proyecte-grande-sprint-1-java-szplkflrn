@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("/api/user")
+@RequestMapping("/api/users")
 public class UserController {
 
     private final UserService userService;
@@ -15,7 +15,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/users")
+    @GetMapping("/")
     public List<UserDto> getAllUsers() {
         return userService.findAll();
     }
@@ -25,7 +25,7 @@ public class UserController {
         return userService.findById(id);
     }
 
-    @PostMapping("/newUser")
+    @PostMapping("/")
     public void addNewUser(@RequestBody UserDto user) {
         userService.save(user);
     }
