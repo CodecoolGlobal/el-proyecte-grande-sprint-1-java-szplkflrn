@@ -2,7 +2,6 @@ package com.codecool.bytebattlers.service;
 
 import com.codecool.bytebattlers.controller.dto.UserDto;
 import com.codecool.bytebattlers.mapper.UserMapper;
-import com.codecool.bytebattlers.model.User;
 import com.codecool.bytebattlers.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
