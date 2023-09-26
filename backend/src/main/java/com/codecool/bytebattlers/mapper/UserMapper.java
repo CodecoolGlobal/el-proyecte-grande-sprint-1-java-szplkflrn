@@ -3,16 +3,18 @@ package com.codecool.bytebattlers.mapper;
 import com.codecool.bytebattlers.controller.dto.UserDto;
 import com.codecool.bytebattlers.model.User;
 import org.mapstruct.*;
-import org.springframework.stereotype.Service;
 
-@Service
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
 public interface UserMapper {
+    User toEntity(UserDto userDto);
 
-    User toEntity(UserDto userEntityDto);
+    @AfterMapping
+    default void linkReviews(@MappingTarget User user) {
+        user.getReviews().forEach(review -> review.setUser(user));
+    }
 
-    UserDto toDto1(User user);
+    UserDto toDto(User user);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    User partialUpdate(UserDto userEntityDto, @MappingTarget User user);
+    User partialUpdate(UserDto userDto, @MappingTarget User user);
 }
