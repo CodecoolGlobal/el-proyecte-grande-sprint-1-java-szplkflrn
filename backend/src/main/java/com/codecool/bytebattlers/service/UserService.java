@@ -1,47 +1,47 @@
 package com.codecool.bytebattlers.service;
 
-import com.codecool.bytebattlers.controller.dto.UserDTO;
-import com.codecool.bytebattlers.dao.BoardGameDAO;
-import com.codecool.bytebattlers.dao.UsersDAO;
-import com.codecool.bytebattlers.dao.model.User;
+import com.codecool.bytebattlers.controller.dto.UserDto;
+import com.codecool.bytebattlers.mapper.UserMapper;
+import com.codecool.bytebattlers.model.User;
+import com.codecool.bytebattlers.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 
-import java.util.Set;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Service
 public class UserService {
 
-    private final UsersDAO usersDao;
+    private final UserRepository userRepository;
+    private final UserMapper entityMapper;
 
-    private final BoardGameDAO boardGameDAO;
-
-
-    public UserService(UsersDAO usersDao, BoardGameDAO boardGameDAO) {
-        this.usersDao = usersDao;
-        this.boardGameDAO = boardGameDAO;
+    @Autowired
+    public UserService(UserRepository userRepository, UserMapper entityMapper) {
+        this.userRepository = userRepository;
+        this.entityMapper = entityMapper;
     }
 
-    public Set<UserDTO> getAllUsers() {
-        return usersDao.getAllUsers()
-                .stream().map(this::transformDAOToDTO)
-                .collect(Collectors.toSet());
+    public List<UserDto> findAll() {
+        return userRepository.findAll().stream()
+                .map(entityMapper::toDto1)
+                .collect(Collectors.toList());
     }
 
-    public UserDTO getUserById(int id){
-        return transformDAOToDTO(usersDao.getUserById(id));
+    public void save(UserDto entity) {
+        userRepository.save(entityMapper.toEntity(entity));
     }
 
-    public int addNewUser(User user) {
-        usersDao.addNewUser(user);
-        return user.id();
+    public UserDto findById(Long aLong) {
+        return userRepository.findById(aLong)
+                .map(entityMapper::toDto1)
+                .orElseThrow(NoSuchElementException::new);
     }
 
-    public void deleteUser(int id) {
-        usersDao.deleteUser(id);
+    public void deleteById(Long aLong) {
+        userRepository.deleteById(aLong);
     }
-
-    private UserDTO transformDAOToDTO(User user) {
-        return new UserDTO(user.id(), user.userName(), user.email(), user.password());
-    }
-
 }

@@ -1,6 +1,6 @@
 package com.codecool.bytebattlers.service;
 
-import com.codecool.bytebattlers.dao.model.BoardGame;
+import com.codecool.bytebattlers.model.BoardGame;
 import com.codecool.bytebattlers.service.storage.BoardGameStorage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
