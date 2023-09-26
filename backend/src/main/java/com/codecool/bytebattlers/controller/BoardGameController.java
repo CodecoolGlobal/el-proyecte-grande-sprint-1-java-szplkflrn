@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/games")
 public class BoardGameController {
 
 
@@ -17,7 +17,7 @@ public class BoardGameController {
         this.boardGameService = boardGameService;
     }
 
-    @GetMapping("/games")
+    @GetMapping("/")
     public List<BoardGameDto> getAllBoardGame() {
         return boardGameService.findAll();
     }
@@ -27,7 +27,7 @@ public class BoardGameController {
        return boardGameService.findById(id);
     }
 
-    @PostMapping("/newGame")
+    @PostMapping("/")
     public void addNewBoardGame(@RequestBody BoardGameDto board) {
         boardGameService.save(board);
     }
