@@ -37,11 +37,12 @@ public class BoardGame {
     @Column(name = "rating", nullable = false)
     private double rating;
 
-    @Column(name = "publisher_id")
-    private Integer publisherId;
-
     @Column(name = "category_id")
     private Integer categoryId;
+
+    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(name = "publisher_id", nullable = false)
+    private Publisher publisher;
 
     @OneToMany(mappedBy = "boardGame", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Review> reviews = new LinkedHashSet<>();
