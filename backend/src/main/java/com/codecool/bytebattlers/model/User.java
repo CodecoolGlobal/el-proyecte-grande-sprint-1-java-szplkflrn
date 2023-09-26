@@ -10,8 +10,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "user_entity")
-public class UserEntity {
+@Table(name = "user")
+public class User {
     @Id
     @Column(name = "id", nullable = false)
     private Long id;
