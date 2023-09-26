@@ -28,6 +28,11 @@ public class PublisherController {
         return service.findById(id);
     }
 
+    @PatchMapping("/{id}")
+    public void updatePublisherById(@RequestBody PublisherDto body, @PathVariable Long id) {
+        service.update(body, id);
+    }
+
     @PostMapping("/")
     public void addNewPublisher(@RequestBody PublisherDto publisher) {
         service.save(publisher);
