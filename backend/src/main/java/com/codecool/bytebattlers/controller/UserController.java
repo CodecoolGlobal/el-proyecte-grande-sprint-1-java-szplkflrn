@@ -1,12 +1,10 @@
 package com.codecool.bytebattlers.controller;
 
-import com.codecool.bytebattlers.controller.dto.UserDTO;
-import com.codecool.bytebattlers.model.User;
+import com.codecool.bytebattlers.controller.dto.UserDto;
 import com.codecool.bytebattlers.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Set;
-
+import java.util.List;
 
 @RequestMapping("/api/user")
 public class UserController {
@@ -18,23 +16,23 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public Set<UserDTO> getAllUsers() {
-        return userService.getAllUsers();
+    public List<UserDto> getAllUsers() {
+        return userService.findAll();
     }
 
     @GetMapping("/{id}")
-    public UserDTO getUserById(@PathVariable int id) {
-        return userService.getUserById(id);
+    public UserDto getUserById(@PathVariable Long id) {
+        return userService.findById(id);
     }
 
     @PostMapping("/newUser")
-    public int addNewUser(@RequestBody User user) {
-        return userService.addNewUser(user);
+    public void addNewUser(@RequestBody UserDto user) {
+        userService.save(user);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUserById(@PathVariable int id) {
-        userService.deleteUser(id);
+    public void deleteUserById(@PathVariable Long id) {
+        userService.deleteById(id);
     }
 
 }
