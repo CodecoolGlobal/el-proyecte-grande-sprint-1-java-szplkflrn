@@ -12,11 +12,6 @@ public class ByteBattlersApplication {
 
 
 	public static void main(String[] args) {
-
-		try {
 			SpringApplication.run(ByteBattlersApplication.class, args);
-		} catch (Exception e) {
-		logger.error("An error occurred during application startup\", e");
-		}
 	}
 }

@@ -16,12 +16,13 @@ import java.util.UUID;
 @Table(name = "board_game")
 public class BoardGame {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "public_id", nullable = false, unique = true)
+    @Column(name = "public_id", unique = true, insertable = false)
     @JdbcTypeCode(SqlTypes.UUID)
-    private UUID publicID = UUID.randomUUID();
+    private UUID publicID;
 
     @Column(name = "game_name")
     private String gameName;
@@ -55,7 +56,7 @@ public class BoardGame {
     @JoinColumn(name = "publisher_id", nullable = false)
     private Publisher publisher;
 
-    @OneToMany(mappedBy = "boardGame", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Review> reviews = new LinkedHashSet<>();
 
 }

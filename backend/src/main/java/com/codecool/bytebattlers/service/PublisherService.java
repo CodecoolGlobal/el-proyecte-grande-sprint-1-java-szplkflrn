@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.UUID;
 
 @Service
 public class PublisherService {
@@ -22,12 +23,14 @@ public class PublisherService {
         this.repository = repository;
     }
 
+
     public List<PublisherDto> findAll() {
         return repository.findAll().stream().map(mapper::toDto).toList();
     }
 
-    public void save(PublisherDto entity) {
-        repository.save(mapper.toEntity(entity));
+    public void save(PublisherDto dto) {
+        Publisher publisher = mapper.toEntity(dto);
+        repository.save(publisher);
     }
 
     public void update(PublisherDto updatedPublisher, Long id) {
@@ -36,6 +39,10 @@ public class PublisherService {
     }
     public PublisherDto findById(Long aLong) {
         return repository.findById(aLong).map(mapper::toDto).orElseThrow(NoSuchElementException::new);
+    }
+
+    public Publisher findByPublicId(UUID publicId) {
+       return repository.findPublisherByPublicID(publicId);
     }
 
     public void deleteById(Long aLong) {

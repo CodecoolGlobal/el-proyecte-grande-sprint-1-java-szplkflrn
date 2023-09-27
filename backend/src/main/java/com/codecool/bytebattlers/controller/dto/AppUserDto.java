@@ -5,9 +5,9 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * DTO for {@link com.codecool.bytebattlers.model.User}
+ * DTO for {@link com.codecool.bytebattlers.model.AppUser}
  */
-public record UserDto(UUID publicID, String userName, Set<ReviewDto> reviews) implements Serializable {
+public record AppUserDto(UUID publicID, String name, String appPassword, String email, Set<ReviewDto> reviews) implements Serializable {
     /**
      * DTO for {@link com.codecool.bytebattlers.model.Review}
      */

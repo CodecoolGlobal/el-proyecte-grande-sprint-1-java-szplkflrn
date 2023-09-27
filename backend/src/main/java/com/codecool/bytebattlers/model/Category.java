@@ -22,7 +22,7 @@ public class Category {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "public_id", nullable = false, unique = true)
+    @Column(name = "public_id", unique = true, insertable = false)
     @JdbcTypeCode(SqlTypes.UUID)
     private UUID publicID = UUID.randomUUID();
 

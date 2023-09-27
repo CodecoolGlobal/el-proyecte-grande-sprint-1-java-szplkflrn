@@ -20,7 +20,7 @@ public class Review {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "public_id", nullable = false, unique = true)
+    @Column(name = "public_id", unique = true, insertable = false)
     @JdbcTypeCode(SqlTypes.UUID)
     private UUID publicID = UUID.randomUUID();
 
@@ -33,8 +33,9 @@ public class Review {
     private BoardGame boardGame;
 
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "app_user_id", nullable = false)
+    private AppUser appUser;
+
 
     @Override
     public final boolean equals(Object o) {

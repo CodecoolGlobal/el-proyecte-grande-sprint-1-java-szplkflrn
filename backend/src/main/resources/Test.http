@@ -1,0 +1,82 @@
+POST http://localhost:8080/api/users
+Content-Type: application/json
+
+{
+  "name": "Other idiot",
+  "appPassword": "dfs",
+  "email": "dsfds",
+  "reviews": []
+}
+
+###
+POST http://localhost:8080/api/publishers
+Content-Type: application/json
+
+{
+  "publisherName": "IO",
+  "boardGames": []
+}
+
+###
+
+POST http://localhost:8080/api/categories
+Content-Type: application/json
+
+{
+  "name": "Strategy",
+  "description": "Strategy",
+  "boardGames": []
+}
+###
+
+
+POST http://localhost:8080/api/appusers
+Content-Type: application/json
+
+{
+  "Name": "appUser",
+  "password": "password",
+  "email": "email"
+}
+
+
+###
+
+POST http://localhost:8080/api/reviews
+Content-Type: application/json
+
+{
+  "description": "Amazddddding",
+  "boardGamePublicID": "38109a30-5d77-11ee-a72b-00163edbcbbc",
+  "appUserPublicID": "4fa47ed8-5d5d-11ee-83ec-00163edbcbbc"
+}
+
+
+###
+POST http://localhost:8080/api/appusers
+Content-Type: application/json
+
+{
+}
+
+###
+
+###
+POST http://localhost:8080/api/games
+Content-Type: application/json
+
+{
+  "gameName": "7 Wonders",
+  "minPlayer": 3,
+  "maxPlayer": 7,
+  "playTimeInMinutes": 20,
+  "recommendedAge": 20,
+  "description": "dfdsfds",
+  "rating": 1.2,
+  "reviews": [],
+  "categories": [],
+  "publisherPublicID": "148d467c-5d4e-11ee-bca2-00163edbcbbc"
+}
+
+
+###
