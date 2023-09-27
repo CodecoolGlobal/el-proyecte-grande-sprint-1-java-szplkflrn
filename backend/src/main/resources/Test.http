@@ -1,0 +1,62 @@
+POST http://localhost:8080/api/publishers
+Content-Type: application/json
+
+{
+  "publisherName": "8",
+  "boardGames": []
+}
+
+###
+
+POST http://localhost:8080/api/categories
+Content-Type: application/json
+
+{
+  "name": "RPG",
+  "description": "RPG",
+  "boardGames": []
+}
+###
+
+
+POST http://localhost:8080/api/appusers
+Content-Type: application/json
+
+{
+  "Name": "appUser",
+  "password": "password",
+  "email": "email"
+}
+
+
+###
+POST http://localhost:8080/api/users
+Content-Type: application/json
+
+{
+  "userName": "test",
+  "password": "12",
+  "email": "dfksdfdsf"
+}
+
+###
+
+###
+POST http://localhost:8080/api/games
+Content-Type: application/json
+
+{
+  "gameName": "testgame3post",
+  "minPlayer": 1,
+  "maxPlayer": 2,
+  "playTimeInMinutes": 20,
+  "recommendedAge": 20,
+  "description": "dfdsfds",
+  "rating": 1.2,
+  "reviews": [],
+  "categories": [],
+  "publisherPublicID": "148d467c-5d4e-11ee-bca2-00163edbcbbc"
+}
+
+
+###
