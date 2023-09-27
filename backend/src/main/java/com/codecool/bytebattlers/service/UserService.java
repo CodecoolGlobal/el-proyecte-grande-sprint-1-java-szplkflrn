@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -42,6 +43,10 @@ public class UserService {
         return userRepository.findById(aLong)
                 .map(entityMapper::toDto)
                 .orElseThrow(NoSuchElementException::new);
+    }
+
+    public AppUser findByPublicID(UUID uuid) {
+        return userRepository.findAppUsersByPublicID(uuid);
     }
 
     public void deleteById(Long aLong) {
