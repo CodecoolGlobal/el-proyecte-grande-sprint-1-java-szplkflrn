@@ -17,7 +17,7 @@ public class BoardGameController {
         this.boardGameService = boardGameService;
     }
 
-    @GetMapping("/")
+    @GetMapping
     public List<BoardGameDto> getAllBoardGame() {
         return boardGameService.findAll();
     }
@@ -27,7 +27,7 @@ public class BoardGameController {
        return boardGameService.findById(id);
     }
 
-    @PostMapping("/")
+    @PostMapping
     public void addNewBoardGame(@RequestBody BoardGameDto board) {
         boardGameService.save(board);
     }

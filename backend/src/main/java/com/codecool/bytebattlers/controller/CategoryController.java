@@ -17,7 +17,7 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
-    @GetMapping("/")
+    @GetMapping
     public List<CategoryDto> getAllCategory() {
         return categoryService.findAll();
     }
@@ -27,7 +27,7 @@ public class CategoryController {
         return categoryService.findById(id);
     }
 
-    @PostMapping("/")
+    @PostMapping
     public void addNewCategory(@RequestBody CategoryDto board) {
         categoryService.save(board);
     }

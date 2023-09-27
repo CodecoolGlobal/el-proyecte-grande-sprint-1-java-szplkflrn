@@ -18,7 +18,7 @@ public class PublisherController {
         this.service = service;
     }
 
-    @GetMapping("/")
+    @GetMapping
     public List<PublisherDto> getAllPublishers() {
         return service.findAll();
     }
@@ -33,7 +33,7 @@ public class PublisherController {
         service.update(body, id);
     }
 
-    @PostMapping("/")
+    @PostMapping
     public void addNewPublisher(@RequestBody PublisherDto publisher) {
         service.save(publisher);
     }

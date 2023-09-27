@@ -19,7 +19,7 @@ public class ReviewController {
         this.reviewService = reviewService;
     }
 
-    @GetMapping("/")
+    @GetMapping
     public List<ReviewDto> getAllReviews() {
         return reviewService.findAll();
     }
@@ -29,7 +29,7 @@ public class ReviewController {
         return reviewService.findById(id);
     }
 
-    @PostMapping("/")
+    @PostMapping
     public void addNewReview(@RequestBody ReviewDto board) {
         reviewService.save(board);
     }
