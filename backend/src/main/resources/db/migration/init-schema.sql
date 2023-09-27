@@ -53,7 +53,7 @@ CREATE TABLE review
     CONSTRAINT pk_review PRIMARY KEY (id)
 );
 
-CREATE TABLE "user"
+CREATE TABLE "appUser"
 (
     id        BIGINT NOT NULL,
     public_id UUID   NOT NULL,
@@ -81,7 +81,7 @@ ALTER TABLE publisher
 ALTER TABLE review
     ADD CONSTRAINT uc_review_public UNIQUE (public_id);
 
-ALTER TABLE "user"
+ALTER TABLE "appUser"
     ADD CONSTRAINT uc_user_public UNIQUE (public_id);
 
 ALTER TABLE board_game
@@ -91,7 +91,7 @@ ALTER TABLE review
     ADD CONSTRAINT FK_REVIEW_ON_BOARD_GAME FOREIGN KEY (board_game_id) REFERENCES board_game (id);
 
 ALTER TABLE review
-    ADD CONSTRAINT FK_REVIEW_ON_USER FOREIGN KEY (user_id) REFERENCES "user" (id);
+    ADD CONSTRAINT FK_REVIEW_ON_USER FOREIGN KEY (user_id) REFERENCES "appUser" (id);
 
 ALTER TABLE board_game_categories
     ADD CONSTRAINT fk_boagamcat_on_board_game FOREIGN KEY (board_game_id) REFERENCES board_game (id);
