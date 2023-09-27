@@ -2,7 +2,11 @@ package com.codecool.bytebattlers.service;
 
 import com.codecool.bytebattlers.controller.dto.ReviewDto;
 import com.codecool.bytebattlers.mapper.AppUserMapper;
+import com.codecool.bytebattlers.mapper.BoardGameMapper;
 import com.codecool.bytebattlers.mapper.ReviewMapper;
+import com.codecool.bytebattlers.model.AppUser;
+import com.codecool.bytebattlers.model.BoardGame;
+import com.codecool.bytebattlers.model.Review;
 import com.codecool.bytebattlers.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,14 +22,20 @@ public class ReviewService {
     private final UserService userService;
     private final AppUserMapper userMapper;
 
+    private final BoardGameService boardGameService;
+    private final BoardGameMapper boardGameMapper;
+
+
 
     @Autowired
     public ReviewService(ReviewMapper reviewMapper, ReviewRepository reviewRepository, UserService userService,
-                         AppUserMapper userMapper) {
+                         AppUserMapper userMapper, BoardGameService boardGameService, BoardGameMapper boardGameMapper) {
         this.reviewMapper = reviewMapper;
         this.reviewRepository = reviewRepository;
         this.userService = userService;
         this.userMapper = userMapper;
+        this.boardGameService = boardGameService;
+        this.boardGameMapper = boardGameMapper;
     }
 
 
@@ -34,7 +44,12 @@ public class ReviewService {
     }
 
     public void save(ReviewDto reviewDto) {
-        reviewRepository.save(reviewMapper.toEntity(reviewDto));
+        BoardGame foundBoardgame = boardGameService.findByPublicID(reviewDto.boardGamePublicID());
+        AppUser foundUser =  userService.findByPublicID(reviewDto.appUserPublicID());
+        Review review = reviewMapper.toEntity(reviewDto);
+        review.setAppUser(foundUser);
+        review.setBoardGame(foundBoardgame);
+        reviewRepository.save(review);
     }
 
     public ReviewDto findById(Long aLong) {
