@@ -20,9 +20,10 @@ public class Publisher {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "public_id", nullable = false, unique = true)
+    @Column(name = "public_id", unique = true, insertable = false)
     @JdbcTypeCode(SqlTypes.UUID)
-    private UUID publicID = UUID.randomUUID();
+    private UUID publicID;
+
 
     @Column(name = "publisher_name", nullable = false, unique = true, length = 50)
     @JdbcTypeCode(SqlTypes.VARCHAR)
