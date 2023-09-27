@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.UUID;
 
 @Service
 public class BoardGameService {
@@ -47,6 +48,10 @@ public class BoardGameService {
         catch (Exception e) {
             logger.error("An error occurred during application startup", e);
         }
+    }
+
+    public BoardGame findByPublicID (UUID publicID) {
+        return boardGameRepository.findBoardGameByPublicID(publicID);
     }
 
     public BoardGameDto findById(Long aLong) {
