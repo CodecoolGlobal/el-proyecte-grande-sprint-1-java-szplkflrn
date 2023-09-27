@@ -7,8 +7,17 @@ import org.mapstruct.*;
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
 public interface ReviewMapper {
 
-    @Mapping(source = "userUserName", target = "user.userName")
-    @Mapping(source = "userPublicID", target = "user.publicID")
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    Review partialUpdate(ReviewDto reviewDto, @MappingTarget Review review);
+
+    @Mapping(source = "appUserName", target = "appUser.name")
+    @Mapping(source = "appUserPublicID", target = "appUser.publicID")
+    @Mapping(source = "boardGameRating", target = "boardGame.rating")
+    @Mapping(source = "boardGameDescription", target = "boardGame.description")
+    @Mapping(source = "boardGameRecommendedAge", target = "boardGame.recommendedAge")
+    @Mapping(source = "boardGamePlayTimeInMinutes", target = "boardGame.playTimeInMinutes")
+    @Mapping(source = "boardGameMaxPlayer", target = "boardGame.maxPlayer")
+    @Mapping(source = "boardGameMinPlayer", target = "boardGame.minPlayer")
     @Mapping(source = "boardGameGameName", target = "boardGame.gameName")
     @Mapping(source = "boardGamePublicID", target = "boardGame.publicID")
     Review toEntity(ReviewDto reviewDto);
