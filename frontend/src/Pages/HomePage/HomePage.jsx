@@ -14,7 +14,7 @@ function App() {
           <Link to="/login">Login</Link>
         </Button>
         <Button>
-        <Link to="games/register">Register</Link>
+        <Link to="/games/register">Register</Link>
         </Button>
       </div>
     </div>

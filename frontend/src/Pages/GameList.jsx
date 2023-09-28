@@ -16,7 +16,6 @@ import FirstPageIcon from '@mui/icons-material/FirstPage';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
-import { BlurCircular } from '@mui/icons-material';
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -64,7 +63,7 @@ function TablePaginationActions(props) {
       <IconButton
         onClick={handleLastPageButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-        aria-label="last page"
+        aria-label="last pasge"
       >
         {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
       </IconButton>
@@ -98,12 +97,12 @@ export default function GameList() {
     gamesFetch();
   }, []);
 
-  function createData(name, minplayer, maxplayer, categories , rating) {
-    return { name, minplayer, maxplayer, categories , rating };
+  function createData(name, minplayer, maxplayer, categories , rating, reviews) {
+    return { name, minplayer, maxplayer, categories , rating, reviews };
   }
 
   const rows = games.map((game) => {
-    return createData(game.gameName, game.minPlayer, game.maxPlayer, game.categories, game.rating);
+    return createData(game.gameName, game.minPlayer, game.maxPlayer, game.categories, game.rating, game.reviews);
   });
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
@@ -134,28 +133,41 @@ export default function GameList() {
               <TableCell align="center">Max Player</TableCell>
               <TableCell align="center">Categories</TableCell>
               <TableCell align="center">Rating</TableCell>
+              <TableCell align="center">Reviews</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {displayedRows.map((row) => (
               <TableRow key={row.name}>
+
                 <TableCell component="th"  scope="row" style={{ width: 160 }}>
                   {row.name}
                 </TableCell>
+
                 <TableCell component="th" align="center" scope="row" style={{ width: 50 }}>
                   {row.minplayer}
                 </TableCell>
+
                 <TableCell component="th" align="center" scope="row" style={{ width: 50 }}>
                   {row.maxplayer}
                 </TableCell>
+
                 <TableCell component="th" align="center" scope="row" style={{ width: 50 }}>
                 {row.categories.map((category) => {
                    return <p key={category.publicID}>{category.name}</p>
                 })}
                 </TableCell>
+               
                 <TableCell style={{ width: 160 }} align="center">
                   {row.rating}
                 </TableCell>
+
+                <TableCell component="th" align="center" scope="row" style={{ width: 100 }}>
+                {row.reviews.map((review) => {
+                   return <p key={review.publicID}>{review.description}</p>
+                })}
+                </TableCell>
+                
               </TableRow>
             ))}
             {emptyRows > 0 && (
