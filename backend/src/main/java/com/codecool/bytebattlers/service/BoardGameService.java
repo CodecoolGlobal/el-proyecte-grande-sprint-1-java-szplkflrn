@@ -48,9 +48,7 @@ public class BoardGameService {
         return boardGameRepository.findAll().stream().map(boardGameMapper::toDto).toList();
     }
 
-    public void save(BoardGameDto dto) {
-
-        try {
+    public BoardGameDto save(BoardGameDto dto) {
             Set<BoardGameDto.CategoryDto1> categoriesInDTO = dto.categories();
             Set<Category> categoriesInEntity = categoriesInDTO
                     .stream().map(categoryDto -> categoryRepository.findCategoryByPublicID(categoryDto.publicID()))
@@ -60,22 +58,19 @@ public class BoardGameService {
             boardGame.setCategories(categoriesInEntity);
             boardGame.setPublisher(foundPublisher);
             boardGameRepository.save(boardGame);
-        }
-        catch (Exception e) {
-            logger.error("An error occurred during application startup", e);
-        }
+            return boardGameMapper.toDto(boardGame);
     }
 
     public BoardGame findByPublicID (UUID publicID) {
         return boardGameRepository.findBoardGameByPublicID(publicID);
     }
 
-    public BoardGameDto findById(Long aLong) {
-        return boardGameMapper.toDto(boardGameRepository.findById(aLong).orElseThrow(NoSuchElementException::new));
+    public BoardGameDto findByPublicIdToDTO(UUID publicID) {
+        return boardGameMapper.toDto(boardGameRepository.findBoardGameByPublicID(publicID));
     }
 
-    public void deleteById(Long aLong) {
-        boardGameRepository.deleteById(aLong);
+    public void deleteById(UUID publicID) {
+        boardGameRepository.deleteByPublicID(publicID);
     }
 }
 
