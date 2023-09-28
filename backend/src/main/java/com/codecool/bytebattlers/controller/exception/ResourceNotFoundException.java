@@ -1,4 +1,4 @@
-package com.codecool.bytebattlers.controller;
+package com.codecool.bytebattlers.controller.exception;
 
 public class ResourceNotFoundException extends RuntimeException{
 
