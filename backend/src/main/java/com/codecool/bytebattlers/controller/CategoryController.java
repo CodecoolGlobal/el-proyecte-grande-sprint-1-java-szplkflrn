@@ -1,6 +1,7 @@
 package com.codecool.bytebattlers.controller;
 
 import com.codecool.bytebattlers.controller.dto.CategoryDto;
+import com.codecool.bytebattlers.controller.exception.ResourceNotFoundException;
 import com.codecool.bytebattlers.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
