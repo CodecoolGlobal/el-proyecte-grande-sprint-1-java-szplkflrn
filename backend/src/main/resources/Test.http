@@ -19,12 +19,17 @@ Content-Type: application/json
 
 ###
 
+DELETE http://localhost:8080/api/categories/84caafb5-7b38-4914-af88-6b8cd094e3cb
+
+
+###
+
 POST http://localhost:8080/api/categories
 Content-Type: application/json
 
 {
-  "name": "Horror",
-  "description": "Strategy",
+  "name": "Super",
+  "description": "Super",
   "boardGames": []
 }
 ###

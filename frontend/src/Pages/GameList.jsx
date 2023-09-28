@@ -16,6 +16,7 @@ import FirstPageIcon from '@mui/icons-material/FirstPage';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
+import { BlurCircular } from '@mui/icons-material';
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -124,7 +125,7 @@ export default function GameList() {
     <div>
       <br />
       <br />
-      <TableContainer component={Paper} sx={{ maxWidth: 1200, margin: 'auto' }} align="center">
+      <TableContainer component={Paper} sx={{ maxWidth: 1200, margin: 'auto', opacity:0.9 }} align="center">
         <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
           <TableHead>
             <TableRow>

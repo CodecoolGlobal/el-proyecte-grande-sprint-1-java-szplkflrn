@@ -2,23 +2,23 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import BoardGameForm from "../Components/BoardGameForm";
 
-
-const createGame =  async (boardGame) => {
-  const res = await fetch("/api/games", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(boardGame),
-  });
-  return await res.json();
-};
-
-
-
 const BoardGameCreator = () => {
   const [games, setGames] = useState([]);
     const navigate = useNavigate();
+
+
+    const createGame =  async (boardGame) => {
+      const res = await fetch("/api/games", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(boardGame),
+      });
+     
+      return await res.text()
+    };
+
 
     const gamesFetch = async () => {
       try {
