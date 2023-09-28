@@ -1,10 +1,9 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 
 
-const BoardGameForm = ({ onSave, disabled, boardGame, onCancel }) => {
-
-
+const BoardGameForm = ({ onSave, onCancel }) => {
   const [publishers, setPublishers] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   const publishersFetch = async () => {
     try {
@@ -19,9 +18,24 @@ const BoardGameForm = ({ onSave, disabled, boardGame, onCancel }) => {
     }
   };
 
+  const categoriesFetch = async () => {
+    try {
+      const response = await fetch("/api/categories");
+      if (!response.ok) {
+        throw new Error(`Error fetching categories: ${response.statusText}`);
+      }
+      const data = await response.json();
+      setCategories(data);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
+
+
+
   useEffect(() => {
     publishersFetch();
-  
+    categoriesFetch();
   }, []);
 
 
@@ -35,29 +49,42 @@ const BoardGameForm = ({ onSave, disabled, boardGame, onCancel }) => {
   
     if (isAnyFieldEmpty) {
       alert("Please fill in all the fields");
-      return; 
+      return;
     }
   
-    const boardGame = entries.reduce((acc, entry) => {
-      const [k, v] = entry;
-      acc[k] = v;
-      return acc;
-    }, {});
+    const selectedCategories = formData.getAll("categories")
+      .map((categoryID) => {
+        const category = categories.find((c) => c.publicID === categoryID);
+        if (category) {
+          return {
+            publicID: category.publicID,
+            name: category.name,
+            description: category.description,
+          };
+        }
+        return null;
+      })
+      .filter(category => !!category); 
   
-    // Manually set reviews and categories as empty arrays
+    const boardGame = {
+      ...Object.fromEntries(entries),
+      categories: selectedCategories.map(category => ({
+        ...category,
+      }))
+    };
+  
     boardGame.reviews = [];
-    boardGame.categories = [];
   
     console.log(boardGame);
     onSave(boardGame);
   };
   
-  
+
 
   return (
     <div className="BoardForm">
       <form className="BoardGameForm" onSubmit={onSubmit}>
-        {boardGame && <input type="hidden" name="_id" defaultValue={boardGame.id} />}
+
         <br></br>
         <div className="control">
           <label htmlFor="gameName">Name: </label>
@@ -117,19 +144,28 @@ const BoardGameForm = ({ onSave, disabled, boardGame, onCancel }) => {
           />
         </div>
         <div className="control">
-        <label htmlFor="publisherPublicID">Publisher:</label>
-        <select key="publisherPublicID" name="publisherPublicID" id="publisherPublicID">
-          {publishers.map((publisher) => {
-                return <option value={publisher.publicID} key={publisher.publicID}>{publisher.publisherName}</option>
-          })}
-        </select>
-      </div>
-        
-       <br></br>
+          <label htmlFor="publisherPublicID">Publisher: </label>
+          <select key="publisherPublicID" name="publisherPublicID" id="publisherPublicID">
+            {publishers.map((publisher) => {
+              return <option value={publisher.publicID} key={publisher.publicID}>{publisher.publisherName}</option>
+            })}
+          </select>
+        </div>
+
+        <div className="control">
+          <label htmlFor="categories">Categories: </label>
+          <select key="categories" name="categories" id="categories" multiple>
+            {categories.map((category) => {
+              return <option value={[category.publicID]} key={category.publicID}>{category.name}</option>
+            })}
+          </select>
+        </div>
+
+        <br></br>
 
 
         <div className="buttons">
-          <button type="submit" disabled={disabled}>
+          <button type="submit">
             Create BoardGame
           </button>
           <br></br>
