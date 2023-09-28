@@ -11,6 +11,8 @@ import '@fontsource/roboto/700.css';
 import GameList from './Pages/GameList.jsx';
 import BoardGameCreator from './Pages/BoardGameCreator.jsx';
 import ErrorPage from './Pages/ErrorPage.jsx';
+import Login from './Pages/Login/Login.jsx';
+import Register from './Pages/Register/Register.jsx';
 
 const router = createBrowserRouter([
   {
@@ -29,6 +31,14 @@ const router = createBrowserRouter([
       {
         path: "/games/create",
         element: <BoardGameCreator />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "games/register",
+        element: <Register />,
       }
     ],
   },
