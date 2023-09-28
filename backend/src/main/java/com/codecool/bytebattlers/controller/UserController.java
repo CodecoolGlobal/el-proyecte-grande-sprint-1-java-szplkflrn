@@ -1,10 +1,14 @@
 package com.codecool.bytebattlers.controller;
 
 import com.codecool.bytebattlers.controller.dto.AppUserDto;
+import com.codecool.bytebattlers.controller.exception.ResourceNotFoundException;
 import com.codecool.bytebattlers.service.UserService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/users")
@@ -17,25 +21,30 @@ public class UserController {
     }
 
     @GetMapping
-    public List<AppUserDto> getAllUsers() {
-        return userService.findAll();
+    public ResponseEntity<List<AppUserDto>> getAllCategory() {
+        if (userService.findAll().isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
+        }
     }
-
     @GetMapping("/{id}")
-    public AppUserDto getUserById(@PathVariable Long id) {
-        return userService.findById(id);
+    public ResponseEntity<AppUserDto> getCategoryById(@PathVariable UUID id) {
+        if (userService.findById(id) == null) {
+            throw new ResourceNotFoundException("Not found Tutorial with id = " + id);
+        } else {
+            return new ResponseEntity<>(userService.findById(id), HttpStatus.OK);
+        }
     }
-
     @PostMapping
-    public void addNewUser(@RequestBody AppUserDto user) {
-        userService.save(user);
+    public ResponseEntity<AppUserDto>  addNewCategory(@RequestBody AppUserDto board) {
+        return new ResponseEntity<>(userService.save(board), HttpStatus.CREATED);
     }
-
     @DeleteMapping("/{id}")
-    public void deleteUserById(@PathVariable Long id) {
+    public ResponseEntity<AppUserDto> deleteCategoryById(@PathVariable UUID id) {
         userService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
 }
 
 

@@ -9,4 +9,6 @@ import java.util.UUID;
 @Repository
 public interface PublisherRepository extends JpaRepository<Publisher, Long> {
     Publisher findPublisherByPublicID(UUID publicId);
+
+    void deleteByPublicID(UUID publicID);
 }

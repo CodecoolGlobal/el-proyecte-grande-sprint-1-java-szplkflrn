@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.UUID;
 
 @Service
 public class ReviewService {
@@ -43,20 +44,21 @@ public class ReviewService {
         return reviewRepository.findAll().stream().map(reviewMapper::toDto).toList();
     }
 
-    public void save(ReviewDto reviewDto) {
+    public ReviewDto save(ReviewDto reviewDto) {
         BoardGame foundBoardgame = boardGameService.findByPublicID(reviewDto.boardGamePublicID());
         AppUser foundUser =  userService.findByPublicID(reviewDto.appUserPublicID());
         Review review = reviewMapper.toEntity(reviewDto);
         review.setAppUser(foundUser);
         review.setBoardGame(foundBoardgame);
         reviewRepository.save(review);
+        return reviewMapper.toDto(review);
     }
 
-    public ReviewDto findById(Long aLong) {
-        return reviewMapper.toDto(reviewRepository.findById(aLong).orElseThrow(NoSuchElementException::new));
+    public ReviewDto findById(UUID uuid) {
+        return reviewMapper.toDto(reviewRepository.findByPublicID(uuid));
     }
 
-    public void deleteById(Long aLong) {
-        reviewRepository.deleteById(aLong);
+    public void deleteById(UUID publicID) {
+        reviewRepository.deleteByPublicID(publicID);
     }
 }

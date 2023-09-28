@@ -1,11 +1,15 @@
 package com.codecool.bytebattlers.controller;
 
 import com.codecool.bytebattlers.controller.dto.PublisherDto;
+import com.codecool.bytebattlers.controller.exception.ResourceNotFoundException;
 import com.codecool.bytebattlers.service.PublisherService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/publishers")
@@ -19,27 +23,34 @@ public class PublisherController {
     }
 
     @GetMapping
-    public List<PublisherDto> getAllPublishers() {
-        return service.findAll();
+    public ResponseEntity<List<PublisherDto>> getAllCategory() {
+        if (service.findAll().isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(service.findAll(), HttpStatus.OK);
+        }
     }
 
     @GetMapping("/{id}")
-    public PublisherDto getPublisherById(@PathVariable Long id) {
-        return service.findById(id);
+    public ResponseEntity<PublisherDto> getCategoryById(@PathVariable UUID id) {
+        if (service.findById(id) == null) {
+            throw new ResourceNotFoundException("Not found Tutorial with id = " + id);
+        } else {
+            return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
+        }
     }
 
     @PatchMapping("/{id}")
-    public void updatePublisherById(@RequestBody PublisherDto body, @PathVariable Long id) {
+    public void updatePublisherById(@RequestBody PublisherDto body, @PathVariable UUID id) {
         service.update(body, id);
     }
 
     @PostMapping
-    public void addNewPublisher(@RequestBody PublisherDto publisher) {
-        service.save(publisher);
+    public ResponseEntity<PublisherDto>  addNewCategory(@RequestBody PublisherDto board) {
+        return new ResponseEntity<>(service.save(board), HttpStatus.CREATED);
     }
-
     @DeleteMapping("/{id}")
-    public void deletePublisherById(@PathVariable Long id) {
+    public ResponseEntity<PublisherDto> deleteCategoryById(@PathVariable UUID id) {
         service.deleteById(id);
-    }
-}
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }}

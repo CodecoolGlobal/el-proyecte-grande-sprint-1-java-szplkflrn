@@ -2,8 +2,8 @@ POST http://localhost:8080/api/users
 Content-Type: application/json
 
 {
-  "name": "Other idiot",
-  "appPassword": "dfs",
+  "name": "Other idi1t",
+  "password": "dfs",
   "email": "dsfds",
   "reviews": []
 }
@@ -13,7 +13,7 @@ POST http://localhost:8080/api/publishers
 Content-Type: application/json
 
 {
-  "publisherName": "IO",
+  "publisherName": "IOfd",
   "boardGames": []
 }
 
@@ -82,7 +82,7 @@ POST http://localhost:8080/api/games
 Content-Type: application/json
 
 {
-  "gameName": "7 Wonders",
+  "gameName": "Splendor",
   "minPlayer": 3,
   "maxPlayer": 7,
   "playTimeInMinutes": 20,
@@ -91,7 +91,7 @@ Content-Type: application/json
   "rating": 1.2,
   "reviews": [],
   "categories": [],
-  "publisherPublicID": "70ad265c-a139-44fa-9c2a-6fa2f48861c9"
+  "publisherPublicID": "63547281-48b6-489a-bab2-dc82f265a38d"
 }
 
 
