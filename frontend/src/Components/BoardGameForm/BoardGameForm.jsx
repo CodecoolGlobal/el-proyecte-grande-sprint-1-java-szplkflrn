@@ -1,5 +1,30 @@
+import { useState,useEffect } from "react";
+
 
 const BoardGameForm = ({ onSave, disabled, boardGame, onCancel }) => {
+
+
+  const [publishers, setPublishers] = useState([]);
+
+  const publishersFetch = async () => {
+    try {
+      const response = await fetch("/api/publishers");
+      if (!response.ok) {
+        throw new Error(`Error fetching publishers: ${response.statusText}`);
+      }
+      const data = await response.json();
+      setPublishers(data);
+    } catch (error) {
+      console.error("Error fetching publishers:", error);
+    }
+  };
+
+  useEffect(() => {
+    publishersFetch();
+  
+  }, []);
+
+
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -19,22 +44,21 @@ const BoardGameForm = ({ onSave, disabled, boardGame, onCancel }) => {
       return acc;
     }, {});
   
+    // Manually set reviews and categories as empty arrays
+    boardGame.reviews = [];
+    boardGame.categories = [];
+  
+    console.log(boardGame);
     onSave(boardGame);
   };
+  
+  
 
   return (
     <div className="BoardForm">
       <form className="BoardGameForm" onSubmit={onSubmit}>
         {boardGame && <input type="hidden" name="_id" defaultValue={boardGame.id} />}
         <br></br>
-        <div className="control">
-          <label htmlFor="id">Id: </label>
-          <input
-            type="number"
-            name="id"
-            id="id"
-          />
-        </div>
         <div className="control">
           <label htmlFor="gameName">Name: </label>
           <input
@@ -93,21 +117,15 @@ const BoardGameForm = ({ onSave, disabled, boardGame, onCancel }) => {
           />
         </div>
         <div className="control">
-          <label htmlFor="publisherId">Publisher id: </label>
-          <input
-            type="number"
-            name="publisherId"
-            id="publisherId"
-          />
-        </div>
-        <div className="control">
-          <label htmlFor="categoryId">Category id: </label>
-          <input
-            type="number"
-            name="categoryId"
-            id="categoryId"
-          />
-        </div><br></br>
+        <label htmlFor="publisherPublicID">Publisher:</label>
+        <select key="publisherPublicID" name="publisherPublicID" id="publisherPublicID">
+          {publishers.map((publisher) => {
+                return <option value={publisher.publicID} key={publisher.publicID}>{publisher.publisherName}</option>
+          })}
+        </select>
+      </div>
+        
+       <br></br>
 
 
         <div className="buttons">

@@ -1,38 +1,65 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import BoardGameForm from "../Components/BoardGameForm";
 
 
-const createGame = async (boardGame) => {
-  const res = await fetch("/api/newGame", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(boardGame),
-    });
-    return await res.json();
+const createGame =  async (boardGame) => {
+  const res = await fetch("/api/games", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(boardGame),
+  });
+  return await res.json();
 };
 
 
+
 const BoardGameCreator = () => {
+  const [games, setGames] = useState([]);
     const navigate = useNavigate();
-    const [loading, setLoading] = useState(false);
+
+    const gamesFetch = async () => {
+      try {
+        const response = await fetch("/api/games");
+        const data = await response.json();
+        setGames(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    
+    useEffect(() => {
+      gamesFetch();
+    }, []);
   
     const handleCreateBoardGame = (boardGame) => {
-      setLoading(true);
-  
-      createGame(boardGame)
-        .then(() => {
-          setLoading(false);
-          navigate("/games");
-        })
+      let gameExists = false;
+      for (let i = 0; i < games.length; i++) {
+        if (boardGame.gameName === games[i].gameName) {
+          gameExists = true;
+          break;
+        }
+      }
+    
+      if (gameExists) {
+        alert("This game already exists!");
+      } else {
+        createGame(boardGame)
+          .then(() => {
+            navigate("/games");
+          })
+          .catch((error) => {
+            console.error("Error creating game:", error);
+          });
+      }
     };
+    
   
     return (
       <BoardGameForm
         onCancel={() => navigate("/")}
-        disabled={loading}
         onSave={handleCreateBoardGame}
       />
     );
