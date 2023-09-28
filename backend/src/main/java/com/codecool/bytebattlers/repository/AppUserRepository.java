@@ -8,4 +8,6 @@ import java.util.UUID;
 public interface AppUserRepository extends JpaRepository<AppUser, Long> {
 
     AppUser findAppUsersByPublicID(UUID publicID);
+
+    void deleteByPublicID(UUID publicID);
 }
