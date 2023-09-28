@@ -98,12 +98,12 @@ export default function GameList() {
     gamesFetch();
   }, []);
 
-  function createData(name, minplayer, maxplayer, rating) {
-    return { name, minplayer, maxplayer, rating };
+  function createData(name, minplayer, maxplayer, categories , rating) {
+    return { name, minplayer, maxplayer, categories , rating };
   }
 
   const rows = games.map((game) => {
-    return createData(game.gameName, game.minPlayer, game.maxPlayer, game.rating);
+    return createData(game.gameName, game.minPlayer, game.maxPlayer, game.categories, game.rating);
   });
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
@@ -125,27 +125,33 @@ export default function GameList() {
     <div>
       <br />
       <br />
-      <TableContainer component={Paper} sx={{ maxWidth: 1200, margin: 'auto', opacity:0.9 }} align="center">
+      <TableContainer component={Paper} sx={{ maxWidth: 1000, margin: 'auto', opacity:0.9 }} align="center">
         <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
           <TableHead>
             <TableRow>
               <TableCell>Board Game</TableCell>
               <TableCell align="center">Min Player</TableCell>
               <TableCell align="center">Max Player</TableCell>
+              <TableCell align="center">Categories</TableCell>
               <TableCell align="center">Rating</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {displayedRows.map((row) => (
               <TableRow key={row.name}>
-                <TableCell component="th" scope="row" style={{ width: 160 }}>
+                <TableCell component="th"  scope="row" style={{ width: 160 }}>
                   {row.name}
                 </TableCell>
-                <TableCell component="th" scope="row" style={{ width: 160 }}>
+                <TableCell component="th" align="center" scope="row" style={{ width: 50 }}>
                   {row.minplayer}
                 </TableCell>
-                <TableCell component="th" scope="row" style={{ width: 160 }}>
+                <TableCell component="th" align="center" scope="row" style={{ width: 50 }}>
                   {row.maxplayer}
+                </TableCell>
+                <TableCell component="th" align="center" scope="row" style={{ width: 50 }}>
+                {row.categories.map((category) => {
+                   return <p key={category.publicID}>{category.name}</p>
+                })}
                 </TableCell>
                 <TableCell style={{ width: 160 }} align="center">
                   {row.rating}
