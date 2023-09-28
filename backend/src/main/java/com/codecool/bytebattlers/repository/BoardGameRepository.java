@@ -15,4 +15,6 @@ public interface BoardGameRepository extends JpaRepository<BoardGame, Long> {
 
     BoardGame findBoardGameByPublicID(UUID publicID);
 
+    void deleteByPublicID(UUID publicID);
+
 }
