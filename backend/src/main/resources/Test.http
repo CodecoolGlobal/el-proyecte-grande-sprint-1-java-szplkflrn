@@ -30,13 +30,14 @@ Content-Type: application/json
 ###
 
 
-POST http://localhost:8080/api/appusers
+POST http://localhost:8080/api/users
 Content-Type: application/json
 
 {
-  "Name": "appUser",
+  "name": "test_name",
   "password": "password",
-  "email": "email"
+  "email": "email",
+  "reviews": []
 }
 
 
@@ -47,10 +48,20 @@ Content-Type: application/json
 
 {
   "description": "Amazddddding",
-  "boardGamePublicID": "38109a30-5d77-11ee-a72b-00163edbcbbc",
-  "appUserPublicID": "4fa47ed8-5d5d-11ee-83ec-00163edbcbbc"
+  "boardGamePublicID": "e5141cf6-7a46-41e8-b877-3eb64fc86958",
+  "appUserPublicID": "49932bcc-0a69-4dd3-9039-4008dc406b85"
 }
 
+###
+
+POST http://localhost:8080/api/reviews
+Content-Type: application/json
+
+{
+"description": "test_vol",
+"boardGamePublicID": "e5141cf6-7a46-41e8-b877-3eb64fc86958",
+"appUserPublicID": "780973ac-715e-415c-abd1-b74f11e81bd6"
+}
 
 ###
 POST http://localhost:8080/api/appusers
@@ -75,7 +86,7 @@ Content-Type: application/json
   "rating": 1.2,
   "reviews": [],
   "categories": [],
-  "publisherPublicID": "148d467c-5d4e-11ee-bca2-00163edbcbbc"
+  "publisherPublicID": "70ad265c-a139-44fa-9c2a-6fa2f48861c9"
 }
 
 

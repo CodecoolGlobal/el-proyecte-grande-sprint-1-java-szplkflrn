@@ -4,10 +4,12 @@ CREATE SEQUENCE IF NOT EXISTS publisher_seq START WITH 1 INCREMENT BY 50;
 
 CREATE SEQUENCE IF NOT EXISTS review_seq START WITH 1 INCREMENT BY 50;
 
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 CREATE TABLE board_game
 (
     id                   BIGINT           NOT NULL,
-    public_id            UUID             NOT NULL,
+    public_id            UUID DEFAULT uuid_generate_v4(),
     game_name            VARCHAR(255),
     min_player           INTEGER          NOT NULL,
     max_player           INTEGER          NOT NULL,
@@ -29,7 +31,7 @@ CREATE TABLE board_game_categories
 CREATE TABLE category
 (
     id          BIGINT      NOT NULL,
-    public_id   UUID        NOT NULL,
+    public_id   UUID DEFAULT uuid_generate_v4(),
     name        VARCHAR(50) NOT NULL,
     description VARCHAR     NOT NULL,
     CONSTRAINT pk_category PRIMARY KEY (id)
@@ -38,7 +40,7 @@ CREATE TABLE category
 CREATE TABLE publisher
 (
     id             BIGINT      NOT NULL,
-    public_id      UUID        NOT NULL,
+    public_id      UUID DEFAULT uuid_generate_v4(),
     publisher_name VARCHAR(50) NOT NULL,
     CONSTRAINT pk_publisher PRIMARY KEY (id)
 );
@@ -46,17 +48,17 @@ CREATE TABLE publisher
 CREATE TABLE review
 (
     id            BIGINT NOT NULL,
-    public_id     UUID   NOT NULL,
+    public_id     UUID DEFAULT uuid_generate_v4(),
     description   VARCHAR(255),
     board_game_id BIGINT NOT NULL,
-    user_id       BIGINT NOT NULL,
+    app_user_id       BIGINT NOT NULL,
     CONSTRAINT pk_review PRIMARY KEY (id)
 );
 
-CREATE TABLE "appUser"
+CREATE TABLE "app_user"
 (
     id        BIGINT NOT NULL,
-    public_id UUID   NOT NULL,
+    public_id UUID DEFAULT uuid_generate_v4(),
     user_name VARCHAR(255),
     password  VARCHAR(255),
     email     VARCHAR(255),
@@ -81,7 +83,7 @@ ALTER TABLE publisher
 ALTER TABLE review
     ADD CONSTRAINT uc_review_public UNIQUE (public_id);
 
-ALTER TABLE "appUser"
+ALTER TABLE app_user
     ADD CONSTRAINT uc_user_public UNIQUE (public_id);
 
 ALTER TABLE board_game
@@ -91,7 +93,7 @@ ALTER TABLE review
     ADD CONSTRAINT FK_REVIEW_ON_BOARD_GAME FOREIGN KEY (board_game_id) REFERENCES board_game (id);
 
 ALTER TABLE review
-    ADD CONSTRAINT FK_REVIEW_ON_USER FOREIGN KEY (user_id) REFERENCES "appUser" (id);
+    ADD CONSTRAINT FK_REVIEW_ON_USER FOREIGN KEY (app_user_id) REFERENCES app_user (id);
 
 ALTER TABLE board_game_categories
     ADD CONSTRAINT fk_boagamcat_on_board_game FOREIGN KEY (board_game_id) REFERENCES board_game (id);
