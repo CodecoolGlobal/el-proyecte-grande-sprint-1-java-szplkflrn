@@ -2,8 +2,8 @@ POST http://localhost:8080/api/users
 Content-Type: application/json
 
 {
-  "name": "Other idiot",
-  "appPassword": "dfs",
+  "name": "Other idi1t",
+  "password": "dfs",
   "email": "dsfds",
   "reviews": []
 }
@@ -13,7 +13,7 @@ POST http://localhost:8080/api/publishers
 Content-Type: application/json
 
 {
-  "publisherName": "IO",
+  "publisherName": "IOfd",
   "boardGames": []
 }
 
@@ -53,8 +53,8 @@ Content-Type: application/json
 
 {
   "description": "Amazddddding",
-  "boardGamePublicID": "e5141cf6-7a46-41e8-b877-3eb64fc86958",
-  "appUserPublicID": "49932bcc-0a69-4dd3-9039-4008dc406b85"
+  "boardGamePublicID": "afb2cee6-8cc6-4161-a29f-5e01533d68cf",
+  "appUserPublicID": "d78301bd-2166-43a4-94fd-3e1245a8f738"
 }
 
 ###
@@ -82,7 +82,7 @@ POST http://localhost:8080/api/games
 Content-Type: application/json
 
 {
-  "gameName": "7 Wonders",
+  "gameName": "Splendor",
   "minPlayer": 3,
   "maxPlayer": 7,
   "playTimeInMinutes": 20,
@@ -91,7 +91,7 @@ Content-Type: application/json
   "rating": 1.2,
   "reviews": [],
   "categories": [],
-  "publisherPublicID": "70ad265c-a139-44fa-9c2a-6fa2f48861c9"
+  "publisherPublicID": "63547281-48b6-489a-bab2-dc82f265a38d"
 }
 
 
