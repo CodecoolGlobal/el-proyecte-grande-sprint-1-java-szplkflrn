@@ -77,38 +77,20 @@ class PublisherServiceTest {
         verify(repository, times(1)).save(publisher1);
     }
 
-    @Test
-    void test_update_throwsExceptionWhenNotFound() {
-        PublisherDto updatedDto = new PublisherDto(UUID.randomUUID(), "test1", new HashSet<>());
-        Long id = 1L;
-
-        when(repository.findById(id)).thenReturn(Optional.empty());
-
-        assertThrows(NoSuchElementException.class, () -> publisherService.update(updatedDto, id));
-    }
 
     @Test
     void test_findById_returnsPublisherDto() {
         Publisher publisher = new Publisher();
-        PublisherDto expectedDto = new PublisherDto(UUID.randomUUID(), "test1", new HashSet<>());
-        Long id = 1L;
+        UUID uuid = UUID.randomUUID();
+        PublisherDto expectedDto = new PublisherDto(uuid, "test1", new HashSet<>());
 
-        when(repository.findById(id)).thenReturn(Optional.of(publisher));
+        when(repository.findPublisherByPublicID(uuid)).thenReturn(publisher);
 
         when(mapper.toDto(publisher)).thenReturn(expectedDto);
 
-        PublisherDto result = publisherService.findById(id);
+        PublisherDto result = publisherService.findById(uuid);
 
         assertEquals(expectedDto, result);
-    }
-
-    @Test
-    void test_findById_throwsExceptionWhenNotFound() {
-        Long id = 1L;
-
-        when(repository.findById(id)).thenReturn(Optional.empty());
-
-        assertThrows(NoSuchElementException.class, () -> publisherService.findById(id));
     }
 
     @Test
@@ -125,19 +107,19 @@ class PublisherServiceTest {
 
     @Test
     void test_deleteById_callsRepositoryDeleteById() {
-        Long id = 1L;
+        UUID publicId = UUID.randomUUID();
 
-        publisherService.deleteById(id);
+        publisherService.deleteById(publicId);
 
-        verify(repository, times(1)).deleteById(id);
+        verify(repository, times(1)).deleteByPublicID(publicId);
     }
 
     @Test
     void test_deleteById_throwsExceptionOnError() {
-        Long id = 1L;
+        UUID publicId = UUID.randomUUID();
 
-        doThrow(new RuntimeException("Error during deletion")).when(repository).deleteById(id);
+        doThrow(new RuntimeException("Error during deletion")).when(repository).deleteByPublicID(publicId);
 
-        assertThrows(RuntimeException.class, () -> publisherService.deleteById(id));
+        assertThrows(RuntimeException.class, () -> publisherService.deleteById(publicId));
     }
 }
