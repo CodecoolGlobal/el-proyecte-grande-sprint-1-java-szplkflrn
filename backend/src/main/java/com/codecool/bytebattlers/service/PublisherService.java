@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
@@ -28,24 +27,25 @@ public class PublisherService {
         return repository.findAll().stream().map(mapper::toDto).toList();
     }
 
-    public void save(PublisherDto dto) {
+    public PublisherDto save(PublisherDto dto) {
         Publisher publisher = mapper.toEntity(dto);
         repository.save(publisher);
+        return mapper.toDto(publisher);
     }
 
-    public void update(PublisherDto updatedPublisher, Long id) {
-        Publisher foundPublisher = repository.findById(id).orElseThrow(NoSuchElementException::new);
+    public void update(PublisherDto updatedPublisher, UUID publicID) {
+        Publisher foundPublisher = repository.findPublisherByPublicID(publicID);
         repository.save(mapper.partialUpdate(updatedPublisher, foundPublisher));
     }
-    public PublisherDto findById(Long aLong) {
-        return repository.findById(aLong).map(mapper::toDto).orElseThrow(NoSuchElementException::new);
+    public PublisherDto findById(UUID publicID) {
+        return mapper.toDto(repository.findPublisherByPublicID(publicID));
     }
 
     public Publisher findByPublicId(UUID publicId) {
        return repository.findPublisherByPublicID(publicId);
     }
 
-    public void deleteById(Long aLong) {
-        repository.deleteById(aLong);
+    public void deleteById(UUID publicID) {
+        repository.deleteByPublicID(publicID);
     }
 }
