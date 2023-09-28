@@ -38,7 +38,7 @@ public class BoardGame {
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinTable(name = "board_game_categories",
-            joinColumns = @JoinColumn(name = "boardGame_id"),
+            joinColumns = @JoinColumn(name = "board_game_id"),
             inverseJoinColumns = @JoinColumn(name = "categories_id"))
     private Set<Category> categories = new LinkedHashSet<>();
 
