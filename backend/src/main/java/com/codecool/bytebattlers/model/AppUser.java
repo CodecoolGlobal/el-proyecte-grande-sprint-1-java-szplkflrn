@@ -30,7 +30,7 @@ public class AppUser {
 
     @Column(name = "password", nullable = false)
     @JdbcTypeCode(SqlTypes.VARCHAR)
-    private String appPassword;
+    private String password;
 
     @Column(name = "email", nullable = false)
     @JdbcTypeCode(SqlTypes.VARCHAR)
