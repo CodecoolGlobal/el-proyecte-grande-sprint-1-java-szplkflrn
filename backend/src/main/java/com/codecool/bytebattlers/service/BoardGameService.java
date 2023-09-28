@@ -1,6 +1,7 @@
 package com.codecool.bytebattlers.service;
 
 import com.codecool.bytebattlers.controller.dto.BoardGameDto;
+import com.codecool.bytebattlers.controller.dto.ReviewDto;
 import com.codecool.bytebattlers.mapper.BoardGameMapper;
 import com.codecool.bytebattlers.mapper.CategoryMapper;
 import com.codecool.bytebattlers.model.BoardGame;

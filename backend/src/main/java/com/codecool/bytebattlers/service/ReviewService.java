@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -46,8 +47,11 @@ public class ReviewService {
 
     public ReviewDto save(ReviewDto reviewDto) {
         BoardGame foundBoardgame = boardGameService.findByPublicID(reviewDto.boardGamePublicID());
+        Set<Review> foundBoardGameReviews = foundBoardgame.getReviews();
         AppUser foundUser =  userService.findByPublicID(reviewDto.appUserPublicID());
         Review review = reviewMapper.toEntity(reviewDto);
+        foundBoardGameReviews.add(review);
+        foundBoardgame.setReviews(foundBoardGameReviews);
         review.setAppUser(foundUser);
         review.setBoardGame(foundBoardgame);
         reviewRepository.save(review);
