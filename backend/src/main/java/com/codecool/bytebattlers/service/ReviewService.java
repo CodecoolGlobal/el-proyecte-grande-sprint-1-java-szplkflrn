@@ -20,13 +20,10 @@ import java.util.UUID;
 public class ReviewService {
     private final ReviewMapper reviewMapper;
     private final ReviewRepository reviewRepository;
-
     private final UserService userService;
     private final AppUserMapper userMapper;
-
     private final BoardGameService boardGameService;
     private final BoardGameMapper boardGameMapper;
-
 
 
     @Autowired
@@ -48,7 +45,7 @@ public class ReviewService {
     public ReviewDto save(ReviewDto reviewDto) {
         BoardGame foundBoardgame = boardGameService.findByPublicID(reviewDto.boardGamePublicID());
         Set<Review> foundBoardGameReviews = foundBoardgame.getReviews();
-        AppUser foundUser =  userService.findByPublicID(reviewDto.appUserPublicID());
+        AppUser foundUser = userService.findByPublicID(reviewDto.appUserPublicID());
         Review review = reviewMapper.toEntity(reviewDto);
         foundBoardGameReviews.add(review);
         foundBoardgame.setReviews(foundBoardGameReviews);

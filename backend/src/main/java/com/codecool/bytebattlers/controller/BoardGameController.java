@@ -1,4 +1,5 @@
 package com.codecool.bytebattlers.controller;
+
 import com.codecool.bytebattlers.controller.dto.BoardGameDto;
 import com.codecool.bytebattlers.controller.exception.ResourceNotFoundException;
 import com.codecool.bytebattlers.service.BoardGameService;
@@ -43,8 +44,9 @@ public class BoardGameController {
             return new ResponseEntity<>(boardGameService.findByPublicIdToDTO(id), HttpStatus.OK);
         }
     }
+
     @PostMapping
-    public ResponseEntity<BoardGameDto>  addNewCategory(@RequestBody BoardGameDto board) {
+    public ResponseEntity<BoardGameDto> addNewCategory(@RequestBody BoardGameDto board) {
         return new ResponseEntity<>(boardGameService.save(board), HttpStatus.CREATED);
     }
 

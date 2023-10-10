@@ -28,6 +28,9 @@ public class AppUser {
     @JdbcTypeCode(SqlTypes.VARCHAR)
     private String name;
 
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
     @Column(name = "password", nullable = false)
     @JdbcTypeCode(SqlTypes.VARCHAR)
     private String password;

@@ -12,7 +12,6 @@ import java.util.UUID;
 
 @Service
 public class PublisherService {
-
     private final PublisherMapper mapper;
     private final PublisherRepository repository;
 
@@ -37,12 +36,13 @@ public class PublisherService {
         Publisher foundPublisher = repository.findPublisherByPublicID(publicID);
         repository.save(mapper.partialUpdate(updatedPublisher, foundPublisher));
     }
+
     public PublisherDto findById(UUID publicID) {
         return mapper.toDto(repository.findPublisherByPublicID(publicID));
     }
 
     public Publisher findByPublicId(UUID publicId) {
-       return repository.findPublisherByPublicID(publicId);
+        return repository.findPublisherByPublicID(publicId);
     }
 
     public void deleteById(UUID publicID) {
