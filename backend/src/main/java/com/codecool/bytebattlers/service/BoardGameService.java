@@ -25,14 +25,10 @@ import java.util.stream.Collectors;
 public class BoardGameService {
 
     private BoardGameRepository boardGameRepository;
-
     private final PublisherService publisherService;
     private BoardGameMapper boardGameMapper;
-
     private final CategoryRepository categoryRepository;
-
     private final CategoryMapper categoryMapper;
-
     private final Logger logger = LoggerFactory.getLogger(BoardGameService.class);
 
     @Autowired
@@ -50,19 +46,19 @@ public class BoardGameService {
     }
 
     public BoardGameDto save(BoardGameDto dto) {
-            Set<BoardGameDto.CategoryDto1> categoriesInDTO = dto.categories();
-            Set<Category> categoriesInEntity = categoriesInDTO
-                    .stream().map(categoryDto -> categoryRepository.findCategoryByPublicID(categoryDto.publicID()))
-                    .collect(Collectors.toSet());
-            Publisher foundPublisher = publisherService.findByPublicId(dto.publisherPublicID());
-            BoardGame boardGame = boardGameMapper.toEntity(dto);
-            boardGame.setCategories(categoriesInEntity);
-            boardGame.setPublisher(foundPublisher);
-            boardGameRepository.save(boardGame);
-            return boardGameMapper.toDto(boardGame);
+        Set<BoardGameDto.CategoryDto1> categoriesInDTO = dto.categories();
+        Set<Category> categoriesInEntity = categoriesInDTO
+                .stream().map(categoryDto -> categoryRepository.findCategoryByPublicID(categoryDto.publicID()))
+                .collect(Collectors.toSet());
+        Publisher foundPublisher = publisherService.findByPublicId(dto.publisherPublicID());
+        BoardGame boardGame = boardGameMapper.toEntity(dto);
+        boardGame.setCategories(categoriesInEntity);
+        boardGame.setPublisher(foundPublisher);
+        boardGameRepository.save(boardGame);
+        return boardGameMapper.toDto(boardGame);
     }
 
-    public BoardGame findByPublicID (UUID publicID) {
+    public BoardGame findByPublicID(UUID publicID) {
         return boardGameRepository.findBoardGameByPublicID(publicID);
     }
 

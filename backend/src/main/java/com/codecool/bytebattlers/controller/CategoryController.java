@@ -42,7 +42,7 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<CategoryDto>  addNewCategory(@RequestBody CategoryDto board) {
+    public ResponseEntity<CategoryDto> addNewCategory(@RequestBody CategoryDto board) {
         return new ResponseEntity<>(categoryService.save(board), HttpStatus.CREATED);
     }
 

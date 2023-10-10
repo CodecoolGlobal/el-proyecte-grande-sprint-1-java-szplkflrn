@@ -16,7 +16,7 @@ import FirstPageIcon from "@mui/icons-material/FirstPage";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import LastPageIcon from "@mui/icons-material/LastPage";
-import { AlignHorizontalRight } from "@mui/icons-material";
+
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -92,14 +92,13 @@ export default function GameList() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [games, setGames] = useState([]);
   const [reviewedGame, setReviewedGame] = useState("0");
-  const [update, setUpdate] = useState(false);
+  const [update, setUpdate] = useState(0);
   const [message, setMessage] = useState("");
 
   const gamesFetch = async () => {
     try {
       const response = await fetch("/api/games");
       const data = await response.json();
-      console.log(data);
       setGames(data);
     } catch (error) {
       console.error(error);
@@ -116,7 +115,7 @@ export default function GameList() {
         body: JSON.stringify({
           description: `${message}`,
           boardGamePublicID: `${reviewedGame}`,
-          appUserPublicID: "3b2d9c25-e7d6-469a-8852-42352253cbbf",
+          appUserPublicID: "0de68408-c461-43d4-902a-f2abe560a6a3",
         }),
       });
       const data = await response.json();
@@ -176,7 +175,7 @@ export default function GameList() {
   };
 
   const handleAddingReview = (id) => {
-    setUpdate(!update);
+    setUpdate(update+1);
     setReviewedGame(id);
   };
 
@@ -187,7 +186,7 @@ export default function GameList() {
 
   const handleSendingNewReview = () => {
     reviewSendingFetch();
-    setUpdate(!update);
+    setUpdate(update+1)
   };
 
   const startIndex = page * rowsPerPage;
@@ -245,7 +244,7 @@ export default function GameList() {
                     component="th"
                     align="center"
                     scope="row"
-                    style={{ width: 50 }}
+                    style={{ width: 150 }}
                   >
                     {row.description}
                   </TableCell>

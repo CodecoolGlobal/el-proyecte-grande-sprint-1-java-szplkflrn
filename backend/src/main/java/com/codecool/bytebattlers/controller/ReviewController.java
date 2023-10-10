@@ -40,10 +40,12 @@ public class ReviewController {
             return new ResponseEntity<>(reviewService.findById(id), HttpStatus.OK);
         }
     }
+
     @PostMapping
-    public ResponseEntity<ReviewDto>  addNewCategory(@RequestBody ReviewDto board) {
+    public ResponseEntity<ReviewDto> addNewCategory(@RequestBody ReviewDto board) {
         return new ResponseEntity<>(reviewService.save(board), HttpStatus.CREATED);
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<ReviewDto> deleteCategoryById(@PathVariable UUID id) {
         reviewService.deleteById(id);

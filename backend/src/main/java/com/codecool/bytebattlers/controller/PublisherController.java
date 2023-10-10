@@ -46,11 +46,13 @@ public class PublisherController {
     }
 
     @PostMapping
-    public ResponseEntity<PublisherDto>  addNewCategory(@RequestBody PublisherDto board) {
+    public ResponseEntity<PublisherDto> addNewCategory(@RequestBody PublisherDto board) {
         return new ResponseEntity<>(service.save(board), HttpStatus.CREATED);
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<PublisherDto> deleteCategoryById(@PathVariable UUID id) {
         service.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }}
+    }
+}
