@@ -9,7 +9,7 @@ const UserCreator = () => {
 
 
     const createUser = async (user) => {
-        const res = await fetch("/api/users", {
+        const res = await fetch("/api/users/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
