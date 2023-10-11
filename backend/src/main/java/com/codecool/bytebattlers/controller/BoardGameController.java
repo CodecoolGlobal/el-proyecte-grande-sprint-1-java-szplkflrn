@@ -56,4 +56,14 @@ public class BoardGameController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @GetMapping("/api/search")
+    @ResponseBody
+    public ResponseEntity<List<BoardGameDto>> findBoardGamesByName(@RequestParam String boardGameName) {
+        if (boardGameService.findBoardGamesDtoByGameName(boardGameName).isEmpty()) {
+            throw new ResourceNotFoundException("No found game");
+        } else {
+            return new ResponseEntity<>(boardGameService.findBoardGamesDtoByGameName(boardGameName), HttpStatus.OK);
+        }
+    }
+
 }
