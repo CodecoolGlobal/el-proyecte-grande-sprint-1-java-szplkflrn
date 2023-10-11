@@ -16,6 +16,8 @@ import FirstPageIcon from "@mui/icons-material/FirstPage";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import LastPageIcon from "@mui/icons-material/LastPage";
+import { Input, Option, Select } from "@mui/base";
+import { List } from "@mui/material";
 
 
 function TablePaginationActions(props) {
@@ -226,6 +228,16 @@ export default function GameList() {
           <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
             <TableHead>
               <TableRow>
+              <TableCell>
+                  <h3>Search</h3>
+                </TableCell>
+                <TableCell>
+                  <Select>
+                  <Option>Hello</Option>
+                  </Select>
+                </TableCell>
+              </TableRow>
+              <TableRow>
                 <TableCell>Board Game</TableCell>
                 <TableCell align="center">Min Player</TableCell>
                 <TableCell align="center">Max Player</TableCell>
@@ -239,8 +251,9 @@ export default function GameList() {
             <TableBody>
               {displayedRows.map((row) => (
                 <TableRow key={row.name}>
+                  
                   <TableCell component="th" scope="row" style={{ width: 160 }}>
-                    {row.name}
+                    <Link to={`/games/${row.publicID}`}>{row.name}</Link>
                   </TableCell>
 
                   <TableCell

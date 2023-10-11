@@ -77,7 +77,7 @@ const Login = ({ onCancel }) => {
                             id="password" />
                         </div>
                         <div className="forget">
-                            <label htmlFor=""><input type="checkbox" name="checkbox" id="checkbox" />Remember me <a href="/forgetpassword">Forget Password</a></label>
+                            <label htmlFor=""><input type="checkbox" name="checkbox" id="checkbox" />Remember me</label>
                         </div>
 
                         <button id="login" type="submit">
