@@ -16,7 +16,10 @@ import FirstPageIcon from "@mui/icons-material/FirstPage";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import LastPageIcon from "@mui/icons-material/LastPage";
-
+import { Autocomplete, Input, InputLabel, TextField } from "@mui/material";
+import { MenuItem } from "@mui/material";
+import { Select } from "@mui/material";
+import { FormControl } from "@mui/material";
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -39,44 +42,46 @@ function TablePaginationActions(props) {
   };
 
   return (
-    <Box sx={{ flexShrink: 0, ml: 2.5 }}>
-      <IconButton
-        onClick={handleFirstPageButtonClick}
-        disabled={page === 0}
-        aria-label="first page"
-      >
-        {theme.direction === "rtl" ? <LastPageIcon /> : <FirstPageIcon />}
-      </IconButton>
-      <IconButton
-        onClick={handleBackButtonClick}
-        disabled={page === 0}
-        aria-label="previous page"
-      >
-        {theme.direction === "rtl" ? (
-          <KeyboardArrowRight />
-        ) : (
-          <KeyboardArrowLeft />
-        )}
-      </IconButton>
-      <IconButton
-        onClick={handleNextButtonClick}
-        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-        aria-label="next page"
-      >
-        {theme.direction === "rtl" ? (
-          <KeyboardArrowLeft />
-        ) : (
-          <KeyboardArrowRight />
-        )}
-      </IconButton>
-      <IconButton
-        onClick={handleLastPageButtonClick}
-        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-        aria-label="last pasge"
-      >
-        {theme.direction === "rtl" ? <FirstPageIcon /> : <LastPageIcon />}
-      </IconButton>
-    </Box>
+    <>
+      <Box sx={{ flexShrink: 0, ml: 2.5 }}>
+        <IconButton
+          onClick={handleFirstPageButtonClick}
+          disabled={page === 0}
+          aria-label="first page"
+        >
+          {theme.direction === "rtl" ? <LastPageIcon /> : <FirstPageIcon />}
+        </IconButton>
+        <IconButton
+          onClick={handleBackButtonClick}
+          disabled={page === 0}
+          aria-label="previous page"
+        >
+          {theme.direction === "rtl" ? (
+            <KeyboardArrowRight />
+          ) : (
+            <KeyboardArrowLeft />
+          )}
+        </IconButton>
+        <IconButton
+          onClick={handleNextButtonClick}
+          disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+          aria-label="next page"
+        >
+          {theme.direction === "rtl" ? (
+            <KeyboardArrowLeft />
+          ) : (
+            <KeyboardArrowRight />
+          )}
+        </IconButton>
+        <IconButton
+          onClick={handleLastPageButtonClick}
+          disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+          aria-label="last page"
+        >
+          {theme.direction === "rtl" ? <FirstPageIcon /> : <LastPageIcon />}
+        </IconButton>
+      </Box>
+    </>
   );
 }
 
@@ -94,6 +99,11 @@ export default function GameList() {
   const [reviewedGame, setReviewedGame] = useState("0");
   const [update, setUpdate] = useState(0);
   const [message, setMessage] = useState("");
+  const [publishers, setPublishers] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [chosenCategory, setChosenCategory] = useState("");
+  const [chosenPublisher, setChosenPublisher] = useState("");
+
 
   const gamesFetch = async () => {
     try {
@@ -125,8 +135,36 @@ export default function GameList() {
     }
   };
 
+  const categoriesFetch = async () => {
+    try {
+      const response = await fetch("/api/categories");
+      if (!response.ok) {
+        throw new Error(`Error fetching categories: ${response.statusText}`);
+      }
+      const data = await response.json();
+      setCategories(data);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
+
+  const publishersFetch = async () => {
+    try {
+      const response = await fetch("/api/publishers");
+      if (!response.ok) {
+        throw new Error(`Error fetching publishers: ${response.statusText}`);
+      }
+      const data = await response.json();
+      setPublishers(data);
+    } catch (error) {
+      console.error("Error fetching publishers:", error);
+    }
+  };
+
   useEffect(() => {
     gamesFetch();
+    publishersFetch();
+    categoriesFetch();
   }, [update]);
 
   function createData(
@@ -175,7 +213,7 @@ export default function GameList() {
   };
 
   const handleAddingReview = (id) => {
-    setUpdate(update+1);
+    setUpdate(update + 1);
     setReviewedGame(id);
   };
 
@@ -186,8 +224,17 @@ export default function GameList() {
 
   const handleSendingNewReview = () => {
     reviewSendingFetch();
-    setUpdate(update+1)
+    setUpdate(update + 1);
   };
+
+  const handleChangeOnPublisher = (event) => {
+    setChosenPublisher(event.target.value);
+  };
+
+  const handleChangeOnCategory = (event) => {
+    setChosenCategory(event.target.value);
+  };
+  
 
   const startIndex = page * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
@@ -205,6 +252,57 @@ export default function GameList() {
         >
           <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
             <TableHead>
+              <TableRow>
+                <FormControl fullWidth>
+                  <InputLabel id="categories">Category</InputLabel>
+                  <Select
+                    labelId="categories"
+                    id="select-category"
+                    value={chosenCategory}
+                    label="Category"
+                    onChange={handleChangeOnCategory}
+                  >
+                    {categories.map((category, index) => (
+                      <MenuItem
+                        key={category.name + index}
+                        value={category.publicID}
+                      >
+                        {category.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                <FormControl fullWidth>
+                  <InputLabel id="publishers">Publisher</InputLabel>
+                  <Select
+                    labelId="publishers"
+                    id="select-publisher"
+                    value={chosenPublisher}
+                    label="Publisher"
+                    onChange={handleChangeOnPublisher}
+                  >
+                    {publishers.map((publisher, index) => (
+                      <MenuItem
+                        key={publisher.publisherName + index}
+                        value={publisher.publicID}
+                      >
+                        {publisher.publisherName}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                </TableRow>
+                <TableRow>
+                <Autocomplete
+                  disablePortal
+                  id="combo-box-demo"
+                  options={games.map((game) => ({label : game.gameName}))}
+                  sx={{ width: 300 }}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Game" />
+                  )}
+                />
+              </TableRow>
               <TableRow>
                 <TableCell>Board Game</TableCell>
                 <TableCell align="center">Min Player</TableCell>
