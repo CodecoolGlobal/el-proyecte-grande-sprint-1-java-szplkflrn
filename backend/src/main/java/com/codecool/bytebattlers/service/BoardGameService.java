@@ -1,7 +1,6 @@
 package com.codecool.bytebattlers.service;
 
 import com.codecool.bytebattlers.controller.dto.BoardGameDto;
-import com.codecool.bytebattlers.controller.dto.ReviewDto;
 import com.codecool.bytebattlers.mapper.BoardGameMapper;
 import com.codecool.bytebattlers.mapper.CategoryMapper;
 import com.codecool.bytebattlers.model.BoardGame;
@@ -15,10 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -68,6 +64,17 @@ public class BoardGameService {
 
     public void deleteById(UUID publicID) {
         boardGameRepository.deleteByPublicID(publicID);
+    }
+
+    public List<BoardGame> findBoardGamesByGameName(String boardGameName) {
+        return boardGameRepository.findBoardGamesByGameNameContainingIgnoreCase(boardGameName);
+    }
+
+    public List<BoardGameDto> findBoardGamesDtoByGameName(String boardGameName) {
+        List<BoardGame> searchedBoardgames = findBoardGamesByGameName(boardGameName);
+        return searchedBoardgames.stream()
+                .map(boardGameMapper::toDto)
+                .collect(Collectors.toList());
     }
 }
 
