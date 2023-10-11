@@ -19,7 +19,9 @@ import LastPageIcon from "@mui/icons-material/LastPage";
 import { Autocomplete, Input, InputLabel, TextField } from "@mui/material";
 import { MenuItem } from "@mui/material";
 import { Select } from "@mui/material";
-import { FormControl } from "@mui/material";
+import { FormControl } from "@mui/material";import { Input, Option, Select } from "@mui/base";
+import { List } from "@mui/material";
+
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -107,13 +109,33 @@ export default function GameList() {
 
   const gamesFetch = async () => {
     try {
-      const response = await fetch("/api/games");
-      const data = await response.json();
-      setGames(data);
+      // Retrieve the user token from localStorage
+      const userToken = localStorage.getItem("usertoken");
+  
+      // If the token is available, include it in the request headers
+      const headers = userToken
+        ? {
+            Authorization: `Bearer ${userToken}`,
+            "Content-Type": "application/json",
+          }
+        : { "Content-Type": "application/json" };
+  
+      const response = await fetch("/api/games", {
+        method: "GET",
+        headers: headers,
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        setGames(data);
+      } else {
+        console.error(`Error fetching games: ${response.statusText}`);
+      }
     } catch (error) {
-      console.error(error);
+      console.error("Error fetching games: ", error);
     }
   };
+  
 
   const reviewSendingFetch = async () => {
     try {
@@ -317,8 +339,9 @@ export default function GameList() {
             <TableBody>
               {displayedRows.map((row) => (
                 <TableRow key={row.name}>
+                  
                   <TableCell component="th" scope="row" style={{ width: 160 }}>
-                    {row.name}
+                    <Link to={`/games/${row.publicID}`}>{row.name}</Link>
                   </TableCell>
 
                   <TableCell

@@ -17,4 +17,6 @@ public interface BoardGameRepository extends JpaRepository<BoardGame, Long> {
 
     void deleteByPublicID(UUID publicID);
 
+    List<BoardGame> findBoardGamesByGameNameContainingIgnoreCase(String boardGameName);
+
 }

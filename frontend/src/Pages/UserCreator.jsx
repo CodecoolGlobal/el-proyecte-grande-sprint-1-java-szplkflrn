@@ -43,7 +43,6 @@ const UserCreator = () => {
                 break;
             }
         }
-
         if (userExists) {
             alert("This user is already registered!");
         } else {
@@ -56,7 +55,6 @@ const UserCreator = () => {
                 })
         }
     };
-
     return (
         <Register
         onCancel={() => navigate("/")}
