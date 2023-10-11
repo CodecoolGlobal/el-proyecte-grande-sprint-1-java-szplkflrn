@@ -97,13 +97,33 @@ export default function GameList() {
 
   const gamesFetch = async () => {
     try {
-      const response = await fetch("/api/games");
-      const data = await response.json();
-      setGames(data);
+      // Retrieve the user token from localStorage
+      const userToken = localStorage.getItem("usertoken");
+  
+      // If the token is available, include it in the request headers
+      const headers = userToken
+        ? {
+            Authorization: `Bearer ${userToken}`,
+            "Content-Type": "application/json",
+          }
+        : { "Content-Type": "application/json" };
+  
+      const response = await fetch("/api/games", {
+        method: "GET",
+        headers: headers,
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        setGames(data);
+      } else {
+        console.error(`Error fetching games: ${response.statusText}`);
+      }
     } catch (error) {
-      console.error(error);
+      console.error("Error fetching games: ", error);
     }
   };
+  
 
   const reviewSendingFetch = async () => {
     try {
