@@ -12,8 +12,8 @@ import GameList from './Pages/GameList.jsx';
 import BoardGameCreator from './Pages/BoardGameCreator.jsx';
 import ErrorPage from './Pages/ErrorPage.jsx';
 import Login from './Pages/Login/Login.jsx';
-import Register from './Pages/Register/Register.jsx';
 import UserCreator from './Pages/UserCreator.jsx';
+import GameDetails from './Pages/GameDetails/GameDetails.jsx';
 
 const router = createBrowserRouter([
   {
@@ -36,6 +36,10 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login />,
+      },
+      {
+        path: "/games/:id",
+        element: <GameDetails />,
       },
       {
         path: "/games/register",
