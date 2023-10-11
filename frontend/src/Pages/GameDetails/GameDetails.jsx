@@ -63,7 +63,7 @@ export default function GameDetails() {
           </div>
 
           <div class="flex-child-green">
-            <Typography variant="h5" textAlign={'right'}>
+            <Typography variant="h5" >
               NAME OF THE ****GAME
             </Typography>
             <Typography color="textSecondary" >

@@ -228,16 +228,6 @@ export default function GameList() {
           <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
             <TableHead>
               <TableRow>
-              <TableCell>
-                  <h3>Search</h3>
-                </TableCell>
-                <TableCell>
-                  <Select>
-                  <Option>Hello</Option>
-                  </Select>
-                </TableCell>
-              </TableRow>
-              <TableRow>
                 <TableCell>Board Game</TableCell>
                 <TableCell align="center">Min Player</TableCell>
                 <TableCell align="center">Max Player</TableCell>
