@@ -56,7 +56,7 @@ public class BoardGameController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/api/search")
+    @GetMapping("/search")
     @ResponseBody
     public ResponseEntity<List<BoardGameDto>> findBoardGamesByName(@RequestParam String boardGameName) {
         if (boardGameService.findBoardGamesDtoByGameName(boardGameName).isEmpty()) {
@@ -65,5 +65,77 @@ public class BoardGameController {
             return new ResponseEntity<>(boardGameService.findBoardGamesDtoByGameName(boardGameName), HttpStatus.OK);
         }
     }
+    @GetMapping("/publisher")
+    @ResponseBody
+    public ResponseEntity<List<BoardGameDto>> findBoardGamesByPublisher(@RequestParam UUID publicID) {
+        if (boardGameService.findBoardGamesByPublisherPublicID(publicID).isEmpty()) {
+            throw new ResourceNotFoundException("No found game");
+        } else {
+            return new ResponseEntity<>(boardGameService.findBoardGamesByPublisherPublicID(publicID), HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/category")
+    @ResponseBody
+    public ResponseEntity<List<BoardGameDto>> findBoardGamesByCategory(@RequestParam UUID publicID) {
+        if (boardGameService.findBoardGamesByCategory(publicID).isEmpty()) {
+            throw new ResourceNotFoundException("No found game");
+        } else {
+            return new ResponseEntity<>(boardGameService.findBoardGamesByCategory(publicID), HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/sort")
+    @ResponseBody
+    public ResponseEntity<List<BoardGameDto>> sortBy(@RequestParam String sort) {
+        if (boardGameService.sortByName(sort).isEmpty()) {
+            throw new ResourceNotFoundException("No found game");
+        } else {
+            return new ResponseEntity<>(boardGameService.sortByName(sort), HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/description")
+    @ResponseBody
+    public ResponseEntity<List<BoardGameDto>> findBoardGamesByDescription(@RequestParam String desc) {
+        if (boardGameService.findBoardGamesByDescription(desc).isEmpty()) {
+            throw new ResourceNotFoundException("No found game");
+        } else {
+            return new ResponseEntity<>(boardGameService.findBoardGamesByDescription(desc), HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/maxplayer")
+    @ResponseBody
+    public ResponseEntity<List<BoardGameDto>> findAllBoardGamesLesserThanOrEqualsByMaxPlayer(@RequestParam int max) {
+        if (boardGameService.findByLessThanOrEqualsMaxPlayer(max).isEmpty()) {
+            throw new ResourceNotFoundException("No found game");
+        } else {
+            return new ResponseEntity<>(boardGameService.findByLessThanOrEqualsMaxPlayer(max), HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/minplayer")
+    @ResponseBody
+    public ResponseEntity<List<BoardGameDto>> findAllBoardGamesGreaterThanOrEqualsByMinPlayer(@RequestParam int min) {
+        if (boardGameService.findByMoreThanOrEqualsMinPlayer(min).isEmpty()) {
+            throw new ResourceNotFoundException("No found game");
+        } else {
+            return new ResponseEntity<>(boardGameService.findByMoreThanOrEqualsMinPlayer(min), HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/rating")
+    @ResponseBody
+    public ResponseEntity<List<BoardGameDto>> findAllBoardGamesGreaterThanOrEqualsByMinPlayer(@RequestParam double rating) {
+        if (boardGameService.findByMoreThanOrEqualsRating(rating).isEmpty()) {
+            throw new ResourceNotFoundException("No found game");
+        } else {
+            return new ResponseEntity<>(boardGameService.findByMoreThanOrEqualsRating(rating), HttpStatus.OK);
+        }
+    }
+
+
+
 
 }
