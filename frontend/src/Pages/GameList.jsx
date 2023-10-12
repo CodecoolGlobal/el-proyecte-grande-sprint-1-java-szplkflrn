@@ -22,6 +22,7 @@ import { MenuItem } from "@mui/material";
 import { Select } from "@mui/material";
 import { FormControl } from "@mui/material";
 
+import { Link } from "@mui/material";
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -98,7 +99,6 @@ export default function GameList() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [games, setGames] = useState([]);
-  const [reviewedGame, setReviewedGame] = useState("0");
   const [update, setUpdate] = useState(0);
   const [message, setMessage] = useState("");
   const [publishers, setPublishers] = useState([]);
@@ -109,10 +109,7 @@ export default function GameList() {
 
   const gamesFetch = async () => {
     try {
-      // Retrieve the user token from localStorage
       const userToken = localStorage.getItem("usertoken");
-  
-      // If the token is available, include it in the request headers
       const headers = userToken
         ? {
             Authorization: `Bearer ${userToken}`,
@@ -137,25 +134,6 @@ export default function GameList() {
   };
   
 
-  const reviewSendingFetch = async () => {
-    try {
-      const response = await fetch("/api/reviews", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          description: `${message}`,
-          boardGamePublicID: `${reviewedGame}`,
-          appUserPublicID: "0de68408-c461-43d4-902a-f2abe560a6a3",
-        }),
-      });
-      const data = await response.json();
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const categoriesFetch = async () => {
     try {
@@ -234,29 +212,11 @@ export default function GameList() {
     setPage(newPage);
   };
 
-  const handleAddingReview = (id) => {
-    setUpdate(update + 1);
-    setReviewedGame(id);
-  };
-
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
 
-  const handleSendingNewReview = () => {
-    reviewSendingFetch();
-    setUpdate(update + 1);
-  };
-
-  const handleChangeOnPublisher = (event) => {
-    setChosenPublisher(event.target.value);
-  };
-
-  const handleChangeOnCategory = (event) => {
-    setChosenCategory(event.target.value);
-  };
-  
 
   const startIndex = page * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
@@ -333,7 +293,6 @@ export default function GameList() {
                 <TableCell align="center">Publisher</TableCell>
                 <TableCell align="center">Categories</TableCell>
                 <TableCell align="center">Rating</TableCell>
-                <TableCell align="center">Reviews</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -341,7 +300,7 @@ export default function GameList() {
                 <TableRow key={row.name}>
                   
                   <TableCell component="th" scope="row" style={{ width: 160 }}>
-                    <Link to={`/games/${row.publicID}`}>{row.name}</Link>
+                    <Link border={"none"} href={`/games/${row.publicID}`}>{row.name}</Link>
                   </TableCell>
 
                   <TableCell
@@ -392,28 +351,6 @@ export default function GameList() {
                   <TableCell style={{ width: 160 }} align="center">
                     {row.rating}
                   </TableCell>
-
-                  <TableCell
-                    component="th"
-                    align="center"
-                    scope="row"
-                    style={{ width: 100 }}
-                  >
-                    {row.reviews.length > 0 ? (
-                      row.reviews.map((review) => (
-                        <p key={review.publicID}>{review.description}</p>
-                      ))
-                    ) : (
-                      <p>
-                        <button
-                          type="button"
-                          onClick={() => handleAddingReview(row.publicID)}
-                        >
-                          Add reviews
-                        </button>
-                      </p>
-                    )}
-                  </TableCell>
                 </TableRow>
               ))}
               {emptyRows > 0 && (
@@ -439,40 +376,6 @@ export default function GameList() {
           </Table>
         </TableContainer>
       </div>
-      <>
-        {update ? (
-          <div>
-            <input
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                margin: "auto",
-              }}
-              type="text"
-              placeholder="Add new review"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-            />
-            <button
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                margin: "auto",
-              }}
-              type="button"
-              onClick={handleSendingNewReview}
-            >
-              Send in the new review
-            </button>
-          </div>
-        ) : (
-          <></>
-        )}
       </>
-    </>
   );
 }
