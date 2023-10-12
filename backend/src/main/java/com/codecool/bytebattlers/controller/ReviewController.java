@@ -24,7 +24,7 @@ public class ReviewController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ReviewDto>> getAllCategory() {
+    public ResponseEntity<List<ReviewDto>> getAllReviews() {
         if (reviewService.findAll().isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
@@ -33,21 +33,21 @@ public class ReviewController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ReviewDto> getCategoryById(@PathVariable UUID id) {
-        if (reviewService.findById(id) == null) {
+    public ResponseEntity<List<ReviewDto>> getReviewsByBoardGame(@PathVariable UUID id) {
+        if (reviewService.findAllReviewsByBoardGame(id) == null) {
             throw new ResourceNotFoundException("Not found Tutorial with id = " + id);
         } else {
-            return new ResponseEntity<>(reviewService.findById(id), HttpStatus.OK);
+            return new ResponseEntity<>(reviewService.findAllReviewsByBoardGame(id), HttpStatus.OK);
         }
     }
 
     @PostMapping
-    public ResponseEntity<ReviewDto> addNewCategory(@RequestBody ReviewDto board) {
+    public ResponseEntity<ReviewDto> addNewReview(@RequestBody ReviewDto board) {
         return new ResponseEntity<>(reviewService.save(board), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ReviewDto> deleteCategoryById(@PathVariable UUID id) {
+    public ResponseEntity<ReviewDto> deleteReviewById(@PathVariable UUID id) {
         reviewService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

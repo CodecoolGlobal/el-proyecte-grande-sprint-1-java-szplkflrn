@@ -45,7 +45,7 @@ public class BoardGameController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<BoardGameDto> addNewCategory(@RequestBody BoardGameDto board) {
         return new ResponseEntity<>(boardGameService.save(board), HttpStatus.CREATED);
     }

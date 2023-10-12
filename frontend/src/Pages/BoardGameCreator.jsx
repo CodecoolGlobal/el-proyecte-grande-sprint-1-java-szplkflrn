@@ -15,7 +15,7 @@ const BoardGameCreator = () => {
           Authorization: `Bearer ${userToken}`,
         };
     
-        const res = await fetch("/api/games", {
+        const res = await fetch("/api/games/create", {
           method: "POST",
           headers: headers,
           body: JSON.stringify(boardGame),

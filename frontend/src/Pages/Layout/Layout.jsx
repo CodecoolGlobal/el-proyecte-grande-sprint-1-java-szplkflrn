@@ -53,9 +53,10 @@ const Layout = () => {
                                 </Accordion> : null
                             }
                         </div>
-                    <li className='create'>
+                        {localStorage.userrole === "ADMIN" ?  <li className='create'>
                         <Link to="/games/create">Create a new game</Link>
-                    </li>
+                    </li> : null}
+                   
                 </ul>
             </nav>
             <Outlet />
