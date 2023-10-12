@@ -7,29 +7,57 @@ const BoardGameForm = ({ onSave, onCancel }) => {
 
   const publishersFetch = async () => {
     try {
-      const response = await fetch("/api/publishers");
+      const userToken = localStorage.getItem("usertoken");
+      const headers = userToken
+        ? {
+            Authorization: `Bearer ${userToken}`,
+            "Content-Type": "application/json",
+          }
+        : { "Content-Type": "application/json" };
+  
+      const response = await fetch("/api/publishers", {
+        method: "GET",
+        headers: headers,
+      });
+  
       if (!response.ok) {
         throw new Error(`Error fetching publishers: ${response.statusText}`);
       }
+  
       const data = await response.json();
       setPublishers(data);
     } catch (error) {
       console.error("Error fetching publishers:", error);
     }
   };
+  
 
   const categoriesFetch = async () => {
     try {
-      const response = await fetch("/api/categories");
+      const userToken = localStorage.getItem("usertoken");
+      const headers = userToken
+        ? {
+            Authorization: `Bearer ${userToken}`,
+            "Content-Type": "application/json",
+          }
+        : { "Content-Type": "application/json" };
+  
+      const response = await fetch("/api/categories", {
+        method: "GET",
+        headers: headers,
+      });
+  
       if (!response.ok) {
         throw new Error(`Error fetching categories: ${response.statusText}`);
       }
+  
       const data = await response.json();
       setCategories(data);
     } catch (error) {
       console.error("Error fetching categories:", error);
     }
   };
+  
 
 
 
