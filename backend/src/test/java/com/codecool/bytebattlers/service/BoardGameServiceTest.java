@@ -1,8 +1,6 @@
 package com.codecool.bytebattlers.service;
 
-import com.codecool.bytebattlers.controller.dto.BoardGameDto;
 import com.codecool.bytebattlers.mapper.BoardGameMapper;
-import com.codecool.bytebattlers.mapper.CategoryMapper;
 import com.codecool.bytebattlers.model.BoardGame;
 import com.codecool.bytebattlers.repository.BoardGameRepository;
 import com.codecool.bytebattlers.repository.CategoryRepository;
@@ -30,11 +28,7 @@ class BoardGameServiceTest {
     @Mock
     private CategoryRepository categoryRepository;
     @Mock
-    private CategoryService categoryService;
-    @Mock
     private BoardGameMapper boardGameMapper;
-    @Mock
-    private CategoryMapper categoryMapper;
 
     @BeforeEach
     void setUp() {
@@ -43,9 +37,7 @@ class BoardGameServiceTest {
                 this.boardGameRepository,
                 this.publisherService,
                 this.boardGameMapper,
-                this.categoryService,
-                this.categoryRepository,
-                this.categoryMapper
+                this.categoryRepository
         );
     }
 
