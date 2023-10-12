@@ -1,22 +1,30 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { useTheme } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableFooter from "@mui/material/TableFooter";
-import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import IconButton from "@mui/material/IconButton";
 import FirstPageIcon from "@mui/icons-material/FirstPage";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import LastPageIcon from "@mui/icons-material/LastPage";
-import { Link } from "@mui/material";
+import {
+  Link,
+  FormControl,
+  Select,
+  MenuItem,
+  Button,
+  InputLabel,
+  TextField,
+  useTheme,
+  TableBody,
+  Table,
+  Box,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableFooter,
+  TablePagination,
+  TableRow,
+  Paper,
+  IconButton,
+} from "@mui/material";
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -72,7 +80,7 @@ function TablePaginationActions(props) {
       <IconButton
         onClick={handleLastPageButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-        aria-label="last pasge"
+        aria-label="last page"
       >
         {theme.direction === "rtl" ? <FirstPageIcon /> : <LastPageIcon />}
       </IconButton>
@@ -91,8 +99,16 @@ export default function GameList() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [games, setGames] = useState([]);
-  const [update, setUpdate] = useState(0);
-  const [message, setMessage] = useState("");
+  const [search, setSearch] = useState(false);
+  const [description, setDescription] = useState("");
+  const [publishers, setPublishers] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [chosenCategory, setChosenCategory] = useState("");
+  const [chosenPublisher, setChosenPublisher] = useState("");
+  const [searchField, setSearchField] = useState("");
+  const [maxPlayer, setMaxPlayer] = useState(100);
+  const [minPlayer, setMinPlayer] = useState(0);
+  const [rating, setRating] = useState(0.0);
 
   const gamesFetch = async () => {
     try {
@@ -103,12 +119,12 @@ export default function GameList() {
             "Content-Type": "application/json",
           }
         : { "Content-Type": "application/json" };
-  
+
       const response = await fetch("/api/games", {
         method: "GET",
         headers: headers,
       });
-  
+
       if (response.ok) {
         const data = await response.json();
         setGames(data);
@@ -119,12 +135,207 @@ export default function GameList() {
       console.error("Error fetching games: ", error);
     }
   };
-  
 
+  const filterGamesFetch = async (searchField) => {
+    try {
+      const userToken = localStorage.getItem("usertoken");
+      const headers = userToken
+        ? {
+            Authorization: `Bearer ${userToken}`,
+            "Content-Type": "application/json",
+          }
+        : { "Content-Type": "application/json" };
+      const response = await fetch(
+        `/api/games/search?boardGameName=${searchField}`,
+        {
+          method: "GET",
+          headers: headers,
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        setGames(data);
+      } else {
+        console.error(`Error fetching games: ${response.statusText}`);
+      }
+    } catch (error) {
+      console.error("Error fetching games: ", error);
+    }
+  };
+
+  const categoriesFetch = async () => {
+    try {
+      const response = await fetch("/api/categories");
+      if (!response.ok) {
+        throw new Error(`Error fetching categories: ${response.statusText}`);
+      }
+      const data = await response.json();
+      setCategories(data);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
+
+  const filterByCategoryFetch = async (chosenCategory) => {
+    try {
+      const response = await fetch(
+        `/api/games/category?publicID=${chosenCategory}`
+      );
+      if (!response.ok) {
+        throw new Error(`Error fetching categories: ${response.statusText}`);
+      }
+      const data = await response.json();
+      setGames(data);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
+
+  const filterByMaxPlayerFetch = async (maxPlayer) => {
+    try {
+      const response = await fetch(`/api/games/maxplayer?max=${maxPlayer}`);
+      if (!response.ok) {
+        throw new Error(`Error fetching categories: ${response.statusText}`);
+      }
+      const data = await response.json();
+      setGames(data);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
+
+  const filterByMinPlayerFetch = async (minPlayer) => {
+    try {
+      const response = await fetch(`/api/games/minplayer?min=${minPlayer}`);
+      if (!response.ok) {
+        throw new Error(`Error fetching categories: ${response.statusText}`);
+      }
+      const data = await response.json();
+      setGames(data);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
+
+  const filterByRatingFetch = async (rating) => {
+    try {
+      const response = await fetch(`/api/games/rating?rating=${rating}`);
+      if (!response.ok) {
+        throw new Error(`Error fetching categories: ${response.statusText}`);
+      }
+      const data = await response.json();
+      setGames(data);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
+
+  const filterByDescriptionFetch = async (description) => {
+    try {
+      const response = await fetch(
+        `/api/games/description?desc=${description}`
+      );
+      if (!response.ok) {
+        throw new Error(`Error fetching categories: ${response.statusText}`);
+      }
+      const data = await response.json();
+      setGames(data);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
+
+  const filterByPublisherFetch = async (chosenPublisher) => {
+    try {
+      const response = await fetch(
+        `/api/games/publisher?publicID=${chosenPublisher}`
+      );
+      if (!response.ok) {
+        throw new Error(`Error fetching publishers: ${response.statusText}`);
+      }
+      const data = await response.json();
+      setGames(data);
+    } catch (error) {
+      console.error("Error fetching publishers:", error);
+    }
+  };
+
+  const publishersFetch = async () => {
+    try {
+      const response = await fetch("/api/publishers");
+      if (!response.ok) {
+        throw new Error(`Error fetching publishers: ${response.statusText}`);
+      }
+      const data = await response.json();
+      setPublishers(data);
+    } catch (error) {
+      console.error("Error fetching publishers:", error);
+    }
+  };
 
   useEffect(() => {
     gamesFetch();
+    publishersFetch();
+    categoriesFetch();
   }, []);
+
+  useEffect(() => {
+    if (searchField.length > 0) {
+      filterGamesFetch(searchField);
+    } else {
+      setSearchField("");
+      filterGamesFetch(searchField);
+    }
+  }, [searchField]);
+
+  useEffect(() => {
+    if (chosenPublisher.length > 0) {
+      filterByPublisherFetch(chosenPublisher);
+    }
+  }, [chosenPublisher]);
+
+  useEffect(() => {
+    if (chosenCategory.length > 0) {
+      filterByCategoryFetch(chosenCategory);
+    }
+  }, [chosenCategory]);
+
+  useEffect(() => {
+    if (description.length > 0) {
+      filterByDescriptionFetch(description);
+    } else {
+      setSearchField("");
+      filterByDescriptionFetch(description);
+    }
+  }, [description]);
+
+  useEffect(() => {
+    if (minPlayer > 0) {
+      filterByMinPlayerFetch(minPlayer);
+    } else {
+      setMinPlayer(0);
+      filterByMinPlayerFetch(minPlayer);
+    }
+  }, [minPlayer]);
+
+  useEffect(() => {
+    if (maxPlayer < 100) {
+      filterByMaxPlayerFetch(maxPlayer);
+    } else {
+      setMaxPlayer(100);
+      filterByMaxPlayerFetch(maxPlayer);
+    }
+  }, [maxPlayer]);
+
+  useEffect(() => {
+    if (rating > 0) {
+      filterByRatingFetch(rating);
+    } else {
+      setRating(0.0);
+      filterByRatingFetch(rating);
+    }
+  }, [rating]);
 
   function createData(
     publicID,
@@ -176,6 +387,53 @@ export default function GameList() {
     setPage(0);
   };
 
+  const handleChangeOnPublisher = (event) => {
+    setChosenPublisher(event.target.value);
+  };
+
+  const handleChangeOnCategory = (event) => {
+    setChosenCategory(event.target.value);
+  };
+
+  const handleChangeOnSearchGame = (event) => {
+    if (event.target.value !== null) {
+      setSearchField(event.target.value);
+    } else {
+      setSearchField("");
+    }
+  };
+
+  const handleChangeOnDescription = (event) => {
+    if (event.target.value !== null) {
+      setDescription(event.target.value);
+    } else {
+      setDescription("");
+    }
+  };
+
+  const handleChangeOnRating = (event) => {
+    if (event.target.value !== null) {
+      setRating(event.target.value);
+    } else {
+      setRating(0.0);
+    }
+  };
+
+  const handleChangeOnMaxPlayer = (event) => {
+    if (event.target.value !== null) {
+      setMaxPlayer(event.target.value);
+    } else {
+      setMaxPlayer(100);
+    }
+  };
+
+  const handleChangeOnMinPlayer = (event) => {
+    if (event.target.value !== null) {
+      setMinPlayer(event.target.value);
+    } else {
+      setMinPlayer(0);
+    }
+  };
 
   const startIndex = page * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
@@ -188,13 +446,106 @@ export default function GameList() {
         <br />
         <TableContainer
           component={Paper}
-          sx={{ maxWidth: 1000, margin: "auto", opacity: 0.9 }}
+          sx={{ maxWidth: 1200, margin: "auto", opacity: 0.9 }}
           align="center"
         >
           <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
             <TableHead>
+              {search ? (
+                <TableRow>
+                  <TableCell>
+                    <TextField
+                      label="Game"
+                      onChange={handleChangeOnSearchGame}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <TextField
+                      inputProps={{ type: "number", min: 1 }}
+                      label="Min Player"
+                      onChange={handleChangeOnMinPlayer}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <TextField
+                      inputProps={{ type: "number", min: 1 }}
+                      label="Max Player"
+                      onChange={handleChangeOnMaxPlayer}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <TextField
+                      label="Description"
+                      onChange={handleChangeOnDescription}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <FormControl sx={{ width: 200 }}>
+                      <InputLabel id="publishers">Publisher</InputLabel>
+                      <Select
+                        labelId="publishers"
+                        id="select-publisher"
+                        value={chosenPublisher}
+                        label="Publisher"
+                        onChange={handleChangeOnPublisher}
+                      >
+                        {publishers.map((publisher, index) => (
+                          <MenuItem
+                            key={publisher.publisherName + index}
+                            value={publisher.publicID}
+                          >
+                            {publisher.publisherName}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </TableCell>
+                  <TableCell>
+                    <FormControl sx={{ width: 200 }}>
+                      <InputLabel id="categories">Category</InputLabel>
+                      <Select
+                        labelId="categories"
+                        id="select-category"
+                        value={chosenCategory}
+                        label="Category"
+                        onChange={handleChangeOnCategory}
+                      >
+                        {categories.map((category, index) => (
+                          <MenuItem
+                            key={category.name + index}
+                            value={category.publicID}
+                          >
+                            {category.name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </TableCell>
+                  <TableCell>
+                    <TextField
+                      inputProps={{ type: "number", min: 0 }}
+                      label="Rating"
+                      onChange={handleChangeOnRating}
+                    />
+                  </TableCell>
+                </TableRow>
+              ) : (
+                <TableRow>
+                  <TableCell></TableCell>
+                  <TableCell></TableCell>
+                  <TableCell></TableCell>
+                  <TableCell align="center">
+                    <Button onClick={() => setSearch(true)} variant="text">
+                      Advanced search
+                    </Button>
+                  </TableCell>
+                  <TableCell></TableCell>
+                  <TableCell></TableCell>
+                  <TableCell></TableCell>
+                </TableRow>
+              )}
               <TableRow>
-                <TableCell>Board Game</TableCell>
+                <TableCell align="center">Board Game</TableCell>
                 <TableCell align="center">Min Player</TableCell>
                 <TableCell align="center">Max Player</TableCell>
                 <TableCell align="center">Description</TableCell>
@@ -206,11 +557,11 @@ export default function GameList() {
             <TableBody>
               {displayedRows.map((row) => (
                 <TableRow key={row.name}>
-                  
                   <TableCell component="th" scope="row" style={{ width: 160 }}>
-                    <Link border={"none"} href={`/games/${row.publicID}`}>{row.name}</Link>
+                    <Link border={"none"} href={`/games/${row.publicID}`}>
+                      {row.name}
+                    </Link>
                   </TableCell>
-
                   <TableCell
                     component="th"
                     align="center"
@@ -219,7 +570,6 @@ export default function GameList() {
                   >
                     {row.minplayer}
                   </TableCell>
-
                   <TableCell
                     component="th"
                     align="center"
@@ -244,18 +594,18 @@ export default function GameList() {
                   >
                     {row.publisherPublisherName}
                   </TableCell>
-
                   <TableCell
                     component="th"
                     align="center"
                     scope="row"
                     style={{ width: 50 }}
                   >
-                    {row.categories.map((category) => {
-                      return <p key={category.publicID}>{category.name}</p>;
-                    })}
+                    {row.categories === undefined
+                      ? ""
+                      : row.categories.map((category) => {
+                          return <p key={category.publicID}>{category.name}</p>;
+                        })}
                   </TableCell>
-
                   <TableCell style={{ width: 160 }} align="center">
                     {row.rating}
                   </TableCell>
@@ -284,6 +634,6 @@ export default function GameList() {
           </Table>
         </TableContainer>
       </div>
-      </>
+    </>
   );
 }

@@ -74,5 +74,53 @@ public class BoardGameService {
                 .map(boardGameMapper::toDto)
                 .toList();
     }
+
+    public List<BoardGameDto> findBoardGamesByPublisherPublicID(UUID publisherID) {
+        Publisher foundPublisher = publisherService.findByPublicId(publisherID);
+        return boardGameRepository.findBoardGamesByPublisher(foundPublisher)
+                .stream().map(boardGameMapper::toDto)
+                .toList();
+    }
+
+    public List<BoardGameDto> findBoardGamesByCategory(UUID publicId) {
+        Category foundCategory = categoryRepository.findCategoryByPublicID(publicId);
+        return boardGameRepository.findBoardGamesByCategoriesContaining(foundCategory)
+                .stream().map(boardGameMapper::toDto).toList();
+    }
+
+    public List<BoardGameDto> findBoardGamesByDescription(String description) {
+        return boardGameRepository.findBoardGamesByDescriptionContainsIgnoreCase(description)
+                .stream().map(boardGameMapper::toDto).toList();
+    }
+
+    public List<BoardGameDto> sortByName(String order) {
+        if (order.equals("asc")) {
+            return boardGameRepository.findAllByOrderByGameNameAsc()
+                    .stream().map(boardGameMapper::toDto).toList();
+        } else if (order.equals("desc")) {
+            return boardGameRepository.findAllByOrderByGameNameDesc()
+                    .stream().map(boardGameMapper::toDto)
+                    .toList();
+        }
+        return Collections.emptyList();
+    }
+
+    public List<BoardGameDto> findByLessThanOrEqualsMaxPlayer(int maxPlayer){
+       return boardGameRepository.findAllByMaxPlayerLessThanEqual(maxPlayer)
+               .stream().map(boardGameMapper::toDto)
+               .toList();
+    }
+
+    public List<BoardGameDto> findByMoreThanOrEqualsMinPlayer(int minPlayer) {
+        return boardGameRepository.findAllByMinPlayerGreaterThanEqual(minPlayer)
+                .stream().map(boardGameMapper::toDto)
+                .toList();
+    }
+
+    public List<BoardGameDto> findByMoreThanOrEqualsRating(double rating) {
+        return boardGameRepository.findBoardGamesByRatingGreaterThanEqual(rating)
+                .stream().map(boardGameMapper::toDto)
+                .toList();
+    }
 }
 
