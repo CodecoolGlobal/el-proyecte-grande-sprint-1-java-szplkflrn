@@ -15,19 +15,22 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { Grid,TextField,Button } from '@mui/material';
 import "./GameDetails.css";
-
 
 const imgStyle = {
   maxWidth: 300
 }
 
-
 export default function GameDetails() {
   const { id } = useParams();
   const [boardGame, setBoardGame] = useState(null);
   const [reviewObjects, setReviewObjects] = useState([]);
+  const [isAccordionExpanded, setIsAccordionExpanded] = useState(false);
 
+  const handleAccordionToggle = () => {
+    setIsAccordionExpanded(!isAccordionExpanded);
+  };
 
   const createReview = async (review) => {
     try {
@@ -54,7 +57,6 @@ export default function GameDetails() {
     }
   };
 
-
   const fetchReviewsForGame = async (id) => {
     try {
       const userToken = localStorage.getItem("usertoken");
@@ -79,7 +81,6 @@ export default function GameDetails() {
       console.error("Error fetching reviews: ", error);
     }
   };
-
 
   const fetchBoardGame = async (id) => {
     try {
@@ -106,8 +107,7 @@ export default function GameDetails() {
     }
   };
 
-
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const entries = [...formData.entries()];
@@ -125,28 +125,39 @@ export default function GameDetails() {
       return acc;
     }, {});
 
-    review.appUserPublicID = localStorage.getItem("userID")
-    review.boardGamePublicID = boardGame.publicID
+    review.appUserPublicID = localStorage.getItem("userID");
+    review.boardGamePublicID = boardGame.publicID;
+    e.target.reset();
 
-    createReview(review)
+    try {
+      const createdReview = await createReview(review);
+      setIsAccordionExpanded(false);
+
+      // Wait for the review creation to complete and then fetch the updated reviews
+      await Promise.all([fetchReviewsForGame(id), createdReview]);
+
+    } catch (error) {
+      console.error("Error creating review: ", error);
+    }
   };
 
-
   useEffect(() => {
-    fetchBoardGame(id)
+    fetchBoardGame(id);
     fetchReviewsForGame(id);
   }, [id]);
-
-  console.log(reviewObjects)
 
   return (
     <div>
       {boardGame ? (
         <Card sx={{ maxWidth: 1000 }} style={{ margin: "auto", marginTop: 50 }}>
-          <CardContent>Categories:
-            {boardGame.categories.map((game) => {
-              return <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>{game.name}</Typography>
-            })}
+          <CardContent>
+            Categories:
+            {boardGame.categories.map((cat) => (
+              <Typography key={cat.publicID} sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                {cat.name}
+              </Typography>
+            ))}
+
             <div className="flex-container">
               <div className="flex-child magenta">
                 <img src='https://potentialplusuk.org/wp-content/uploads/2020/04/game-catan_960.jpg' style={imgStyle} alt="Game" />
@@ -166,82 +177,80 @@ export default function GameDetails() {
               Details of the game
               <br />
               <br />
-              <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Min Player</TableCell>
-                      <TableCell>Max Player</TableCell>
-                      <TableCell>Playing Time</TableCell>
-                      <TableCell>Age</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    <TableRow>
-                      <TableCell component="th" scope="row">
-                        {boardGame.minPlayer}
-                      </TableCell>
-                      <TableCell>{boardGame.maxPlayer}</TableCell>
-                      <TableCell>{boardGame.playTimeInMinutes}</TableCell>
-                      <TableCell>{boardGame.recommendedAge}</TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </TableContainer>
-              <br />
-              {localStorage.getItem("username") ?
-                <Accordion>
-                  <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel1a-content"
-                    id="panel1a-header"
-                  >
-                    <h3>Write Review</h3>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    <div className="reviewForm">
-                      <form className="reviewForm" onSubmit={onSubmit}>
-
-                        <br></br>
-                        <div className="control">
-                          <label htmlFor="description">Review: </label>
-                          <input
-                            name="description"
-                            id="description"
-                          />
-                        </div>
-
-                        <div className="buttons">
-                          <button type="submit">
-                            Add review
-                          </button>
-                        </div>
-                        <br></br>
-                      </form>
-                    </div>
-
-                  </AccordionDetails>
-                </Accordion>
-                : null
-              }
-
-              {boardGame.reviews.length ?
-                <Accordion>
-                  <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel1a-content"
-                    id="panel1a-header"
-                  >
-                    <h3>Reviews</h3>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    {reviewObjects.map((review) => {
-                      return <div><h2>{review.description}</h2><p>Review by: {review.appUserName}</p><br></br></div>
-                    })}
-                  </AccordionDetails>
-                </Accordion> : null
-              }
             </Typography>
+
+            <TableContainer component={Paper}>
+              <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Min Player</TableCell>
+                    <TableCell>Max Player</TableCell>
+                    <TableCell>Playing Time</TableCell>
+                    <TableCell>Age</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  <TableRow>
+                    <TableCell component="th" scope="row">
+                      {boardGame.minPlayer}
+                    </TableCell>
+                    <TableCell>{boardGame.maxPlayer}</TableCell>
+                    <TableCell>{boardGame.playTimeInMinutes}</TableCell>
+                    <TableCell>{boardGame.recommendedAge}</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <br />
+            {localStorage.getItem("username") ?
+              <Accordion expanded={isAccordionExpanded} onChange={handleAccordionToggle}>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+                <Typography variant="h6">Write Review</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <div className="reviewForm">
+                  <form className="reviewForm" onSubmit={onSubmit}>
+                    <Grid container spacing={2}>
+                      <Grid item xs={12}>
+                        <TextField
+                          fullWidth
+                          variant="outlined"
+                          label="Review"
+                          name="description"
+                          id="description"
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Button type="submit" variant="contained" color="primary">
+                          Add review
+                        </Button>
+                      </Grid>
+                    </Grid>
+                  </form>
+                </div>
+              </AccordionDetails>
+            </Accordion>
+              : null}
+            {boardGame.reviews.length ?
+              <Accordion>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                >
+                  <h3>Reviews</h3>
+                </AccordionSummary>
+                <AccordionDetails>
+                  {reviewObjects.map((review) => (
+                    <div key={review.publicID}>
+                      <Typography variant="h6">{review.description}</Typography>
+                      <Typography variant="body2">Review by: {review.appUserName}</Typography>
+                      <br />
+                    </div>
+                  ))}
+                </AccordionDetails>
+              </Accordion> : null
+            }
           </CardContent>
         </Card>
       ) : (
@@ -250,6 +259,3 @@ export default function GameDetails() {
     </div>
   );
 }
-
-
-
