@@ -143,7 +143,7 @@ export default function GameDetails() {
     <div>
       {boardGame ? (
         <Card sx={{ maxWidth: 1000 }} style={{ margin: "auto", marginTop: 50 }}>
-          <CardContent>
+          <CardContent>Categories:
             {boardGame.categories.map((game) => {
               return <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>{game.name}</Typography>
             })}
@@ -236,7 +236,7 @@ export default function GameDetails() {
                   </AccordionSummary>
                   <AccordionDetails>
                     {reviewObjects.map((review) => {
-                      return <div><h2>{review.description}</h2><p>Review by: {review.appUserPublicID}</p><br></br></div>
+                      return <div><h2>{review.description}</h2><p>Review by: {review.appUserName}</p><br></br></div>
                     })}
                   </AccordionDetails>
                 </Accordion> : null

@@ -11,6 +11,7 @@ public interface ReviewMapper {
     Review partialUpdate(ReviewDto reviewDto, @MappingTarget Review review);
 
     @Mapping(source = "appUserPublicID", target = "appUser.publicID")
+    @Mapping(source = "appUserName", target = "appUser.name")
     @Mapping(source = "boardGamePublicID", target = "boardGame.publicID")
     Review toEntity(ReviewDto reviewDto);
 
