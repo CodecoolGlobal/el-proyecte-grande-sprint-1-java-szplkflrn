@@ -22,6 +22,8 @@ const Login = ({ onCancel }) => {
             .then((response) => {
                     navigate("/");
                     localStorage.setItem("usertoken", response.token);
+                    localStorage.setItem("username", user.email.split("@")[0]);
+                    console.log(user.email.split("@")[0]);
             })
             .catch((error) => {
                 console.error("Error login user: ", error);
@@ -47,7 +49,6 @@ const Login = ({ onCancel }) => {
         }, {});
 
         //user.reviews = [];
-        console.log(user);
         handleLoginUser(user);
     };
 
