@@ -19,7 +19,9 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -28,7 +30,6 @@ public class UserService {
     private final AppUserRepository userRepository;
     private final AppUserMapper entityMapper;
     private final JwtService service;
-
     private final AuthenticationManager authenticationManager;
 
     @Autowired
@@ -45,6 +46,12 @@ public class UserService {
                 .map(entityMapper::toDto).toList();
     }
 
+    public List<AppUserDto> findAllByBoardGame(List<String> userids) {
+       return userids.stream().map(userid -> userRepository.findAppUsersByPublicID(UUID.fromString(userid))).toList().stream()
+               .map(entityMapper::toDto).toList();
+    }
+
+
     public AppUserDto register(AppUserDto userDto) {
         AppUser user = entityMapper.toEntity(userDto);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -54,12 +61,6 @@ public class UserService {
     }
 
     public AuthenticationResponse authenticate(AppUserDto appUserDto){
-      /*  authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        appUserDto.email(),
-                        appUserDto.password()
-                )
-        ); */
         AppUser user = userRepository.findByEmail(appUserDto.email())
                 .orElseThrow();
 
@@ -67,7 +68,8 @@ public class UserService {
         if(passwordEncoder.matches(appUserDto.password(), user.getPassword())){
             List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(user.getRole().name()));
             User actualuser = new User(user.getEmail(), user.getPassword(), authorities);
-            var jwtToken = service.generateToken(actualuser);
+            String pubID = String.valueOf(user.getPublicID());
+            var jwtToken = service.generateToken(actualuser,pubID);
             return AuthenticationResponse.builder()
                     .token(jwtToken)
                     .build();
@@ -84,6 +86,18 @@ public class UserService {
     public AppUserDto findById(UUID publicID) {
         return entityMapper.toDto(userRepository.findAppUsersByPublicID(publicID));
     }
+    public AppUserDto findByEmail(String email) {
+        Optional<AppUser> appUser = userRepository.findByEmail(email);
+
+        if (appUser.isEmpty()) {
+            throw new UsernameNotFoundException("User not found!");
+        }
+
+        AppUser user = appUser.get();
+        return entityMapper.toDto(user);
+    }
+
+
 
     public AppUser findByPublicID(UUID uuid) {
         return userRepository.findAppUsersByPublicID(uuid);

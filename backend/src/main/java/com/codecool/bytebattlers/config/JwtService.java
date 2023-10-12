@@ -27,15 +27,18 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-    public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+    public String generateToken(UserDetails userDetails, String pubID) {
+        return generateToken(new HashMap<>(), userDetails, pubID);
     }
 
 
     public String generateToken(
             Map<String, Object> extraClaims,
-            UserDetails userDetails
+            UserDetails userDetails, String pubID
     ) {
+
+        extraClaims.put("role", userDetails.getAuthorities());
+        extraClaims.put("publicID",pubID);
         return Jwts.builder()
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())

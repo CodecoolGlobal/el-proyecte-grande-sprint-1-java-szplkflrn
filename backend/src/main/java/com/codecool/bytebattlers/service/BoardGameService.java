@@ -2,14 +2,11 @@ package com.codecool.bytebattlers.service;
 
 import com.codecool.bytebattlers.controller.dto.BoardGameDto;
 import com.codecool.bytebattlers.mapper.BoardGameMapper;
-import com.codecool.bytebattlers.mapper.CategoryMapper;
 import com.codecool.bytebattlers.model.BoardGame;
 import com.codecool.bytebattlers.model.Category;
 import com.codecool.bytebattlers.model.Publisher;
 import com.codecool.bytebattlers.repository.BoardGameRepository;
 import com.codecool.bytebattlers.repository.CategoryRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,20 +17,21 @@ import java.util.stream.Collectors;
 @Service
 public class BoardGameService {
 
-    private BoardGameRepository boardGameRepository;
+    private final BoardGameRepository boardGameRepository;
     private final PublisherService publisherService;
-    private BoardGameMapper boardGameMapper;
+    private final BoardGameMapper boardGameMapper;
     private final CategoryRepository categoryRepository;
-    private final CategoryMapper categoryMapper;
-    private final Logger logger = LoggerFactory.getLogger(BoardGameService.class);
 
     @Autowired
-    public BoardGameService(BoardGameRepository boardGameRepository, PublisherService publisherService, BoardGameMapper boardGameMapper, CategoryService categoryService, CategoryRepository categoryRepository, CategoryMapper categoryMapper) {
+    public BoardGameService(
+            BoardGameRepository boardGameRepository,
+            PublisherService publisherService,
+            BoardGameMapper boardGameMapper,
+            CategoryRepository categoryRepository) {
         this.boardGameRepository = boardGameRepository;
         this.publisherService = publisherService;
         this.boardGameMapper = boardGameMapper;
         this.categoryRepository = categoryRepository;
-        this.categoryMapper = categoryMapper;
     }
 
 

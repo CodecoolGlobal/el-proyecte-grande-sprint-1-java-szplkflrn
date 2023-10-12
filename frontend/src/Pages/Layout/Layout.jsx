@@ -25,19 +25,22 @@ const Layout = () => {
         <div className="Layout">
             <nav>
                 <ul>
+                <Button className="grow">
+                        <Link to="/">Home</Link>
+                    </Button>
                     <li className="grow">
                         <Link to="/games">All games</Link>
                     </li>
                         <div className="center">
                             {username ? 
-                                <Accordion sx={{ width: '250px' }}>
+                                <Accordion sx={{ width: '220px' }}>
                                     {/* Adjust the width as needed */}
                                     <AccordionSummary
                                         expandIcon={<ExpandMoreIcon />}
                                         aria-controls="panel1a-content"
                                         id="panel1a-header"
                                     >
-                                        <Typography>Welcome {username}</Typography>
+                                        <Typography>Welcome: <b>{username}</b></Typography>
                                     </AccordionSummary>
                                     <AccordionDetails>
                                         <Button onClick={() => {
@@ -53,9 +56,10 @@ const Layout = () => {
                                 </Accordion> : null
                             }
                         </div>
-                    <li className='create'>
+                        {localStorage.userrole === "ADMIN" ?  <li className='create'>
                         <Link to="/games/create">Create a new game</Link>
-                    </li>
+                    </li> : null}
+                   
                 </ul>
             </nav>
             <Outlet />

@@ -2,8 +2,34 @@ import { useNavigate } from "react-router-dom";
 import "./login.css";
 
 const Login = ({ onCancel }) => {
-
     const navigate = useNavigate();
+
+
+    const extractUserRoleFromJWT = (token) => {
+        const parts = token.split('.');
+        
+        if (parts.length !== 3) {
+            throw new Error('Invalid JWT format');
+        }
+    
+        const decodedPayload = JSON.parse(atob(parts[1]));
+    
+        return decodedPayload.role[0].authority;
+    };
+
+    const extractUserIDFromJWT = (token) => {
+        const parts = token.split('.');
+        
+        if (parts.length !== 3) {
+            throw new Error('Invalid JWT format');
+        }
+    
+        const decodedPayload = JSON.parse(atob(parts[1]));
+    
+       
+        return decodedPayload.publicID;
+    };
+
 
     const loginUser = async (user) => {
         const res = await fetch("/api/users/login", {
@@ -21,9 +47,10 @@ const Login = ({ onCancel }) => {
         loginUser(user)
             .then((response) => {
                     navigate("/");
+                    localStorage.setItem("userrole", extractUserRoleFromJWT(response.token))
+                    localStorage.setItem("userID", extractUserIDFromJWT(response.token))
                     localStorage.setItem("usertoken", response.token);
                     localStorage.setItem("username", user.email.split("@")[0]);
-                    console.log(user.email.split("@")[0]);
             })
             .catch((error) => {
                 console.error("Error login user: ", error);
@@ -47,8 +74,6 @@ const Login = ({ onCancel }) => {
             acc[k] = v;
             return acc;
         }, {});
-
-        //user.reviews = [];
         handleLoginUser(user);
     };
 
@@ -84,7 +109,9 @@ const Login = ({ onCancel }) => {
                         <button id="login" type="submit">
                             Log in
                         </button>
-                        <button type="button" onClick={onCancel}>
+                        <br></br>
+                        <br></br>
+                        <button id="login" type="button" onClick={onCancel}>
                             Cancel
                         </button>
 
