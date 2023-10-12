@@ -42,6 +42,12 @@ public class ReviewService {
         return reviewRepository.findAll().stream().map(reviewMapper::toDto).toList();
     }
 
+    public List<ReviewDto> findAllReviewsByBoardGame(UUID id){
+        BoardGame foundBoardgame = boardGameService.findByPublicID(id);
+        Set<Review> foundBoardGameReviews = foundBoardgame.getReviews();
+         return foundBoardGameReviews.stream().map(reviewMapper::toDto).toList();
+    }
+
     public ReviewDto save(ReviewDto reviewDto) {
         BoardGame foundBoardgame = boardGameService.findByPublicID(reviewDto.boardGamePublicID());
         Set<Review> foundBoardGameReviews = foundBoardgame.getReviews();
@@ -53,10 +59,6 @@ public class ReviewService {
         review.setBoardGame(foundBoardgame);
         reviewRepository.save(review);
         return reviewMapper.toDto(review);
-    }
-
-    public ReviewDto findById(UUID uuid) {
-        return reviewMapper.toDto(reviewRepository.findByPublicID(uuid));
     }
 
     public void deleteById(UUID publicID) {
