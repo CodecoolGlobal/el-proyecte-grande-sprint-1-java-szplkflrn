@@ -109,7 +109,9 @@ const Login = ({ onCancel }) => {
                         <button id="login" type="submit">
                             Log in
                         </button>
-                        <button type="button" onClick={onCancel}>
+                        <br></br>
+                        <br></br>
+                        <button id="login" type="button" onClick={onCancel}>
                             Cancel
                         </button>
 
