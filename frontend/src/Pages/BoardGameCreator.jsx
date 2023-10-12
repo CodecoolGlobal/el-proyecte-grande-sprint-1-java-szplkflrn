@@ -7,28 +7,59 @@ const BoardGameCreator = () => {
     const navigate = useNavigate();
 
 
-    const createGame =  async (boardGame) => {
-      const res = await fetch("/api/games", {
-        method: "POST",
-        headers: {
+    const createGame = async (boardGame) => {
+      try {
+        const userToken = localStorage.getItem("usertoken");
+        const headers = {
           "Content-Type": "application/json",
-        },
-        body: JSON.stringify(boardGame),
-      });
-     
-      return await res.text()
+          Authorization: `Bearer ${userToken}`,
+        };
+    
+        const res = await fetch("/api/games", {
+          method: "POST",
+          headers: headers,
+          body: JSON.stringify(boardGame),
+        });
+    
+        if (res.ok) {
+          return await res.text();
+        } else {
+          throw new Error(`Error creating game: ${res.statusText}`);
+        }
+      } catch (error) {
+        console.error("Error creating game: ", error);
+        throw error;
+      }
     };
+    
 
 
     const gamesFetch = async () => {
       try {
-        const response = await fetch("/api/games");
-        const data = await response.json();
-        setGames(data);
+        const userToken = localStorage.getItem("usertoken");
+        const headers = userToken
+          ? {
+              Authorization: `Bearer ${userToken}`,
+              "Content-Type": "application/json",
+            }
+          : { "Content-Type": "application/json" };
+    
+        const response = await fetch("/api/games", {
+          method: "GET",
+          headers: headers,
+        });
+    
+        if (response.ok) {
+          const data = await response.json();
+          setGames(data);
+        } else {
+          console.error(`Error fetching games: ${response.statusText}`);
+        }
       } catch (error) {
-        console.error(error);
+        console.error("Error fetching games: ", error);
       }
     };
+    
     
     useEffect(() => {
       gamesFetch();
