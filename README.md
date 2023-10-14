@@ -6,7 +6,7 @@
 ![Static Badge](https://img.shields.io/badge/total%20number%20of%20tracked%20files-90-blue)
 ![GitHub contributors](https://img.shields.io/github/contributors/CodecoolGlobal/el-proyecte-grande-sprint-1-java-szplkflrn)
 ![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/t/CodecoolGlobal/el-proyecte-grande-sprint-1-java-szplkflrn?label=total%20commits)
-![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/m/CodecoolGlobal/el-proyecte-grande-sprint-1-java-szplkflrn?label=last%20month's%20commits)
+![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/m/CodecoolGlobal/el-proyecte-grande-sprint-1-java-szplkflrn?label=monthly%20commits)
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/CodecoolGlobal/el-proyecte-grande-sprint-1-java-szplkflrn/development)
 ![GitHub closed issues](https://img.shields.io/github/issues-closed/CodecoolGlobal/el-proyecte-grande-sprint-1-java-szplkflrn)
 ![GitHub issues](https://img.shields.io/github/issues-raw/CodecoolGlobal/el-proyecte-grande-sprint-1-java-szplkflrn)
