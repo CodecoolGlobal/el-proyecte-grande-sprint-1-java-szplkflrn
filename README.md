@@ -1,4 +1,3 @@
-
 ![Project Logo](https://raw.githubusercontent.com/CodecoolGlobal/el-proyecte-grande-sprint-1-java-szplkflrn/development/frontend/src/assets/wallpaper/Byte_Battlers.png)
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/CodecoolGlobal/el-proyecte-grande-sprint-1-java-szplkflrn)
@@ -66,6 +65,8 @@ npm run dev
 
 ## Backend
 
+### Option 1: Without an IDE
+
 - **Create a database for testing the application**
 - **Navigate to {local_folder_of_cloned_project/backend/src/resources/db/migration}**
 - **Open "init-schema.sql" and copy the query**
@@ -80,9 +81,18 @@ cd {local_folder_of_cloned_project/backend}
 javac src/main/java/com/codecool/bytebattlers/ByteBattlersApplication.java
 
 # Run the applicaiton
-java target/main/java/com/codecool/bytebattlersByteBattlersApplication.class
-
+java target/main/java/com/codecool/bytebattlers/ByteBattlersApplication.class
 ```
+
+### Option 2: With an IDE
+
+- **Create a database for testing the application**
+- **Navigate to {local_folder_of_cloned_project/backend/src/resources/db/migration}**
+- **Open "init-schema.sql" and copy the query**
+- **Open the created test database with a query tool and run the copied query to initialzie the database**
+- **Change the required local enviromental variables values to your system settings (e.g. "DATABASE", "PASSWORD", etc)**
+- **Run the ByteBattlersApplication**
+
 
 # See also
 [Checkout our WIKI page](https://github.com/CodecoolGlobal/el-proyecte-grande-sprint-1-java-szplkflrn/wiki)
