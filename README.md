@@ -77,11 +77,11 @@ npm run dev
 # Navigate to the local folder
 cd {local_folder_of_cloned_project/backend}
 
-# Compile the application
-javac src/main/java/com/codecool/bytebattlers/ByteBattlersApplication.java
+# Build the project to a jar file
+mvn clean install
 
 # Run the applicaiton
-java target/main/java/com/codecool/bytebattlers/ByteBattlersApplication.class
+java -jar -Dspring.datasource.url=jdbc:postgresql://localhost:5432/${database} -Dlogging.file.path=${log_folder_path} -Dspring.datasource.password=${password} -Dapplication.secret=${secret_key} -Dapplication.username=${username} bytebattlers-0.0.1-SNAPSHOT.jar
 ```
 
 ### Option 2: With an IDE
