@@ -157,10 +157,10 @@ export default function GameList() {
         const data = await response.json();
         setGames(data);
       } else {
-        console.error(`Error fetching games: ${response.statusText}`);
+        console.error(`Error fetching filtered games: ${response.statusText}`);
       }
     } catch (error) {
-      console.error("Error fetching games: ", error);
+      console.error("Error fetching filtered games: ", error);
     }
   };
 
@@ -183,12 +183,12 @@ export default function GameList() {
         `/api/games/category?publicID=${chosenCategory}`
       );
       if (!response.ok) {
-        throw new Error(`Error fetching categories: ${response.statusText}`);
+        throw new Error(`Error fetching games filtered by categories: ${response.statusText}`);
       }
       const data = await response.json();
       setGames(data);
     } catch (error) {
-      console.error("Error fetching categories:", error);
+      console.error("Error fetching games filtered by categories:", error);
     }
   };
 
@@ -196,12 +196,12 @@ export default function GameList() {
     try {
       const response = await fetch(`/api/games/maxplayer?max=${maxPlayer}`);
       if (!response.ok) {
-        throw new Error(`Error fetching categories: ${response.statusText}`);
+        throw new Error(`Error fetching games filtered by max player: ${response.statusText}`);
       }
       const data = await response.json();
       setGames(data);
     } catch (error) {
-      console.error("Error fetching categories:", error);
+      console.error("Error fetching games filtered by max player:", error);
     }
   };
 
@@ -209,12 +209,12 @@ export default function GameList() {
     try {
       const response = await fetch(`/api/games/minplayer?min=${minPlayer}`);
       if (!response.ok) {
-        throw new Error(`Error fetching categories: ${response.statusText}`);
+        throw new Error(`Error fetching games filtered by min player: ${response.statusText}`);
       }
       const data = await response.json();
       setGames(data);
     } catch (error) {
-      console.error("Error fetching categories:", error);
+      console.error("Error fetching games filtered by min player:", error);
     }
   };
 
@@ -222,12 +222,12 @@ export default function GameList() {
     try {
       const response = await fetch(`/api/games/rating?rating=${rating}`);
       if (!response.ok) {
-        throw new Error(`Error fetching categories: ${response.statusText}`);
+        throw new Error(`Error fetching games filtered by ratings: ${response.statusText}`);
       }
       const data = await response.json();
       setGames(data);
     } catch (error) {
-      console.error("Error fetching categories:", error);
+      console.error("Error fetching games filtered by ratings:", error);
     }
   };
 
@@ -237,12 +237,12 @@ export default function GameList() {
         `/api/games/description?desc=${description}`
       );
       if (!response.ok) {
-        throw new Error(`Error fetching categories: ${response.statusText}`);
+        throw new Error(`Error fetching games filtered by description: ${response.statusText}`);
       }
       const data = await response.json();
       setGames(data);
     } catch (error) {
-      console.error("Error fetching categories:", error);
+      console.error("Error fetching games filtered by description:", error);
     }
   };
 
@@ -252,12 +252,12 @@ export default function GameList() {
         `/api/games/publisher?publicID=${chosenPublisher}`
       );
       if (!response.ok) {
-        throw new Error(`Error fetching publishers: ${response.statusText}`);
+        throw new Error(`Error fetching games filtered by publisher: ${response.statusText}`);
       }
       const data = await response.json();
       setGames(data);
     } catch (error) {
-      console.error("Error fetching publishers:", error);
+      console.error("Error fetching games filtered by publisher:", error);
     }
   };
 
