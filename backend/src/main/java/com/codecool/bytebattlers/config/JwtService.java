@@ -12,11 +12,14 @@ import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.function.Function;
 
 @Service
 public class JwtService {
     private static final String SECRET_KEY = System.getenv("SECRET_KEY");
+
+    private static final long ONE_DAY_EXPIRATION_DATE_IN_MILLISECONDS = 86400000;
 
     public String extractUsername(String token) {
         return extractClaims(token, Claims::getSubject);
@@ -27,23 +30,24 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-    public String generateToken(UserDetails userDetails, String pubID) {
-        return generateToken(new HashMap<>(), userDetails, pubID);
+    public String generateToken(UserDetails userDetails, UUID pubID, String name) {
+        return generateToken(new HashMap<>(), userDetails, pubID, name);
     }
 
 
     public String generateToken(
             Map<String, Object> extraClaims,
-            UserDetails userDetails, String pubID
+            UserDetails userDetails, UUID pubID, String name
     ) {
 
         extraClaims.put("role", userDetails.getAuthorities());
-        extraClaims.put("publicID",pubID);
+        extraClaims.put("name",pubID);
+        extraClaims.put("user_name", name);
         return Jwts.builder()
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+                .setExpiration(new Date(System.currentTimeMillis() + ONE_DAY_EXPIRATION_DATE_IN_MILLISECONDS))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }

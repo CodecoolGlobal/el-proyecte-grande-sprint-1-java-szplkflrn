@@ -5,7 +5,7 @@ const Login = ({ onCancel }) => {
     const navigate = useNavigate();
 
 
-    const extractUserRoleFromJWT = (token) => {
+    const extractUser = (token) => {
         const parts = token.split('.');
         
         if (parts.length !== 3) {
@@ -13,25 +13,18 @@ const Login = ({ onCancel }) => {
         }
     
         const decodedPayload = JSON.parse(atob(parts[1]));
-    
-        return decodedPayload.role[0].authority;
-    };
 
-    const extractUserIDFromJWT = (token) => {
-        const parts = token.split('.');
-        
-        if (parts.length !== 3) {
-            throw new Error('Invalid JWT format');
-        }
-    
-        const decodedPayload = JSON.parse(atob(parts[1]));
-    
-       
-        return decodedPayload.publicID;
-    };
+        let appUser = {};
+        appUser.name = decodedPayload.user_name;
+        appUser.publicID = decodedPayload.name;
+        appUser.authority = decodedPayload.role[0].authority;
+
+        return appUser;
+    }
 
 
     const loginUser = async (user) => {
+
         const res = await fetch("/api/users/login", {
             method: "POST",
             headers: {
@@ -40,17 +33,22 @@ const Login = ({ onCancel }) => {
             body: JSON.stringify(user),
         });
 
-        return await res.json();
+        if (res.ok) {
+            return await res.json();     
+        } 
+        else {
+            window.alert("Bad username/password")
+        }
     }
 
     const handleLoginUser = (user) => {
-        loginUser(user)
+            loginUser(user)
             .then((response) => {
                     navigate("/");
-                    localStorage.setItem("userrole", extractUserRoleFromJWT(response.token))
-                    localStorage.setItem("userID", extractUserIDFromJWT(response.token))
+                    localStorage.setItem("userrole", extractUser(response.token).authority)
+                    localStorage.setItem("userID", extractUser(response.token).publicID)
                     localStorage.setItem("usertoken", response.token);
-                    localStorage.setItem("username", user.email.split("@")[0]);
+                    localStorage.setItem("username", extractUser(response.token).name);
             })
             .catch((error) => {
                 console.error("Error login user: ", error);
@@ -116,7 +114,7 @@ const Login = ({ onCancel }) => {
                         </button>
 
                         <div className="register">
-                            <p>Dont have an account <a href="games/register">Register</a></p>
+                            <p>Do not have an account <a href="games/register">Register</a></p>
                         </div>
                     </form>
                 </div>

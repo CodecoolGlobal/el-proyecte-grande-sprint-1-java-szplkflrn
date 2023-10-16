@@ -34,7 +34,6 @@ const Layout = () => {
                         <div className="center">
                             {username ? 
                                 <Accordion sx={{ width: '220px' }}>
-                                    {/* Adjust the width as needed */}
                                     <AccordionSummary
                                         expandIcon={<ExpandMoreIcon />}
                                         aria-controls="panel1a-content"
@@ -51,6 +50,7 @@ const Layout = () => {
                                         <Button onClick={() => {
                                             localStorage.clear();
                                             navigate("/");
+                                            location.reload()
                                         }}>Logout</Button>
                                     </AccordionDetails>
                                 </Accordion> : null
