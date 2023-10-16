@@ -1,8 +1,6 @@
 package com.codecool.bytebattlers.service;
 
 import com.codecool.bytebattlers.controller.dto.ReviewDto;
-import com.codecool.bytebattlers.mapper.AppUserMapper;
-import com.codecool.bytebattlers.mapper.BoardGameMapper;
 import com.codecool.bytebattlers.mapper.ReviewMapper;
 import com.codecool.bytebattlers.model.AppUser;
 import com.codecool.bytebattlers.model.BoardGame;
@@ -12,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.UUID;
 
@@ -21,20 +18,15 @@ public class ReviewService {
     private final ReviewMapper reviewMapper;
     private final ReviewRepository reviewRepository;
     private final UserService userService;
-    private final AppUserMapper userMapper;
     private final BoardGameService boardGameService;
-    private final BoardGameMapper boardGameMapper;
 
 
     @Autowired
-    public ReviewService(ReviewMapper reviewMapper, ReviewRepository reviewRepository, UserService userService,
-                         AppUserMapper userMapper, BoardGameService boardGameService, BoardGameMapper boardGameMapper) {
+    public ReviewService(ReviewMapper reviewMapper, ReviewRepository reviewRepository, UserService userService, BoardGameService boardGameService) {
         this.reviewMapper = reviewMapper;
         this.reviewRepository = reviewRepository;
         this.userService = userService;
-        this.userMapper = userMapper;
         this.boardGameService = boardGameService;
-        this.boardGameMapper = boardGameMapper;
     }
 
 
