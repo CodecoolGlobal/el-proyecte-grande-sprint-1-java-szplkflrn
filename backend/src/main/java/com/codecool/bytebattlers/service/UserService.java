@@ -9,19 +9,18 @@ import com.codecool.bytebattlers.model.Role;
 import com.codecool.bytebattlers.repository.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -29,16 +28,18 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final AppUserRepository userRepository;
     private final AppUserMapper entityMapper;
-    private final JwtService service;
+    private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final UserDetailsService appUserDetailsService;
 
     @Autowired
-    public UserService(PasswordEncoder passwordEncoder, AppUserRepository userRepository, AppUserMapper entityMapper, JwtService service, AuthenticationManager authenticationManager) {
+    public UserService(PasswordEncoder passwordEncoder, AppUserRepository userRepository, AppUserMapper entityMapper, JwtService jwtService, AuthenticationManager authenticationManager, UserDetailsService appUserDetailsService) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.entityMapper = entityMapper;
-        this.service = service;
+        this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;
+        this.appUserDetailsService = appUserDetailsService;
     }
 
     public List<AppUserDto> findAll() {
@@ -46,8 +47,8 @@ public class UserService {
                 .map(entityMapper::toDto).toList();
     }
 
-    public List<AppUserDto> findAllByBoardGame(List<String> userids) {
-       return userids.stream().map(userid -> userRepository.findAppUsersByPublicID(UUID.fromString(userid))).toList().stream()
+    public List<AppUserDto> findAllByBoardGame(List<String> userIds) {
+       return userIds.stream().map(userid -> userRepository.findAppUsersByPublicID(UUID.fromString(userid))).toList().stream()
                .map(entityMapper::toDto).toList();
     }
 
@@ -61,21 +62,19 @@ public class UserService {
     }
 
     public AuthenticationResponse authenticate(AppUserDto appUserDto){
-        AppUser user = userRepository.findByEmail(appUserDto.email())
-                .orElseThrow();
-
-
-        if(passwordEncoder.matches(appUserDto.password(), user.getPassword())){
-            List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(user.getRole().name()));
-            User actualuser = new User(user.getEmail(), user.getPassword(), authorities);
-            String pubID = String.valueOf(user.getPublicID());
-            var jwtToken = service.generateToken(actualuser,pubID);
-            return AuthenticationResponse.builder()
-                    .token(jwtToken)
-                    .build();
-        } else {
-            throw new BadCredentialsException("Username/password not matched!");
-        }
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        appUserDto.email(),
+                        appUserDto.password()
+                )
+        );
+        UserDetails user = appUserDetailsService.loadUserByUsername(appUserDto.email());
+        AppUser foundUser = userRepository.findByEmail(appUserDto.email())
+                .orElseThrow(NoSuchElementException::new);
+        var jwtToken = jwtService.generateToken(user, foundUser.getPublicID(), foundUser.getName());
+        return AuthenticationResponse.builder()
+                .token(jwtToken)
+                .build();
     }
 
     public AppUserDto save(AppUserDto entity) {
