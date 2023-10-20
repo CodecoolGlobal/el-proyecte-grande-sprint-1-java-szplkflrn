@@ -43,7 +43,7 @@
 
 ```bash
 # Clone this repository
-git clone: https://github.com/CodecoolGlobal/el-proyecte-grande-sprint-1-java-szplkflrn.git
+git clone https://github.com/CodecoolGlobal/el-proyecte-grande-sprint-1-java-szplkflrn.git
 
 ```
 
