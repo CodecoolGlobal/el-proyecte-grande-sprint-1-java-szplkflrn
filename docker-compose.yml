@@ -1,0 +1,20 @@
+version: '3.3' 
+
+services:
+  my-frontend:
+    image: my-frontend
+    container_name: vite
+    network_mode: "host"
+
+  my-java:
+    image: my-java
+    container_name: my-java
+    environment:
+      - SQL_SERVER=localhost
+      - DATABASE=${DATABASE}
+      - LOG_FOLDER=${LOG_FOLDER}
+      - PASSWORD=${PASSWORD}
+      - SECRET_KEY=${SECRET_KEY}
+      - USERNAME=${USERNAME}
+      - SQL_PORT=${SQL_PORT}
+    network_mode: "host"
