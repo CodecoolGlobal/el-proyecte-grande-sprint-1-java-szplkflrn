@@ -94,6 +94,49 @@ java -jar -Dspring.datasource.url=jdbc:postgresql://localhost:5432/${database} -
 - **Run the ByteBattlersApplication**
 
 
+##  Running with Docker
+
+- Create a .env file in the ${local_folder_of_cloned_project}
+- Fill out the followings and copy them into the .env file
+```env
+
+SQL_SERVER=${your sql url}
+SQL_PORT=${your sql port}
+DATABASE=${your database name}
+USERNAME=${your username}
+PASSWORD=${your password}
+LOG_FOLDER=${your log folder path}
+SECRET_KEY=${your secret key}
+```
+
+```bash
+# Backend
+# Navigate to the local folder
+cd {local_folder_of_cloned_project/backend}
+
+# Build the project to a jar file
+mvn clean install
+
+# Copy the bytebattlers-0.0.1-SNAPSHOT.jar from the target folder to the backend folder and run the following:
+sudo docker build -t my-java .
+
+# Frontend
+# Navigate to the local folder
+cd {local_folder_of_cloned_project/frontend}
+
+# Run the following:
+sudo docker build -t my-frontend .
+
+# Change back to the main project folder
+cd ..
+
+# Running in Docker
+sudo docker-compose up -d
+
+# Both frontend and backend should run on the 5173 and 8080 ports
+```
+
+
 # See also
 [Checkout our WIKI page](https://github.com/CodecoolGlobal/el-proyecte-grande-sprint-1-java-szplkflrn/wiki)
 
