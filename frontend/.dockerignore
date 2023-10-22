@@ -1,0 +1,17 @@
+# Exclude Node modules (dependencies)
+node_modules/
+
+# Exclude Vite build output
+dist/
+
+# Exclude version control files and directories
+.git/
+.svn/
+.hg/
+CVS/
+
+# Exclude log and temporary files
+*.log
+*.log.*
+*.tmp
+*.swp
