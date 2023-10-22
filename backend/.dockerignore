@@ -1,0 +1,23 @@
+# Exclude project-specific files and directories
+target/
+*.iml
+.idea/
+.DS_Store
+
+# Exclude Maven build-related files and directories
+.mvn/
+.m2/
+mvnw
+mvnw.cmd
+
+# Exclude version control files and directories
+.git/
+.svn/
+.hg/
+CVS/
+
+# Exclude log and temporary files
+*.log
+*.log.*
+*.tmp
+*.swp
