@@ -117,7 +117,10 @@ cd {local_folder_of_cloned_project/backend}
 # Build the project to a jar file
 mvn clean install
 
-# Copy the bytebattlers-0.0.1-SNAPSHOT.jar from the target folder to the backend folder and run the following:
+# Copy the bytebattlers-0.0.1-SNAPSHOT.jar from the target folder to the backend folder
+cp ./target/bytebattlers-0.0.1-SNAPSHOT.jar ./../
+
+# And run the following:
 sudo docker build -t my-java .
 
 # Frontend
