@@ -105,4 +105,24 @@ public class UserService {
     public void deleteById(UUID publicID) {
         userRepository.deleteByPublicID(publicID);
     }
+
+    public AppUserDto update(UUID id, UUID uuid) {
+          AppUser user = userRepository.findAppUsersByPublicID(id);
+          Set<BoardGame> bg = user.getFavoriteBoardGames();
+          BoardGame board = boardGameRepository.findBoardGameByPublicID(uuid);
+          bg.add(board);
+        user.setFavoriteBoardGames(bg);
+        userRepository.save(user);
+        return entityMapper.toDto(user);
+    }
+
+    public AppUserDto deleteFromFavorites (UUID userID, UUID bgID){
+        AppUser user = userRepository.findAppUsersByPublicID(userID);
+        Set<BoardGame> bg = user.getFavoriteBoardGames();
+        BoardGame board = boardGameRepository.findBoardGameByPublicID(bgID);
+        bg.remove(board);
+        user.setFavoriteBoardGames(bg);
+        userRepository.save(user);
+        return entityMapper.toDto(user);
+    }
 }
