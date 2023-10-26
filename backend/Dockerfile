@@ -1,7 +1,8 @@
 # Build
 FROM maven@sha256:7106ce47b5c226ee21bac386cb706ff9f3db7ac2f15e251e3aa491fcbfc30028 AS build
 WORKDIR /app
-COPY pom.xml ./
+COPY pom.xml ./.
+RUN mvn dependency:go-offline dependency:resolve-plugins 
 COPY src ./src
 RUN mvn clean package
 
