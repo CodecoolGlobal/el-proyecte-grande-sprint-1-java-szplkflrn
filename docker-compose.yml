@@ -27,7 +27,8 @@ services:
       - SQL_PORT=${SQL_PORT}
   
   postgres:
-    image: postgres:latest
+    build:
+      context: ./db
     container_name: postgres
     environment:
       POSTGRES_DB: ${DATABASE}
