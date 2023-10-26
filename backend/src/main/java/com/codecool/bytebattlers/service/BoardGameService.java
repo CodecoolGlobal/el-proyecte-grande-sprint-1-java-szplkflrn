@@ -2,9 +2,11 @@ package com.codecool.bytebattlers.service;
 
 import com.codecool.bytebattlers.controller.dto.BoardGameDto;
 import com.codecool.bytebattlers.mapper.BoardGameMapper;
+import com.codecool.bytebattlers.model.AppUser;
 import com.codecool.bytebattlers.model.BoardGame;
 import com.codecool.bytebattlers.model.Category;
 import com.codecool.bytebattlers.model.Publisher;
+import com.codecool.bytebattlers.repository.AppUserRepository;
 import com.codecool.bytebattlers.repository.BoardGameRepository;
 import com.codecool.bytebattlers.repository.CategoryRepository;
 
@@ -21,17 +23,20 @@ public class BoardGameService {
     private final PublisherService publisherService;
     private final BoardGameMapper boardGameMapper;
     private final CategoryRepository categoryRepository;
+    private final AppUserRepository appUserRepository;
 
     @Autowired
     public BoardGameService(
             BoardGameRepository boardGameRepository,
             PublisherService publisherService,
             BoardGameMapper boardGameMapper,
-            CategoryRepository categoryRepository) {
+            CategoryRepository categoryRepository,
+            AppUserRepository appUserRepository) {
         this.boardGameRepository = boardGameRepository;
         this.publisherService = publisherService;
         this.boardGameMapper = boardGameMapper;
         this.categoryRepository = categoryRepository;
+        this.appUserRepository = appUserRepository;
     }
 
 
@@ -44,8 +49,11 @@ public class BoardGameService {
         Set<Category> categoriesInEntity = categoriesInDTO
                 .stream().map(categoryDto -> categoryRepository.findCategoryByPublicID(categoryDto.publicID()))
                 .collect(Collectors.toSet());
+        Set<AppUser> favoritedInEntity = dto.appUserPublicIDS().stream()
+                .map(appUserRepository::findAppUsersByPublicID).collect(Collectors.toSet());
         Publisher foundPublisher = publisherService.findByPublicId(dto.publisherPublicID());
         BoardGame boardGame = boardGameMapper.toEntity(dto);
+        boardGame.setUsersWhoFavorited(favoritedInEntity);
         boardGame.setCategories(categoriesInEntity);
         boardGame.setPublisher(foundPublisher);
         boardGameRepository.save(boardGame);
@@ -122,5 +130,6 @@ public class BoardGameService {
                 .stream().map(boardGameMapper::toDto)
                 .toList();
     }
+
 }
 
