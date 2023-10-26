@@ -102,8 +102,7 @@ const BoardGameForm = ({ onSave, onCancel }) => {
     };
   
     boardGame.reviews = [];
-  
-    console.log(boardGame);
+    boardGame.appUserPublicIDS = [];
     onSave(boardGame);
   };
   

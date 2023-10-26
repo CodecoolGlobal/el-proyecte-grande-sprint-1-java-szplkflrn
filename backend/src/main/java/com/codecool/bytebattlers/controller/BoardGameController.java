@@ -2,6 +2,8 @@ package com.codecool.bytebattlers.controller;
 
 import com.codecool.bytebattlers.controller.dto.BoardGameDto;
 import com.codecool.bytebattlers.controller.exception.ResourceNotFoundException;
+import com.codecool.bytebattlers.mapper.BoardGameMapper;
+import com.codecool.bytebattlers.model.BoardGame;
 import com.codecool.bytebattlers.service.BoardGameService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,14 +23,17 @@ public class BoardGameController {
     private final BoardGameService boardGameService;
 
     private final Logger logger = LoggerFactory.getLogger(BoardGameController.class);
+    private final BoardGameMapper boardGameMapper;
 
     @Autowired
-    public BoardGameController(BoardGameService boardGameService) {
+    public BoardGameController(BoardGameService boardGameService,
+                               BoardGameMapper boardGameMapper) {
         this.boardGameService = boardGameService;
+        this.boardGameMapper = boardGameMapper;
     }
 
     @GetMapping
-    public ResponseEntity<List<BoardGameDto>> getAllCategory() {
+    public ResponseEntity<List<BoardGameDto>> getAllBoardGame() {
         if (boardGameService.findAll().isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
@@ -36,8 +41,16 @@ public class BoardGameController {
         }
     }
 
+    @PostMapping("/myfavorites")
+    public ResponseEntity<List<BoardGameDto>> getFavoriteBoardGamesByUser(@RequestBody List<UUID> uuids) {
+       List<BoardGame> favBoardGames = uuids.stream().map(boardGameService::findByPublicID).toList();
+       List<BoardGameDto> bgDtos = favBoardGames.stream().map(boardGameMapper::toDto).toList();
+        return new ResponseEntity<>(bgDtos, HttpStatus.OK);
+    }
+
+
     @GetMapping("/{id}")
-    public ResponseEntity<BoardGameDto> getCategoryById(@PathVariable UUID id) {
+    public ResponseEntity<BoardGameDto> getBoardGameById(@PathVariable UUID id) {
         if (boardGameService.findByPublicID(id) == null) {
             throw new ResourceNotFoundException("Not found Tutorial with id = " + id);
         } else {
@@ -46,12 +59,12 @@ public class BoardGameController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<BoardGameDto> addNewCategory(@RequestBody BoardGameDto board) {
+    public ResponseEntity<BoardGameDto> addNewBoardGame(@RequestBody BoardGameDto board) {
         return new ResponseEntity<>(boardGameService.save(board), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<BoardGameDto> deleteCategoryById(@PathVariable UUID id) {
+    public ResponseEntity<BoardGameDto> deleteBoardGameById(@PathVariable UUID id) {
         boardGameService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -134,8 +147,4 @@ public class BoardGameController {
             return new ResponseEntity<>(boardGameService.findByMoreThanOrEqualsRating(rating), HttpStatus.OK);
         }
     }
-
-
-
-
 }

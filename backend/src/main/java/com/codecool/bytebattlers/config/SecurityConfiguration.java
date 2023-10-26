@@ -20,7 +20,7 @@ public class SecurityConfiguration {
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
 
-    private static final String[] WHITE_LIST_URL = {"/api/users/login", "/api/users/register", "/api/games", "/api/games/{id}",
+    private static final String[] WHITE_LIST_URL = {"/api/users/login","/api/users", "/api/users/register", "/api/games", "/api/games/{id}",
             "/api/reviews/{id}", "/api/publishers", "/api/categories"};
 
     @Bean

@@ -35,7 +35,6 @@ public class Category {
     @JdbcTypeCode(SqlTypes.VARCHAR)
     private String description;
 
-
     @ManyToMany(mappedBy = "categories", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     private Set<BoardGame> boardGames = new LinkedHashSet<>();
 

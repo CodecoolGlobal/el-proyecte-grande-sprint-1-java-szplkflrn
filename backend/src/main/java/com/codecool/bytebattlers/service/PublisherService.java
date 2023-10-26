@@ -21,7 +21,6 @@ public class PublisherService {
         this.repository = repository;
     }
 
-
     public List<PublisherDto> findAll() {
         return repository.findAll().stream().map(mapper::toDto).toList();
     }
