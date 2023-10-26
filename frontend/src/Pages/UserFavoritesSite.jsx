@@ -131,15 +131,11 @@ function UserFavoritesSite() {
 
               <Accordion key={bg.publicID}>
 
-                <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
-                  aria-controls="panel1a-content"
-                  id="panel1a-header"
-                >
+                <AccordionSummary>
                   <Link border={"none"} href={`/games/${bg.publicID}`}>
                     {bg.gameName}
                   </Link>
-                  <Typography margin={"auto"}>Click to expand!</Typography>
+                  <Typography margin={"auto"}>Click to see your reviews!</Typography>
                   <Button onClick={() => removeBoardGameFromFavorites(localStorage.getItem("userID"), bg.publicID)}>Delete from favorites</Button>
                 </AccordionSummary>
                 <AccordionDetails>
