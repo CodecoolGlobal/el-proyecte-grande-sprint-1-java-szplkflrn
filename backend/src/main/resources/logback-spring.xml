@@ -39,9 +39,9 @@
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="ROLLING_APPENDER"/>
     </logger>
-    <logger name="org.springframework" level="INFO"/>
+    <logger name="org.springframework" level="DEBUG"/>
 
-    <root level="info">
+    <root level="debug">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="ROLLING_APPENDER"/>
