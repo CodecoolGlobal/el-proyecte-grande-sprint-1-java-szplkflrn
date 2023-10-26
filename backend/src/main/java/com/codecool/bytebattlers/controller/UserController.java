@@ -2,10 +2,8 @@ package com.codecool.bytebattlers.controller;
 
 import com.codecool.bytebattlers.controller.dto.AppUserDto;
 import com.codecool.bytebattlers.controller.exception.ResourceNotFoundException;
-import com.codecool.bytebattlers.model.AppUser;
 import com.codecool.bytebattlers.model.AuthenticationResponse;
 import com.codecool.bytebattlers.service.UserService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +33,7 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<AppUserDto> getUserById(@PathVariable UUID id) {
         if (userService.findById(id) == null) {
-            throw new ResourceNotFoundException("Not found Tutorial with id = " + id);
+            throw new ResourceNotFoundException("User not found with id = " + id);
         } else {
             return new ResponseEntity<>(userService.findById(id), HttpStatus.OK);
         }
