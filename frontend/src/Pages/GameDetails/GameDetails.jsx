@@ -211,6 +211,9 @@ export default function GameDetails() {
     fetchReviewsForGame(id);
   }, [id]);
 
+
+  const favorizedIDs = user ? user.favoriteBoardGamePublicIDS : [];
+
   return (
     <div>
       {boardGame ? (
