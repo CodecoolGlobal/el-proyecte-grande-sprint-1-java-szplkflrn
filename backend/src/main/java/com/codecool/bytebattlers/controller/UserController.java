@@ -57,7 +57,7 @@ public class UserController {
     }
 
     @DeleteMapping("/favorites/{id}")
-    public ResponseEntity<AppUserDto> deleteBGFromFavorites(@PathVariable UUID id, @RequestBody UUID bgID) {
+    public ResponseEntity<AppUserDto> deleteBGFromUserFavorites(@PathVariable UUID id, @RequestBody UUID bgID) {
         try {
             if (id == null || bgID == null) {
                 throw new Exception("Invalid input data");
