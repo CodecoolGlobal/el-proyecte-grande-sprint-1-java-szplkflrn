@@ -39,6 +39,40 @@ public class UserController {
         }
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<AppUserDto> updateUserById(@PathVariable UUID id, @RequestBody UUID appUserDto) {
+        try {
+            if (id == null || appUserDto == null) {
+                throw new Exception("Invalid input data");
+            }
+            AppUserDto user = userService.findById(id);
+            if (user == null) {
+                throw new ResourceNotFoundException("User not found with id = " + id);
+            }
+            AppUserDto updatedUser = userService.update(id, appUserDto);
+            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping("/favorites/{id}")
+    public ResponseEntity<AppUserDto> deleteBGFromFavorites(@PathVariable UUID id, @RequestBody UUID bgID) {
+        try {
+            if (id == null || bgID == null) {
+                throw new Exception("Invalid input data");
+            }
+            AppUserDto user = userService.findById(id);
+            if (user == null) {
+                throw new ResourceNotFoundException("User not found with id = " + id);
+            }
+            AppUserDto userWithDeletedFavorite = userService.deleteFromFavorites(id, bgID);
+            return new ResponseEntity<>(userWithDeletedFavorite, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PostMapping("/register")
     public ResponseEntity<AppUserDto> registerNewUser(@RequestBody AppUserDto user) {
         return new ResponseEntity<>(userService.register(user), HttpStatus.CREATED);
