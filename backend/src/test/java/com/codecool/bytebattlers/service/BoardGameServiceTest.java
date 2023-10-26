@@ -2,6 +2,7 @@ package com.codecool.bytebattlers.service;
 
 import com.codecool.bytebattlers.mapper.BoardGameMapper;
 import com.codecool.bytebattlers.model.BoardGame;
+import com.codecool.bytebattlers.repository.AppUserRepository;
 import com.codecool.bytebattlers.repository.BoardGameRepository;
 import com.codecool.bytebattlers.repository.CategoryRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,6 +31,9 @@ class BoardGameServiceTest {
     @Mock
     private BoardGameMapper boardGameMapper;
 
+    @Mock
+    private AppUserRepository appUserRepository;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
@@ -37,7 +41,8 @@ class BoardGameServiceTest {
                 this.boardGameRepository,
                 this.publisherService,
                 this.boardGameMapper,
-                this.categoryRepository
+                this.categoryRepository,
+                this.appUserRepository
         );
     }
 
