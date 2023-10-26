@@ -1,21 +1,12 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import { Grid,TextField,Button } from '@mui/material';
+import {
+  Grid, TextField, Button, Paper, TableRow,
+  TableHead, TableContainer, TableCell, TableBody, Table,
+  Accordion, AccordionSummary, AccordionDetails, Card, CardContent, Typography
+} from '@mui/material';
 import "./GameDetails.css";
 
 const imgStyle = {
