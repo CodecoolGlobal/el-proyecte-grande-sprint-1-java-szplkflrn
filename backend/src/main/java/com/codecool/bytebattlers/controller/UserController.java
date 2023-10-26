@@ -33,7 +33,7 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<AppUserDto> getUserById(@PathVariable UUID id) {
         if (userService.findById(id) == null) {
-            throw new ResourceNotFoundException("User not found with id = " + id);
+            throw new ResourceNotFoundException("User not found with id " + id);
         } else {
             return new ResponseEntity<>(userService.findById(id), HttpStatus.OK);
         }
