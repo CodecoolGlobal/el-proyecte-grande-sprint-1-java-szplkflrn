@@ -1,7 +1,13 @@
-FROM node:21-bullseye-slim@sha256:ca86d530ffad5dce27016a5936c1b57a781d249c5a5bbb8f84a7a6bad03c49c7
-WORKDIR /usr/local/bin/
-COPY package*.json ./
-RUN npm install
+FROM node:16 AS builder
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci
+
 COPY . .
-EXPOSE 5173
-CMD ["npm", "run", "dev"]
+RUN npm run build
+
+
+FROM nginx:stable-alpine
+COPY --from=builder /app/dist /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/nginx.conf
+CMD ["nginx", "-g", "daemon off;"]
