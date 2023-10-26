@@ -2,19 +2,40 @@ version: '3.3'
 
 services:
   my-frontend:
-    image: my-frontend
+    build:
+      context: ./frontend
     container_name: vite
-    network_mode: "host"
+    depends_on:
+      - my-java
+    ports:
+      - "3456:80"
+    command: [nginx-debug, '-g', 'daemon off;']
 
   my-java:
-    image: my-java
+    build: 
+      context: ./backend
     container_name: my-java
+    depends_on:
+      - postgres  
     environment:
-      - SQL_SERVER=localhost
+      - SQL_SERVER=postgres
       - DATABASE=${DATABASE}
       - LOG_FOLDER=${LOG_FOLDER}
       - PASSWORD=${PASSWORD}
       - SECRET_KEY=${SECRET_KEY}
       - USERNAME=${USERNAME}
       - SQL_PORT=${SQL_PORT}
-    network_mode: "host"
+  
+  postgres:
+    build:
+      context: ./db
+    container_name: postgres
+    environment:
+      POSTGRES_DB: ${DATABASE}
+      POSTGRES_USER: ${USERNAME}
+      POSTGRES_PASSWORD: ${PASSWORD}
+        #  volumes:
+        # - db_script:/docker-entrypoint-initdb.d/init-db.sh
+        # - db_file:/docker-entrypoint-initdb.d
+        # command: ["bash", "/docker-entrypoint-initdb.d/init-db.sh"]
+  
