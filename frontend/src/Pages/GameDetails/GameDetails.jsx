@@ -84,6 +84,44 @@ export default function GameDetails() {
     }
   };
 
+
+  const handleAddToFavorites = async () => {
+    const userId = localStorage.getItem("userID");
+    const uuid = boardGame.publicID;
+
+    try {
+      const userToken = localStorage.getItem("usertoken");
+      const headers = userToken
+        ? {
+          Authorization: `Bearer ${userToken}`,
+          "Content-Type": "application/json",
+        }
+        : { "Content-Type": "application/json" };
+
+      const data = {
+        uuid
+      };
+
+
+
+      const response = await fetch(`/api/users/${userId}`, {
+        method: "PATCH",
+        headers: headers,
+        body: JSON.stringify(data.uuid)
+      });
+
+      if (response.ok) {
+        location.reload()
+      } else {
+        throw new Error("Update user failed");
+      }
+    } catch (error) {
+      console.error("Error updating user: ", error);
+    }
+  };
+
+
+
   const fetchReviewsForGame = async (id) => {
     try {
       const userToken = localStorage.getItem("usertoken");
