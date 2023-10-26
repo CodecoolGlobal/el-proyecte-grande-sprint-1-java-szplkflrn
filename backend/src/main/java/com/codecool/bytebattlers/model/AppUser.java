@@ -42,4 +42,10 @@ public class AppUser {
     @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Review> reviews = new LinkedHashSet<>();
 
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinTable(name = "app_user_favorite_board_game",
+            joinColumns = @JoinColumn(name = "app_user_id"),
+            inverseJoinColumns = @JoinColumn(name = "favorite_board_game_id"))
+    private Set<BoardGame> favoriteBoardGames = new LinkedHashSet<>();
+
 }

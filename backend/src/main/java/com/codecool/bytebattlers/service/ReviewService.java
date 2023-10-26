@@ -20,7 +20,6 @@ public class ReviewService {
     private final UserService userService;
     private final BoardGameService boardGameService;
 
-
     @Autowired
     public ReviewService(ReviewMapper reviewMapper, ReviewRepository reviewRepository, UserService userService, BoardGameService boardGameService) {
         this.reviewMapper = reviewMapper;
@@ -28,7 +27,6 @@ public class ReviewService {
         this.userService = userService;
         this.boardGameService = boardGameService;
     }
-
 
     public List<ReviewDto> findAll() {
         return reviewRepository.findAll().stream().map(reviewMapper::toDto).toList();

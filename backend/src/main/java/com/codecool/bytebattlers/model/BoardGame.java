@@ -59,4 +59,7 @@ public class BoardGame {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Review> reviews = new LinkedHashSet<>();
 
+    @ManyToMany(mappedBy = "favoriteBoardGames", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    private Set<AppUser> usersWhoFavorited = new LinkedHashSet<>();
+
 }

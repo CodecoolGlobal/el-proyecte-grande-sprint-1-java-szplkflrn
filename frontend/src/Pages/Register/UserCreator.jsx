@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Register from "./Register/Register";
+import Register from "./Register";
 import { useNavigate } from "react-router-dom";
 
 const UserCreator = () => {
@@ -57,8 +57,8 @@ const UserCreator = () => {
     };
     return (
         <Register
-        onCancel={() => navigate("/")}
-        onSave={handleCreateUser}
+            onCancel={() => navigate("/")}
+            onSave={handleCreateUser}
         />
     );
 }

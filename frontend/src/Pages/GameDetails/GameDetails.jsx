@@ -1,21 +1,12 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import { Grid,TextField,Button } from '@mui/material';
+import {
+  Grid, TextField, Button, Paper, TableRow,
+  TableHead, TableContainer, TableCell, TableBody, Table,
+  Accordion, AccordionSummary, AccordionDetails, Card, CardContent, Typography
+} from '@mui/material';
 import "./GameDetails.css";
 
 const imgStyle = {
@@ -27,6 +18,42 @@ export default function GameDetails() {
   const [boardGame, setBoardGame] = useState(null);
   const [reviewObjects, setReviewObjects] = useState([]);
   const [isAccordionExpanded, setIsAccordionExpanded] = useState(false);
+  const [user, setUser] = useState(null);
+ 
+
+  const userFetch = async () => {
+    try {
+      const userToken = localStorage.getItem("usertoken");
+      const headers = userToken
+        ? {
+          Authorization: `Bearer ${userToken}`,
+          "Content-Type": "application/json",
+        }
+        : { "Content-Type": "application/json" };
+
+      const response = await fetch(`/api/users/${localStorage.getItem("userID")}`, {
+        method: "GET",
+        headers: headers,
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setUser(data);
+      } else {
+        console.error(`Error fetching user data: ${response.statusText}`);
+      }
+    } catch (error) {
+      console.error("Error fetching user data: ", error);
+    }
+  }
+
+  useEffect(() => {
+    userFetch();
+  }, []);
+
+
+
+
 
   const handleAccordionToggle = () => {
     setIsAccordionExpanded(!isAccordionExpanded);
@@ -56,6 +83,44 @@ export default function GameDetails() {
       throw error;
     }
   };
+
+
+  const handleAddToFavorites = async () => {
+    const userId = localStorage.getItem("userID");
+    const uuid = boardGame.publicID;
+
+    try {
+      const userToken = localStorage.getItem("usertoken");
+      const headers = userToken
+        ? {
+          Authorization: `Bearer ${userToken}`,
+          "Content-Type": "application/json",
+        }
+        : { "Content-Type": "application/json" };
+
+      const data = {
+        uuid
+      };
+
+
+
+      const response = await fetch(`/api/users/${userId}`, {
+        method: "PATCH",
+        headers: headers,
+        body: JSON.stringify(data.uuid)
+      });
+
+      if (response.ok) {
+        location.reload()
+      } else {
+        throw new Error("Update user failed");
+      }
+    } catch (error) {
+      console.error("Error updating user: ", error);
+    }
+  };
+
+
 
   const fetchReviewsForGame = async (id) => {
     try {
@@ -146,9 +211,12 @@ export default function GameDetails() {
     fetchReviewsForGame(id);
   }, [id]);
 
+
+  const favorizedIDs = user ? user.favoriteBoardGamePublicIDS : [];
+
   return (
     <div>
-      {boardGame ? (
+      {boardGame && user !== null ? (
         <Card sx={{ maxWidth: 1000 }} style={{ margin: "auto", marginTop: 50 }}>
           <CardContent>
             Categories:
@@ -169,6 +237,12 @@ export default function GameDetails() {
                 <Typography color="textSecondary">
                   {boardGame.description}
                 </Typography>
+                <br></br>
+                {localStorage.getItem("username") ?
+                  !favorizedIDs.includes(boardGame.publicID) ?
+                    <Button onClick={handleAddToFavorites}>Add to favorites</Button> : <h4>Boardgame added to your favorites!</h4>
+                  : null
+                }
               </div>
             </div>
             <br />
@@ -204,32 +278,32 @@ export default function GameDetails() {
             <br />
             {localStorage.getItem("username") ?
               <Accordion expanded={isAccordionExpanded} onChange={handleAccordionToggle}>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-                <Typography variant="h6">Write Review</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <div className="reviewForm">
-                  <form className="reviewForm" onSubmit={onSubmit}>
-                    <Grid container spacing={2}>
-                      <Grid item xs={12}>
-                        <TextField
-                          fullWidth
-                          variant="outlined"
-                          label="Review"
-                          name="description"
-                          id="description"
-                        />
+                <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+                  <Typography variant="h6">Write Review</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <div className="reviewForm">
+                    <form className="reviewForm" onSubmit={onSubmit}>
+                      <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                          <TextField
+                            fullWidth
+                            variant="outlined"
+                            label="Review"
+                            name="description"
+                            id="description"
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <Button type="submit" variant="contained" color="primary">
+                            Add review
+                          </Button>
+                        </Grid>
                       </Grid>
-                      <Grid item xs={12}>
-                        <Button type="submit" variant="contained" color="primary">
-                          Add review
-                        </Button>
-                      </Grid>
-                    </Grid>
-                  </form>
-                </div>
-              </AccordionDetails>
-            </Accordion>
+                    </form>
+                  </div>
+                </AccordionDetails>
+              </Accordion>
               : null}
             {boardGame.reviews.length ?
               <Accordion>

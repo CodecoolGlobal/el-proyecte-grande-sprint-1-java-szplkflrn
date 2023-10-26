@@ -23,7 +23,7 @@ public class PublisherController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PublisherDto>> getAllCategory() {
+    public ResponseEntity<List<PublisherDto>> getAllPublishers() {
         if (service.findAll().isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
@@ -32,7 +32,7 @@ public class PublisherController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PublisherDto> getCategoryById(@PathVariable UUID id) {
+    public ResponseEntity<PublisherDto> getPublisherById(@PathVariable UUID id) {
         if (service.findById(id) == null) {
             throw new ResourceNotFoundException("Not found Tutorial with id = " + id);
         } else {
@@ -46,12 +46,12 @@ public class PublisherController {
     }
 
     @PostMapping
-    public ResponseEntity<PublisherDto> addNewCategory(@RequestBody PublisherDto board) {
+    public ResponseEntity<PublisherDto> addNewPublisher(@RequestBody PublisherDto board) {
         return new ResponseEntity<>(service.save(board), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<PublisherDto> deleteCategoryById(@PathVariable UUID id) {
+    public ResponseEntity<PublisherDto> deletePublisherById(@PathVariable UUID id) {
         service.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

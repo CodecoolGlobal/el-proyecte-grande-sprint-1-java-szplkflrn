@@ -51,5 +51,4 @@ public class CategoryController {
         categoryService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
 }

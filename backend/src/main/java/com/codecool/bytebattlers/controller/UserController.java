@@ -2,10 +2,8 @@ package com.codecool.bytebattlers.controller;
 
 import com.codecool.bytebattlers.controller.dto.AppUserDto;
 import com.codecool.bytebattlers.controller.exception.ResourceNotFoundException;
-import com.codecool.bytebattlers.model.AppUser;
 import com.codecool.bytebattlers.model.AuthenticationResponse;
 import com.codecool.bytebattlers.service.UserService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,9 +33,43 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<AppUserDto> getUserById(@PathVariable UUID id) {
         if (userService.findById(id) == null) {
-            throw new ResourceNotFoundException("Not found Tutorial with id = " + id);
+            throw new ResourceNotFoundException("User not found with id " + id);
         } else {
             return new ResponseEntity<>(userService.findById(id), HttpStatus.OK);
+        }
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<AppUserDto> updateUserById(@PathVariable UUID id, @RequestBody UUID appUserDto) {
+        try {
+            if (id == null || appUserDto == null) {
+                throw new Exception("Invalid input data");
+            }
+            AppUserDto user = userService.findById(id);
+            if (user == null) {
+                throw new ResourceNotFoundException("User not found with id = " + id);
+            }
+            AppUserDto updatedUser = userService.update(id, appUserDto);
+            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping("/favorites/{id}")
+    public ResponseEntity<AppUserDto> deleteBGFromUserFavorites(@PathVariable UUID id, @RequestBody UUID bgID) {
+        try {
+            if (id == null || bgID == null) {
+                throw new Exception("Invalid input data");
+            }
+            AppUserDto user = userService.findById(id);
+            if (user == null) {
+                throw new ResourceNotFoundException("User not found with id = " + id);
+            }
+            AppUserDto userWithDeletedFavorite = userService.deleteFromFavorites(id, bgID);
+            return new ResponseEntity<>(userWithDeletedFavorite, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
