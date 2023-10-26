@@ -216,7 +216,7 @@ export default function GameDetails() {
 
   return (
     <div>
-      {boardGame ? (
+      {boardGame && user !== null ? (
         <Card sx={{ maxWidth: 1000 }} style={{ margin: "auto", marginTop: 50 }}>
           <CardContent>
             Categories:
@@ -237,6 +237,12 @@ export default function GameDetails() {
                 <Typography color="textSecondary">
                   {boardGame.description}
                 </Typography>
+                <br></br>
+                {localStorage.getItem("username") ?
+                  !favorizedIDs.includes(boardGame.publicID) ?
+                    <Button onClick={handleAddToFavorites}>Add to favorites</Button> : <h4>Boardgame added to your favorites!</h4>
+                  : null
+                }
               </div>
             </div>
             <br />
@@ -272,32 +278,32 @@ export default function GameDetails() {
             <br />
             {localStorage.getItem("username") ?
               <Accordion expanded={isAccordionExpanded} onChange={handleAccordionToggle}>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-                <Typography variant="h6">Write Review</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <div className="reviewForm">
-                  <form className="reviewForm" onSubmit={onSubmit}>
-                    <Grid container spacing={2}>
-                      <Grid item xs={12}>
-                        <TextField
-                          fullWidth
-                          variant="outlined"
-                          label="Review"
-                          name="description"
-                          id="description"
-                        />
+                <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+                  <Typography variant="h6">Write Review</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <div className="reviewForm">
+                    <form className="reviewForm" onSubmit={onSubmit}>
+                      <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                          <TextField
+                            fullWidth
+                            variant="outlined"
+                            label="Review"
+                            name="description"
+                            id="description"
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <Button type="submit" variant="contained" color="primary">
+                            Add review
+                          </Button>
+                        </Grid>
                       </Grid>
-                      <Grid item xs={12}>
-                        <Button type="submit" variant="contained" color="primary">
-                          Add review
-                        </Button>
-                      </Grid>
-                    </Grid>
-                  </form>
-                </div>
-              </AccordionDetails>
-            </Accordion>
+                    </form>
+                  </div>
+                </AccordionDetails>
+              </Accordion>
               : null}
             {boardGame.reviews.length ?
               <Accordion>
