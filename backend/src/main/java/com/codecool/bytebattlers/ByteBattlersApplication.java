@@ -12,6 +12,12 @@ public class ByteBattlersApplication {
 
 
 	public static void main(String[] args) {
+		try {
 			SpringApplication.run(ByteBattlersApplication.class, args);
+		}
+		catch (Exception e) {
+			e.printStackTrace(System.out);
+		}
+
 	}
 }
