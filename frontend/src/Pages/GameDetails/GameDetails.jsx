@@ -18,6 +18,42 @@ export default function GameDetails() {
   const [boardGame, setBoardGame] = useState(null);
   const [reviewObjects, setReviewObjects] = useState([]);
   const [isAccordionExpanded, setIsAccordionExpanded] = useState(false);
+  const [user, setUser] = useState(null);
+ 
+
+  const userFetch = async () => {
+    try {
+      const userToken = localStorage.getItem("usertoken");
+      const headers = userToken
+        ? {
+          Authorization: `Bearer ${userToken}`,
+          "Content-Type": "application/json",
+        }
+        : { "Content-Type": "application/json" };
+
+      const response = await fetch(`/api/users/${localStorage.getItem("userID")}`, {
+        method: "GET",
+        headers: headers,
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setUser(data);
+      } else {
+        console.error(`Error fetching user data: ${response.statusText}`);
+      }
+    } catch (error) {
+      console.error("Error fetching user data: ", error);
+    }
+  }
+
+  useEffect(() => {
+    userFetch();
+  }, []);
+
+
+
+
 
   const handleAccordionToggle = () => {
     setIsAccordionExpanded(!isAccordionExpanded);
