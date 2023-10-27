@@ -9,7 +9,6 @@ services:
       - my-java
     ports:
       - "3456:80"
-    command: [nginx-debug, '-g', 'daemon off;']
 
   my-java:
     build: 
@@ -21,10 +20,10 @@ services:
       - SQL_SERVER=postgres
       - DATABASE=${DATABASE}
       - LOG_FOLDER=${LOG_FOLDER}
-      - PASSWORD=${PASSWORD}
       - SECRET_KEY=${SECRET_KEY}
-      - USERNAME=${USERNAME}
       - SQL_PORT=${SQL_PORT}
+      - USERNAME=postgres
+      - PASSWORD=postgres
   
   postgres:
     build:
@@ -32,10 +31,5 @@ services:
     container_name: postgres
     environment:
       POSTGRES_DB: ${DATABASE}
-      POSTGRES_USER: ${USERNAME}
-      POSTGRES_PASSWORD: ${PASSWORD}
-        #  volumes:
-        # - db_script:/docker-entrypoint-initdb.d/init-db.sh
-        # - db_file:/docker-entrypoint-initdb.d
-        # command: ["bash", "/docker-entrypoint-initdb.d/init-db.sh"]
-  
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
