@@ -26,7 +26,7 @@ SET row_security = off;
 -- *not* creating schema, since initdb creates it
 
 
-ALTER SCHEMA public OWNER TO xipi;
+ALTER SCHEMA public OWNER TO postgres;
 
 --
 -- TOC entry 2 (class 3079 OID 17329)
@@ -51,7 +51,7 @@ SET default_table_access_method = heap;
 
 --
 -- TOC entry 211 (class 1259 OID 17375)
--- Name: app_user; Type: TABLE; Schema: public; Owner: xipi
+-- Name: app_user; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.app_user (
@@ -65,11 +65,11 @@ CREATE TABLE public.app_user (
 );
 
 
-ALTER TABLE public.app_user OWNER TO xipi;
+ALTER TABLE public.app_user OWNER TO postgres;
 
 --
 -- TOC entry 215 (class 1259 OID 19332)
--- Name: app_user_favorite_board_game; Type: TABLE; Schema: public; Owner: xipi
+-- Name: app_user_favorite_board_game; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.app_user_favorite_board_game (
@@ -78,11 +78,11 @@ CREATE TABLE public.app_user_favorite_board_game (
 );
 
 
-ALTER TABLE public.app_user_favorite_board_game OWNER TO xipi;
+ALTER TABLE public.app_user_favorite_board_game OWNER TO postgres;
 
 --
 -- TOC entry 213 (class 1259 OID 17436)
--- Name: app_user_seq; Type: SEQUENCE; Schema: public; Owner: xipi
+-- Name: app_user_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public.app_user_seq
@@ -93,11 +93,11 @@ CREATE SEQUENCE public.app_user_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.app_user_seq OWNER TO xipi;
+ALTER SEQUENCE public.app_user_seq OWNER TO postgres;
 
 --
 -- TOC entry 206 (class 1259 OID 17340)
--- Name: board_game; Type: TABLE; Schema: public; Owner: xipi
+-- Name: board_game; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.board_game (
@@ -114,11 +114,11 @@ CREATE TABLE public.board_game (
 );
 
 
-ALTER TABLE public.board_game OWNER TO xipi;
+ALTER TABLE public.board_game OWNER TO postgres;
 
 --
 -- TOC entry 207 (class 1259 OID 17349)
--- Name: board_game_categories; Type: TABLE; Schema: public; Owner: xipi
+-- Name: board_game_categories; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.board_game_categories (
@@ -127,11 +127,11 @@ CREATE TABLE public.board_game_categories (
 );
 
 
-ALTER TABLE public.board_game_categories OWNER TO xipi;
+ALTER TABLE public.board_game_categories OWNER TO postgres;
 
 --
 -- TOC entry 212 (class 1259 OID 17423)
--- Name: board_game_reviews; Type: TABLE; Schema: public; Owner: xipi
+-- Name: board_game_reviews; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.board_game_reviews (
@@ -140,11 +140,11 @@ CREATE TABLE public.board_game_reviews (
 );
 
 
-ALTER TABLE public.board_game_reviews OWNER TO xipi;
+ALTER TABLE public.board_game_reviews OWNER TO postgres;
 
 --
 -- TOC entry 214 (class 1259 OID 17438)
--- Name: board_game_seq; Type: SEQUENCE; Schema: public; Owner: xipi
+-- Name: board_game_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public.board_game_seq
@@ -155,11 +155,11 @@ CREATE SEQUENCE public.board_game_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.board_game_seq OWNER TO xipi;
+ALTER SEQUENCE public.board_game_seq OWNER TO postgres;
 
 --
 -- TOC entry 208 (class 1259 OID 17354)
--- Name: category; Type: TABLE; Schema: public; Owner: xipi
+-- Name: category; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.category (
@@ -170,11 +170,11 @@ CREATE TABLE public.category (
 );
 
 
-ALTER TABLE public.category OWNER TO xipi;
+ALTER TABLE public.category OWNER TO postgres;
 
 --
 -- TOC entry 203 (class 1259 OID 17323)
--- Name: category_seq; Type: SEQUENCE; Schema: public; Owner: xipi
+-- Name: category_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public.category_seq
@@ -185,11 +185,11 @@ CREATE SEQUENCE public.category_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.category_seq OWNER TO xipi;
+ALTER SEQUENCE public.category_seq OWNER TO postgres;
 
 --
 -- TOC entry 209 (class 1259 OID 17363)
--- Name: publisher; Type: TABLE; Schema: public; Owner: xipi
+-- Name: publisher; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.publisher (
@@ -199,11 +199,11 @@ CREATE TABLE public.publisher (
 );
 
 
-ALTER TABLE public.publisher OWNER TO xipi;
+ALTER TABLE public.publisher OWNER TO postgres;
 
 --
 -- TOC entry 204 (class 1259 OID 17325)
--- Name: publisher_seq; Type: SEQUENCE; Schema: public; Owner: xipi
+-- Name: publisher_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public.publisher_seq
@@ -214,11 +214,11 @@ CREATE SEQUENCE public.publisher_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.publisher_seq OWNER TO xipi;
+ALTER SEQUENCE public.publisher_seq OWNER TO postgres;
 
 --
 -- TOC entry 210 (class 1259 OID 17369)
--- Name: review; Type: TABLE; Schema: public; Owner: xipi
+-- Name: review; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.review (
@@ -230,11 +230,11 @@ CREATE TABLE public.review (
 );
 
 
-ALTER TABLE public.review OWNER TO xipi;
+ALTER TABLE public.review OWNER TO postgres;
 
 --
 -- TOC entry 205 (class 1259 OID 17327)
--- Name: review_seq; Type: SEQUENCE; Schema: public; Owner: xipi
+-- Name: review_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public.review_seq
@@ -245,12 +245,12 @@ CREATE SEQUENCE public.review_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.review_seq OWNER TO xipi;
+ALTER SEQUENCE public.review_seq OWNER TO postgres;
 
 --
 -- TOC entry 3057 (class 0 OID 17375)
 -- Dependencies: 211
--- Data for Name: app_user; Type: TABLE DATA; Schema: public; Owner: xipi
+-- Data for Name: app_user; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 INSERT INTO public.app_user (id, public_id, user_name, password, email, role) VALUES (252, 'faaad4d9-d5e1-4735-acec-b32c7781f3fb', 'Master', '$2a$10$tI7gEggKyi/XXWnGIz4x9ev96MuTqN8J/GIDCIqYvbatwK.YisdRK', 'email', 'USER');
@@ -276,7 +276,7 @@ INSERT INTO public.app_user (id, public_id, user_name, password, email, role) VA
 --
 -- TOC entry 3061 (class 0 OID 19332)
 -- Dependencies: 215
--- Data for Name: app_user_favorite_board_game; Type: TABLE DATA; Schema: public; Owner: xipi
+-- Data for Name: app_user_favorite_board_game; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 
@@ -284,7 +284,7 @@ INSERT INTO public.app_user (id, public_id, user_name, password, email, role) VA
 --
 -- TOC entry 3052 (class 0 OID 17340)
 -- Dependencies: 206
--- Data for Name: board_game; Type: TABLE DATA; Schema: public; Owner: xipi
+-- Data for Name: board_game; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 INSERT INTO public.board_game (id, public_id, game_name, min_player, max_player, play_time_in_minutes, recommended_age, description, rating, publisher_id) VALUES (1, 'e79ea172-40ce-4fdc-b6d7-c5c2abb3161b', 'Brass: Birmingham', 2, 4, 120, 10, 'Build networks, grow industries, and navigate the world of the Industrial Revolution.', 7.3, 1);
@@ -328,7 +328,7 @@ INSERT INTO public.board_game (id, public_id, game_name, min_player, max_player,
 --
 -- TOC entry 3053 (class 0 OID 17349)
 -- Dependencies: 207
--- Data for Name: board_game_categories; Type: TABLE DATA; Schema: public; Owner: xipi
+-- Data for Name: board_game_categories; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 INSERT INTO public.board_game_categories (board_game_id, categories_id) VALUES (1, 1);
@@ -435,7 +435,7 @@ INSERT INTO public.board_game_categories (board_game_id, categories_id) VALUES (
 --
 -- TOC entry 3058 (class 0 OID 17423)
 -- Dependencies: 212
--- Data for Name: board_game_reviews; Type: TABLE DATA; Schema: public; Owner: xipi
+-- Data for Name: board_game_reviews; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 INSERT INTO public.board_game_reviews (board_game_id, reviews_id) VALUES (1, 1);
@@ -483,7 +483,7 @@ INSERT INTO public.board_game_reviews (board_game_id, reviews_id) VALUES (2, 402
 --
 -- TOC entry 3054 (class 0 OID 17354)
 -- Dependencies: 208
--- Data for Name: category; Type: TABLE DATA; Schema: public; Owner: xipi
+-- Data for Name: category; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 INSERT INTO public.category (id, public_id, name, description) VALUES (1, '00ce4a31-fa82-4d75-aab1-5999b39f93f5', 'City Building', 'City Building games compel players to construct and manage a city in a way that is efficient  powerful  and/or lucrative.');
@@ -504,7 +504,7 @@ INSERT INTO public.category (id, public_id, name, description) VALUES (13, '93de
 --
 -- TOC entry 3055 (class 0 OID 17363)
 -- Dependencies: 209
--- Data for Name: publisher; Type: TABLE DATA; Schema: public; Owner: xipi
+-- Data for Name: publisher; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 INSERT INTO public.publisher (id, public_id, publisher_name) VALUES (1, 'ee7ca3ff-2579-4023-ac4b-4b027ec33ebf', '10 Traders');
@@ -524,7 +524,7 @@ INSERT INTO public.publisher (id, public_id, publisher_name) VALUES (12, '04d7ad
 --
 -- TOC entry 3056 (class 0 OID 17369)
 -- Dependencies: 210
--- Data for Name: review; Type: TABLE DATA; Schema: public; Owner: xipi
+-- Data for Name: review; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 INSERT INTO public.review (id, public_id, description, board_game_id, app_user_id) VALUES (2, '5330f8e3-6129-4557-8031-09dded5f49e0', 'Horrible', 2, 302);
@@ -572,7 +572,7 @@ INSERT INTO public.review (id, public_id, description, board_game_id, app_user_i
 --
 -- TOC entry 3069 (class 0 OID 0)
 -- Dependencies: 213
--- Name: app_user_seq; Type: SEQUENCE SET; Schema: public; Owner: xipi
+-- Name: app_user_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.app_user_seq', 601, true);
@@ -581,7 +581,7 @@ SELECT pg_catalog.setval('public.app_user_seq', 601, true);
 --
 -- TOC entry 3070 (class 0 OID 0)
 -- Dependencies: 214
--- Name: board_game_seq; Type: SEQUENCE SET; Schema: public; Owner: xipi
+-- Name: board_game_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.board_game_seq', 501, true);
@@ -590,7 +590,7 @@ SELECT pg_catalog.setval('public.board_game_seq', 501, true);
 --
 -- TOC entry 3071 (class 0 OID 0)
 -- Dependencies: 203
--- Name: category_seq; Type: SEQUENCE SET; Schema: public; Owner: xipi
+-- Name: category_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.category_seq', 101, true);
@@ -599,7 +599,7 @@ SELECT pg_catalog.setval('public.category_seq', 101, true);
 --
 -- TOC entry 3072 (class 0 OID 0)
 -- Dependencies: 204
--- Name: publisher_seq; Type: SEQUENCE SET; Schema: public; Owner: xipi
+-- Name: publisher_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.publisher_seq', 101, true);
@@ -608,7 +608,7 @@ SELECT pg_catalog.setval('public.publisher_seq', 101, true);
 --
 -- TOC entry 3073 (class 0 OID 0)
 -- Dependencies: 205
--- Name: review_seq; Type: SEQUENCE SET; Schema: public; Owner: xipi
+-- Name: review_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.review_seq', 451, true);
@@ -616,7 +616,7 @@ SELECT pg_catalog.setval('public.review_seq', 451, true);
 
 --
 -- TOC entry 2913 (class 2606 OID 19336)
--- Name: app_user_favorite_board_game app_user_favorite_board_game_pkey; Type: CONSTRAINT; Schema: public; Owner: xipi
+-- Name: app_user_favorite_board_game app_user_favorite_board_game_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.app_user_favorite_board_game
@@ -625,7 +625,7 @@ ALTER TABLE ONLY public.app_user_favorite_board_game
 
 --
 -- TOC entry 2909 (class 2606 OID 17427)
--- Name: board_game_reviews board_game_reviews_pkey; Type: CONSTRAINT; Schema: public; Owner: xipi
+-- Name: board_game_reviews board_game_reviews_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.board_game_reviews
@@ -634,7 +634,7 @@ ALTER TABLE ONLY public.board_game_reviews
 
 --
 -- TOC entry 2883 (class 2606 OID 17348)
--- Name: board_game pk_board_game; Type: CONSTRAINT; Schema: public; Owner: xipi
+-- Name: board_game pk_board_game; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.board_game
@@ -643,7 +643,7 @@ ALTER TABLE ONLY public.board_game
 
 --
 -- TOC entry 2887 (class 2606 OID 17353)
--- Name: board_game_categories pk_board_game_categories; Type: CONSTRAINT; Schema: public; Owner: xipi
+-- Name: board_game_categories pk_board_game_categories; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.board_game_categories
@@ -652,7 +652,7 @@ ALTER TABLE ONLY public.board_game_categories
 
 --
 -- TOC entry 2889 (class 2606 OID 17362)
--- Name: category pk_category; Type: CONSTRAINT; Schema: public; Owner: xipi
+-- Name: category pk_category; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.category
@@ -661,7 +661,7 @@ ALTER TABLE ONLY public.category
 
 --
 -- TOC entry 2895 (class 2606 OID 17368)
--- Name: publisher pk_publisher; Type: CONSTRAINT; Schema: public; Owner: xipi
+-- Name: publisher pk_publisher; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.publisher
@@ -670,7 +670,7 @@ ALTER TABLE ONLY public.publisher
 
 --
 -- TOC entry 2901 (class 2606 OID 17374)
--- Name: review pk_review; Type: CONSTRAINT; Schema: public; Owner: xipi
+-- Name: review pk_review; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.review
@@ -679,7 +679,7 @@ ALTER TABLE ONLY public.review
 
 --
 -- TOC entry 2905 (class 2606 OID 17383)
--- Name: app_user pk_user; Type: CONSTRAINT; Schema: public; Owner: xipi
+-- Name: app_user pk_user; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.app_user
@@ -688,7 +688,7 @@ ALTER TABLE ONLY public.app_user
 
 --
 -- TOC entry 2885 (class 2606 OID 17385)
--- Name: board_game uc_board_game_public; Type: CONSTRAINT; Schema: public; Owner: xipi
+-- Name: board_game uc_board_game_public; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.board_game
@@ -697,7 +697,7 @@ ALTER TABLE ONLY public.board_game
 
 --
 -- TOC entry 2891 (class 2606 OID 17387)
--- Name: category uc_category_name; Type: CONSTRAINT; Schema: public; Owner: xipi
+-- Name: category uc_category_name; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.category
@@ -706,7 +706,7 @@ ALTER TABLE ONLY public.category
 
 --
 -- TOC entry 2893 (class 2606 OID 17389)
--- Name: category uc_category_public; Type: CONSTRAINT; Schema: public; Owner: xipi
+-- Name: category uc_category_public; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.category
@@ -715,7 +715,7 @@ ALTER TABLE ONLY public.category
 
 --
 -- TOC entry 2897 (class 2606 OID 17391)
--- Name: publisher uc_publisher_public; Type: CONSTRAINT; Schema: public; Owner: xipi
+-- Name: publisher uc_publisher_public; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.publisher
@@ -724,7 +724,7 @@ ALTER TABLE ONLY public.publisher
 
 --
 -- TOC entry 2899 (class 2606 OID 17393)
--- Name: publisher uc_publisher_publisher_name; Type: CONSTRAINT; Schema: public; Owner: xipi
+-- Name: publisher uc_publisher_publisher_name; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.publisher
@@ -733,7 +733,7 @@ ALTER TABLE ONLY public.publisher
 
 --
 -- TOC entry 2903 (class 2606 OID 17395)
--- Name: review uc_review_public; Type: CONSTRAINT; Schema: public; Owner: xipi
+-- Name: review uc_review_public; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.review
@@ -742,7 +742,7 @@ ALTER TABLE ONLY public.review
 
 --
 -- TOC entry 2907 (class 2606 OID 17397)
--- Name: app_user uc_user_public; Type: CONSTRAINT; Schema: public; Owner: xipi
+-- Name: app_user uc_user_public; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.app_user
@@ -751,7 +751,7 @@ ALTER TABLE ONLY public.app_user
 
 --
 -- TOC entry 2911 (class 2606 OID 17435)
--- Name: board_game_reviews uk_8fsv5nv6hhpwddui0lkh7e8ou; Type: CONSTRAINT; Schema: public; Owner: xipi
+-- Name: board_game_reviews uk_8fsv5nv6hhpwddui0lkh7e8ou; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.board_game_reviews
@@ -760,7 +760,7 @@ ALTER TABLE ONLY public.board_game_reviews
 
 --
 -- TOC entry 2915 (class 2606 OID 17413)
--- Name: board_game_categories fk_boagamcat_on_board_game; Type: FK CONSTRAINT; Schema: public; Owner: xipi
+-- Name: board_game_categories fk_boagamcat_on_board_game; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.board_game_categories
@@ -769,7 +769,7 @@ ALTER TABLE ONLY public.board_game_categories
 
 --
 -- TOC entry 2916 (class 2606 OID 17418)
--- Name: board_game_categories fk_boagamcat_on_category; Type: FK CONSTRAINT; Schema: public; Owner: xipi
+-- Name: board_game_categories fk_boagamcat_on_category; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.board_game_categories
@@ -778,7 +778,7 @@ ALTER TABLE ONLY public.board_game_categories
 
 --
 -- TOC entry 2914 (class 2606 OID 17398)
--- Name: board_game fk_board_game_on_publisher; Type: FK CONSTRAINT; Schema: public; Owner: xipi
+-- Name: board_game fk_board_game_on_publisher; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.board_game
@@ -787,7 +787,7 @@ ALTER TABLE ONLY public.board_game
 
 --
 -- TOC entry 2917 (class 2606 OID 17403)
--- Name: review fk_review_on_board_game; Type: FK CONSTRAINT; Schema: public; Owner: xipi
+-- Name: review fk_review_on_board_game; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.review
@@ -796,7 +796,7 @@ ALTER TABLE ONLY public.review
 
 --
 -- TOC entry 2918 (class 2606 OID 17408)
--- Name: review fk_review_on_user; Type: FK CONSTRAINT; Schema: public; Owner: xipi
+-- Name: review fk_review_on_user; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.review
@@ -805,7 +805,7 @@ ALTER TABLE ONLY public.review
 
 --
 -- TOC entry 2921 (class 2606 OID 19337)
--- Name: app_user_favorite_board_game fkilfbd8k8kxolpdhc943mksi5d; Type: FK CONSTRAINT; Schema: public; Owner: xipi
+-- Name: app_user_favorite_board_game fkilfbd8k8kxolpdhc943mksi5d; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.app_user_favorite_board_game
@@ -814,7 +814,7 @@ ALTER TABLE ONLY public.app_user_favorite_board_game
 
 --
 -- TOC entry 2919 (class 2606 OID 17440)
--- Name: board_game_reviews fkki564u29is2kkeh03gk2l5mjv; Type: FK CONSTRAINT; Schema: public; Owner: xipi
+-- Name: board_game_reviews fkki564u29is2kkeh03gk2l5mjv; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.board_game_reviews
@@ -823,7 +823,7 @@ ALTER TABLE ONLY public.board_game_reviews
 
 --
 -- TOC entry 2920 (class 2606 OID 17445)
--- Name: board_game_reviews fkl8pn42mu2vktex77qoqdhqqn1; Type: FK CONSTRAINT; Schema: public; Owner: xipi
+-- Name: board_game_reviews fkl8pn42mu2vktex77qoqdhqqn1; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.board_game_reviews
@@ -832,7 +832,7 @@ ALTER TABLE ONLY public.board_game_reviews
 
 --
 -- TOC entry 2922 (class 2606 OID 19342)
--- Name: app_user_favorite_board_game fkpb3dfit9oyxqw9kae5dq2c3xl; Type: FK CONSTRAINT; Schema: public; Owner: xipi
+-- Name: app_user_favorite_board_game fkpb3dfit9oyxqw9kae5dq2c3xl; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.app_user_favorite_board_game
