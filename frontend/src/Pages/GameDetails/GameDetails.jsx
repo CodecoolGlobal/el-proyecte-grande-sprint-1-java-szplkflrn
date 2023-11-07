@@ -3,11 +3,13 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
+  Rating, FormControl,
   Grid, TextField, Button, Paper, TableRow,
   TableHead, TableContainer, TableCell, TableBody, Table,
   Accordion, AccordionSummary, AccordionDetails, Card, CardContent, Typography
 } from '@mui/material';
 import "./GameDetails.css";
+
 
 const imgStyle = {
   maxWidth: 300
@@ -19,7 +21,11 @@ export default function GameDetails() {
   const [reviewObjects, setReviewObjects] = useState([]);
   const [isAccordionExpanded, setIsAccordionExpanded] = useState(false);
   const [user, setUser] = useState(null);
- 
+  const [rating, setRating] = useState(0);
+  const handleRatingChange = (event, newValue) => {
+    setRating(newValue);
+  };
+
 
   const userFetch = async () => {
     try {
@@ -52,7 +58,29 @@ export default function GameDetails() {
   }, []);
 
 
-
+  const handleSubmitRating = async (id) => {
+    try {
+      const userToken = localStorage.getItem("usertoken");
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userToken}`,
+      };
+  
+      const response = await fetch(`/api/games/ratethegame/${id}`, {
+        method: 'POST',
+        headers: headers,
+        body: rating,
+      });
+  
+      if (response.ok) {
+        return await response.text();
+      } else {
+        throw new Error(`Error submitting rating: ${response.statusText}`);
+      }
+    } catch (error) {
+      console.error("Error submitting rating: ", error);
+    }
+  };
 
 
   const handleAccordionToggle = () => {
@@ -240,7 +268,17 @@ export default function GameDetails() {
                 <br></br>
                 {localStorage.getItem("username") ?
                   !favorizedIDs.includes(boardGame.publicID) ?
-                    <Button onClick={handleAddToFavorites}>Add to favorites</Button> : <h4>Boardgame added to your favorites!</h4>
+                    <div>
+                      <Button onClick={handleAddToFavorites}>Add to favorites</Button><br></br>
+                      <FormControl>
+                        <Typography variant="h6">Rate the game!</Typography>
+                        <Rating name="half-rating-read" precision={0.5} value={rating} onChange={handleRatingChange} />
+                        <Button variant="contained" color="primary" onClick={() => handleSubmitRating(boardGame.publicID)}>
+                          Submit
+                        </Button>
+                      </FormControl>
+                    </div>
+                    : <h4>Boardgame added to your favorites!</h4>
                   : null
                 }
               </div>
