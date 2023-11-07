@@ -157,7 +157,7 @@ export default function GameList() {
       if (!response.ok) {
         throw new Error(`Error fetching categories: ${response.statusText}`);
       }
-      const data = await response.json();
+      const data = await response.text();
       setCategories(data);
     } catch (error) {
       console.error("Error fetching categories:", error);
@@ -594,7 +594,7 @@ export default function GameList() {
                         })}
                   </TableCell>
                   <TableCell style={{ width: 160 }} align="center">
-                    {row.rating}
+                  <Rating name="half-rating-read" defaultValue={row.rating} precision={0.1} readOnly />
                   </TableCell>
                 </TableRow>
               ))}
