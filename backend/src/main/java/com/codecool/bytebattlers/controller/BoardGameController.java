@@ -4,6 +4,7 @@ import com.codecool.bytebattlers.controller.dto.BoardGameDto;
 import com.codecool.bytebattlers.controller.exception.ResourceNotFoundException;
 import com.codecool.bytebattlers.mapper.BoardGameMapper;
 import com.codecool.bytebattlers.model.BoardGame;
+import com.codecool.bytebattlers.repository.BoardGameRepository;
 import com.codecool.bytebattlers.service.BoardGameService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,12 +25,15 @@ public class BoardGameController {
 
     private final Logger logger = LoggerFactory.getLogger(BoardGameController.class);
     private final BoardGameMapper boardGameMapper;
+    private final BoardGameRepository boardGameRepository;
 
     @Autowired
     public BoardGameController(BoardGameService boardGameService,
-                               BoardGameMapper boardGameMapper) {
+                               BoardGameMapper boardGameMapper,
+                               BoardGameRepository boardGameRepository) {
         this.boardGameService = boardGameService;
         this.boardGameMapper = boardGameMapper;
+        this.boardGameRepository = boardGameRepository;
     }
 
     @GetMapping
@@ -46,6 +50,23 @@ public class BoardGameController {
        List<BoardGame> favBoardGames = uuids.stream().map(boardGameService::findByPublicID).toList();
        List<BoardGameDto> bgDtos = favBoardGames.stream().map(boardGameMapper::toDto).toList();
         return new ResponseEntity<>(bgDtos, HttpStatus.OK);
+    }
+
+    @PostMapping("/ratethegame/{id}")
+    public ResponseEntity<BoardGame> addRatingToBG(@PathVariable UUID id,@RequestBody String rating){
+        BoardGame bg = boardGameService.findByPublicID(id);
+
+        int originalRatingCount = bg.getRatingCount();
+        int newRatingCount = originalRatingCount + 1;
+
+        double originalRating = bg.getRating();
+        double newRating = (originalRating + Double.parseDouble(rating)) / newRatingCount;
+        double roundedRating = Math.round(newRating * 10.0) / 10.0;
+
+        bg.setRatingCount(newRatingCount);
+        bg.setRating(roundedRating);
+        boardGameRepository.save(bg);
+        return new ResponseEntity<>(bg, HttpStatus.OK);
     }
 
 
