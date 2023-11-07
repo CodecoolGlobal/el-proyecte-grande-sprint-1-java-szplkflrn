@@ -4,26 +4,13 @@ import FirstPageIcon from "@mui/icons-material/FirstPage";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import LastPageIcon from "@mui/icons-material/LastPage";
+
 import {
-  Link,
-  FormControl,
-  Select,
-  MenuItem,
-  Button,
-  InputLabel,
-  TextField,
-  useTheme,
-  TableBody,
-  Table,
-  Box,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableFooter,
-  TablePagination,
-  TableRow,
-  Paper,
-  IconButton,
+  Link,Rating,FormControl,Select,
+  MenuItem,Button,InputLabel,TextField,
+  useTheme,TableBody,Table,Box,
+  TableCell,TableContainer,TableHead,TableFooter,
+  TablePagination,TableRow,Paper,IconButton,
 } from "@mui/material";
 
 function TablePaginationActions(props) {
@@ -170,7 +157,7 @@ export default function GameList() {
       if (!response.ok) {
         throw new Error(`Error fetching categories: ${response.statusText}`);
       }
-      const data = await response.json();
+      const data = await response.text();
       setCategories(data);
     } catch (error) {
       console.error("Error fetching categories:", error);
@@ -607,7 +594,7 @@ export default function GameList() {
                         })}
                   </TableCell>
                   <TableCell style={{ width: 160 }} align="center">
-                    {row.rating}
+                  <Rating name="half-rating-read" defaultValue={row.rating} precision={0.1} readOnly />
                   </TableCell>
                 </TableRow>
               ))}
