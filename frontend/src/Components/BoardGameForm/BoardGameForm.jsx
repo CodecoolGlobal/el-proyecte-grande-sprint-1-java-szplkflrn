@@ -103,6 +103,9 @@ const BoardGameForm = ({ onSave, onCancel }) => {
   
     boardGame.reviews = [];
     boardGame.appUserPublicIDS = [];
+    boardGame.rating_count = 0;
+    boardGame.rating = 0;
+    
     onSave(boardGame);
   };
   
@@ -158,16 +161,6 @@ const BoardGameForm = ({ onSave, onCancel }) => {
           <input
             name="description"
             id="description"
-          />
-        </div>
-        <div className="control">
-          <label htmlFor="rating">Rating: </label>
-          <input
-            type="number"
-            step="0.5"
-            max='10'
-            name="rating"
-            id="rating"
           />
         </div>
         <div className="control">
