@@ -51,7 +51,9 @@ public class BoardGame {
     @Column(name = "rating", nullable = false)
     private double rating;
 
-    private int ratingCount;
+    @Column(name = "rating_count")
+    @JdbcTypeCode(SqlTypes.INTEGER)
+    private Integer ratingCount;
 
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "publisher_id", nullable = false)
