@@ -25,18 +25,21 @@ public class BoardGameService {
     private final CategoryRepository categoryRepository;
     private final AppUserRepository appUserRepository;
 
+    private final RatingService ratingService;
+
     @Autowired
     public BoardGameService(
             BoardGameRepository boardGameRepository,
             PublisherService publisherService,
             BoardGameMapper boardGameMapper,
             CategoryRepository categoryRepository,
-            AppUserRepository appUserRepository) {
+            AppUserRepository appUserRepository, RatingService ratingService) {
         this.boardGameRepository = boardGameRepository;
         this.publisherService = publisherService;
         this.boardGameMapper = boardGameMapper;
         this.categoryRepository = categoryRepository;
         this.appUserRepository = appUserRepository;
+        this.ratingService = ratingService;
     }
 
 
@@ -125,11 +128,6 @@ public class BoardGameService {
                 .toList();
     }
 
-    public List<BoardGameDto> findByMoreThanOrEqualsRating(double rating) {
-        return boardGameRepository.findBoardGamesByRatingGreaterThanEqual(rating)
-                .stream().map(boardGameMapper::toDto)
-                .toList();
-    }
 
 }
 
