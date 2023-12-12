@@ -20,6 +20,8 @@ import java.util.UUID;
 @RequestMapping("/api/games")
 public class BoardGameController {
 
+    private static final String ERROR_MESSAGE = "No found game";
+
 
     private final BoardGameService boardGameService;
 
