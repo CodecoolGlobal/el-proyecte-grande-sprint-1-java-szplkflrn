@@ -1,3 +1,15 @@
+POST http://localhost:8080/api/ratings
+Content-Type: application/json
+
+{
+  "appUserPublicID": "0ff9f2cd-0a40-497a-923b-ecb8371710c8",
+  "appUserName": "I am the best",
+  "boardGamePublicID": "0a671be1-9b18-4bfc-a750-c79b43f52e78",
+  "boardGameGameName": "Great Western Trail: Second Edition",
+  "ratingNumber": "10"
+}
+
+###
 POST http://localhost:8080/api/users
 Content-Type: application/json
 
@@ -94,5 +106,6 @@ Content-Type: application/json
   "publisherPublicID": "63547281-48b6-489a-bab2-dc82f265a38d"
 }
 
-
 ###
+
+
