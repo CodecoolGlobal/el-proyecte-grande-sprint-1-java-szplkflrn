@@ -4,10 +4,7 @@ import com.codecool.bytebattlers.controller.dto.BoardGameDto;
 import com.codecool.bytebattlers.controller.exception.ResourceNotFoundException;
 import com.codecool.bytebattlers.mapper.BoardGameMapper;
 import com.codecool.bytebattlers.model.BoardGame;
-import com.codecool.bytebattlers.repository.BoardGameRepository;
 import com.codecool.bytebattlers.service.BoardGameService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,9 +22,7 @@ public class BoardGameController {
 
     private final BoardGameService boardGameService;
 
-    private final Logger logger = LoggerFactory.getLogger(BoardGameController.class);
     private final BoardGameMapper boardGameMapper;
-    private final BoardGameRepository boardGameRepository;
 
     @Autowired
     public BoardGameController(BoardGameService boardGameService,
@@ -35,7 +30,6 @@ public class BoardGameController {
                                BoardGameRepository boardGameRepository) {
         this.boardGameService = boardGameService;
         this.boardGameMapper = boardGameMapper;
-        this.boardGameRepository = boardGameRepository;
     }
 
     @GetMapping
