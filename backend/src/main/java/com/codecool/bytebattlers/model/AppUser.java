@@ -48,4 +48,7 @@ public class AppUser {
             inverseJoinColumns = @JoinColumn(name = "favorite_board_game_id"))
     private Set<BoardGame> favoriteBoardGames = new LinkedHashSet<>();
 
+    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Rating> ratings = new LinkedHashSet<>();
+
 }
