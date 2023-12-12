@@ -26,8 +26,7 @@ public class BoardGameController {
 
     @Autowired
     public BoardGameController(BoardGameService boardGameService,
-                               BoardGameMapper boardGameMapper,
-                               BoardGameRepository boardGameRepository) {
+                               BoardGameMapper boardGameMapper) {
         this.boardGameService = boardGameService;
         this.boardGameMapper = boardGameMapper;
     }
@@ -46,23 +45,6 @@ public class BoardGameController {
        List<BoardGame> favBoardGames = uuids.stream().map(boardGameService::findByPublicID).toList();
        List<BoardGameDto> bgDtos = favBoardGames.stream().map(boardGameMapper::toDto).toList();
         return new ResponseEntity<>(bgDtos, HttpStatus.OK);
-    }
-
-    @PostMapping("/ratethegame/{id}")
-    public ResponseEntity<BoardGame> addRatingToBG(@PathVariable UUID id,@RequestBody String rating){
-        BoardGame bg = boardGameService.findByPublicID(id);
-
-        int originalRatingCount = bg.getRatingCount();
-        int newRatingCount = originalRatingCount + 1;
-
-        double originalRating = bg.getRating();
-        double newRating = (originalRating + Double.parseDouble(rating)) / newRatingCount;
-        double roundedRating = Math.round(newRating * 10.0) / 10.0;
-
-        bg.setRatingCount(newRatingCount);
-        bg.setRating(roundedRating);
-        boardGameRepository.save(bg);
-        return new ResponseEntity<>(bg, HttpStatus.OK);
     }
 
 
@@ -145,16 +127,6 @@ public class BoardGameController {
             throw new ResourceNotFoundException(ERROR_MESSAGE);
         } else {
             return new ResponseEntity<>(boardGameService.findByMoreThanOrEqualsMinPlayer(min), HttpStatus.OK);
-        }
-    }
-
-    @GetMapping("/rating")
-    @ResponseBody
-    public ResponseEntity<List<BoardGameDto>> findAllBoardGamesGreaterThanOrEqualsByMinPlayer(@RequestParam double rating) {
-        if (boardGameService.findByMoreThanOrEqualsRating(rating).isEmpty()) {
-            throw new ResourceNotFoundException("No found game");
-        } else {
-            return new ResponseEntity<>(boardGameService.findByMoreThanOrEqualsRating(rating), HttpStatus.OK);
         }
     }
 }
