@@ -32,6 +32,4 @@ public interface BoardGameRepository extends JpaRepository<BoardGame, Long> {
 
     List<BoardGame> findAllByMinPlayerGreaterThanEqual(int min);
 
-    List<BoardGame> findBoardGamesByRatingGreaterThanEqual(double min);
-
 }
