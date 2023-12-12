@@ -591,7 +591,7 @@ export default function GameList() {
                       })}
                   </TableCell>
                   <TableCell style={{ width: 160 }} align="center">
-                    <Rating name="half-rating-read" defaultValue={row.rating} precision={0.1} readOnly />
+                  <Rating name="customized-10" max={10} defaultValue={row.rating} precision={0.1} readOnly />
                   </TableCell>
                 </TableRow>
               ))}

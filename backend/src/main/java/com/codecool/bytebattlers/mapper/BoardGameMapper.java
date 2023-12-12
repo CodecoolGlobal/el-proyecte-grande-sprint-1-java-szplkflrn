@@ -15,6 +15,11 @@ public interface BoardGameMapper {
         boardGame.getReviews().forEach(review -> review.setBoardGame(boardGame));
     }
 
+    @AfterMapping
+    default void linkRatings(@MappingTarget BoardGame boardGame) {
+        boardGame.getRatings().forEach(rating -> rating.setBoardGame(boardGame));
+    }
+
     @InheritInverseConfiguration(name = "toEntity")
     BoardGameDto toDto(BoardGame boardGame);
 

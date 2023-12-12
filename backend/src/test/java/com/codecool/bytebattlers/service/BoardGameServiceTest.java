@@ -34,6 +34,9 @@ class BoardGameServiceTest {
     @Mock
     private AppUserRepository appUserRepository;
 
+    @Mock
+    private RatingService ratingService;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
@@ -42,8 +45,8 @@ class BoardGameServiceTest {
                 this.publisherService,
                 this.boardGameMapper,
                 this.categoryRepository,
-                this.appUserRepository
-        );
+                this.appUserRepository,
+                this.ratingService);
     }
 
     @Test
