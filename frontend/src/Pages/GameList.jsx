@@ -6,11 +6,11 @@ import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import LastPageIcon from "@mui/icons-material/LastPage";
 
 import {
-  Link,Rating,FormControl,Select,
-  MenuItem,Button,InputLabel,TextField,
-  useTheme,TableBody,Table,Box,
-  TableCell,TableContainer,TableHead,TableFooter,
-  TablePagination,TableRow,Paper,IconButton,
+  Link, Rating, FormControl, Select,
+  MenuItem, Button, InputLabel, TextField,
+  useTheme, TableBody, Table, Box,
+  TableCell, TableContainer, TableHead, TableFooter,
+  TablePagination, TableRow, Paper, IconButton,
 } from "@mui/material";
 
 function TablePaginationActions(props) {
@@ -102,9 +102,9 @@ export default function GameList() {
       const userToken = localStorage.getItem("usertoken");
       const headers = userToken
         ? {
-            Authorization: `Bearer ${userToken}`,
-            "Content-Type": "application/json",
-          }
+          Authorization: `Bearer ${userToken}`,
+          "Content-Type": "application/json",
+        }
         : { "Content-Type": "application/json" };
 
       const response = await fetch("/api/games", {
@@ -128,9 +128,9 @@ export default function GameList() {
       const userToken = localStorage.getItem("usertoken");
       const headers = userToken
         ? {
-            Authorization: `Bearer ${userToken}`,
-            "Content-Type": "application/json",
-          }
+          Authorization: `Bearer ${userToken}`,
+          "Content-Type": "application/json",
+        }
         : { "Content-Type": "application/json" };
       const response = await fetch(
         `/api/games/search?boardGameName=${searchField}`,
@@ -157,7 +157,7 @@ export default function GameList() {
       if (!response.ok) {
         throw new Error(`Error fetching categories: ${response.statusText}`);
       }
-      const data = await response.text();
+      const data = await response.json();
       setCategories(data);
     } catch (error) {
       console.error("Error fetching categories:", error);
@@ -497,11 +497,8 @@ export default function GameList() {
                         label="Category"
                         onChange={handleChangeOnCategory}
                       >
-                        {categories.map((category, index) => (
-                          <MenuItem
-                            key={category.name + index}
-                            value={category.publicID}
-                          >
+                        {categories && categories.map((category, index) => (
+                          <MenuItem key={category.name + index} value={category.publicID}>
                             {category.name}
                           </MenuItem>
                         ))}
@@ -590,8 +587,8 @@ export default function GameList() {
                     {row.categories === undefined
                       ? ""
                       : row.categories.map((category) => {
-                          return <p key={category.publicID}>{category.name}</p>;
-                        })}
+                        return <p key={category.publicID}>{category.name}</p>;
+                      })}
                   </TableCell>
                   <TableCell style={{ width: 160 }} align="center">
                   <Rating name="customized-10" max={10} defaultValue={row.rating} precision={0.1} readOnly />

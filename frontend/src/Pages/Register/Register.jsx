@@ -18,6 +18,8 @@ const Register = ({ onSave, onCancel }) => {
     }, {});
     user.favoriteBoardGamePublicIDS = "";
     user.reviews = [];
+    user.favoriteBoardGamePublicIDS = [];
+    user.ratings = [];
     console.log(user);
     onSave(user);
   };
