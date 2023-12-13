@@ -6,11 +6,26 @@ import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import LastPageIcon from "@mui/icons-material/LastPage";
 
 import {
-  Link, Rating, FormControl, Select,
-  MenuItem, Button, InputLabel, TextField,
-  useTheme, TableBody, Table, Box,
-  TableCell, TableContainer, TableHead, TableFooter,
-  TablePagination, TableRow, Paper, IconButton,
+  Link,
+  Rating,
+  FormControl,
+  Select,
+  MenuItem,
+  Button,
+  InputLabel,
+  TextField,
+  useTheme,
+  TableBody,
+  Table,
+  Box,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableFooter,
+  TablePagination,
+  TableRow,
+  Paper,
+  IconButton,
 } from "@mui/material";
 
 function TablePaginationActions(props) {
@@ -102,12 +117,12 @@ export default function GameList() {
       const userToken = localStorage.getItem("usertoken");
       const headers = userToken
         ? {
-          Authorization: `Bearer ${userToken}`,
-          "Content-Type": "application/json",
-        }
+            Authorization: `Bearer ${userToken}`,
+            "Content-Type": "application/json",
+          }
         : { "Content-Type": "application/json" };
 
-      const response = await fetch("/api/games", {
+      const response = await fetch("/api/all", {
         method: "GET",
         headers: headers,
       });
@@ -128,9 +143,9 @@ export default function GameList() {
       const userToken = localStorage.getItem("usertoken");
       const headers = userToken
         ? {
-          Authorization: `Bearer ${userToken}`,
-          "Content-Type": "application/json",
-        }
+            Authorization: `Bearer ${userToken}`,
+            "Content-Type": "application/json",
+          }
         : { "Content-Type": "application/json" };
       const response = await fetch(
         `/api/games/search?boardGameName=${searchField}`,
@@ -170,7 +185,9 @@ export default function GameList() {
         `/api/games/category?publicID=${chosenCategory}`
       );
       if (!response.ok) {
-        throw new Error(`Error fetching games filtered by categories: ${response.statusText}`);
+        throw new Error(
+          `Error fetching games filtered by categories: ${response.statusText}`
+        );
       }
       const data = await response.json();
       setGames(data);
@@ -183,7 +200,9 @@ export default function GameList() {
     try {
       const response = await fetch(`/api/games/maxplayer?max=${maxPlayer}`);
       if (!response.ok) {
-        throw new Error(`Error fetching games filtered by max player: ${response.statusText}`);
+        throw new Error(
+          `Error fetching games filtered by max player: ${response.statusText}`
+        );
       }
       const data = await response.json();
       setGames(data);
@@ -196,7 +215,9 @@ export default function GameList() {
     try {
       const response = await fetch(`/api/games/minplayer?min=${minPlayer}`);
       if (!response.ok) {
-        throw new Error(`Error fetching games filtered by min player: ${response.statusText}`);
+        throw new Error(
+          `Error fetching games filtered by min player: ${response.statusText}`
+        );
       }
       const data = await response.json();
       setGames(data);
@@ -209,7 +230,9 @@ export default function GameList() {
     try {
       const response = await fetch(`/api/games/rating?rating=${rating}`);
       if (!response.ok) {
-        throw new Error(`Error fetching games filtered by ratings: ${response.statusText}`);
+        throw new Error(
+          `Error fetching games filtered by ratings: ${response.statusText}`
+        );
       }
       const data = await response.json();
       setGames(data);
@@ -224,7 +247,9 @@ export default function GameList() {
         `/api/games/description?desc=${description}`
       );
       if (!response.ok) {
-        throw new Error(`Error fetching games filtered by description: ${response.statusText}`);
+        throw new Error(
+          `Error fetching games filtered by description: ${response.statusText}`
+        );
       }
       const data = await response.json();
       setGames(data);
@@ -239,7 +264,9 @@ export default function GameList() {
         `/api/games/publisher?publicID=${chosenPublisher}`
       );
       if (!response.ok) {
-        throw new Error(`Error fetching games filtered by publisher: ${response.statusText}`);
+        throw new Error(
+          `Error fetching games filtered by publisher: ${response.statusText}`
+        );
       }
       const data = await response.json();
       setGames(data);
@@ -272,7 +299,7 @@ export default function GameList() {
       filterGamesFetch(searchField);
     } else {
       setSearchField("");
-      filterGamesFetch(searchField);
+      //filterGamesFetch(searchField);
     }
   }, [searchField]);
 
@@ -293,7 +320,7 @@ export default function GameList() {
       filterByDescriptionFetch(description);
     } else {
       setSearchField("");
-      filterByDescriptionFetch(description);
+      //filterByDescriptionFetch(description);
     }
   }, [description]);
 
@@ -302,7 +329,7 @@ export default function GameList() {
       filterByMinPlayerFetch(minPlayer);
     } else {
       setMinPlayer(0);
-      filterByMinPlayerFetch(minPlayer);
+      //filterByMinPlayerFetch(minPlayer);
     }
   }, [minPlayer]);
 
@@ -311,7 +338,7 @@ export default function GameList() {
       filterByMaxPlayerFetch(maxPlayer);
     } else {
       setMaxPlayer(100);
-      filterByMaxPlayerFetch(maxPlayer);
+      //filterByMaxPlayerFetch(maxPlayer);
     }
   }, [maxPlayer]);
 
@@ -320,31 +347,35 @@ export default function GameList() {
       filterByRatingFetch(rating);
     } else {
       setRating(0.0);
-      filterByRatingFetch(rating);
+      //filterByRatingFetch(rating);
     }
   }, [rating]);
 
   function createData(
     publicID,
-    name,
-    minplayer,
-    maxplayer,
+    gameName,
+    minPlayer,
+    maxPlayer,
+    playTimeInMinutes,
+    recommendedAge,
     description,
-    publisherPublisherName,
+    publisherPublicId,
+    publisherName,
     categories,
-    rating,
-    reviews
+    averageRating
   ) {
     return {
       publicID,
-      name,
-      minplayer,
-      maxplayer,
+      gameName,
+      minPlayer,
+      maxPlayer,
+      playTimeInMinutes,
+      recommendedAge,
       description,
-      publisherPublisherName,
+      publisherPublicId,
+      publisherName,
       categories,
-      rating,
-      reviews,
+      averageRating,
     };
   }
 
@@ -354,11 +385,13 @@ export default function GameList() {
       game.gameName,
       game.minPlayer,
       game.maxPlayer,
+      game.playTimeInMinutes,
+      game.recommendedAge,
       game.description,
-      game.publisherPublisherName,
+      game.publisherPublicId,
+      game.publisherName,
       game.categories,
-      game.rating,
-      game.reviews
+      game.averageRating
     );
   });
 
@@ -497,11 +530,15 @@ export default function GameList() {
                         label="Category"
                         onChange={handleChangeOnCategory}
                       >
-                        {categories && categories.map((category, index) => (
-                          <MenuItem key={category.name + index} value={category.publicID}>
-                            {category.name}
-                          </MenuItem>
-                        ))}
+                        {categories &&
+                          categories.map((category, index) => (
+                            <MenuItem
+                              key={category.name + index}
+                              value={category.publicID}
+                            >
+                              {category.name}
+                            </MenuItem>
+                          ))}
                       </Select>
                     </FormControl>
                   </TableCell>
@@ -540,10 +577,10 @@ export default function GameList() {
             </TableHead>
             <TableBody>
               {displayedRows.map((row) => (
-                <TableRow key={row.name}>
+                <TableRow key={row.gameName}>
                   <TableCell component="th" scope="row" style={{ width: 160 }}>
                     <Link border={"none"} href={`/games/${row.publicID}`}>
-                      {row.name}
+                      {row.gameName}
                     </Link>
                   </TableCell>
                   <TableCell
@@ -552,7 +589,7 @@ export default function GameList() {
                     scope="row"
                     style={{ width: 50 }}
                   >
-                    {row.minplayer}
+                    {row.minPlayer}
                   </TableCell>
                   <TableCell
                     component="th"
@@ -560,7 +597,7 @@ export default function GameList() {
                     scope="row"
                     style={{ width: 50 }}
                   >
-                    {row.maxplayer}
+                    {row.maxPlayer}
                   </TableCell>
                   <TableCell
                     component="th"
@@ -576,7 +613,7 @@ export default function GameList() {
                     scope="row"
                     style={{ width: 50 }}
                   >
-                    {row.publisherPublisherName}
+                    {row.publisherName}
                   </TableCell>
                   <TableCell
                     component="th"
@@ -584,14 +621,16 @@ export default function GameList() {
                     scope="row"
                     style={{ width: 50 }}
                   >
-                    {row.categories === undefined
-                      ? ""
-                      : row.categories.map((category) => {
-                        return <p key={category.publicID}>{category.name}</p>;
-                      })}
+                    {row.categories}
                   </TableCell>
                   <TableCell style={{ width: 160 }} align="center">
-                  <Rating name="customized-10" max={10} defaultValue={row.rating} precision={0.1} readOnly />
+                    <Rating
+                      name="customized-10"
+                      max={10}
+                      defaultValue={row.averageRating}
+                      precision={0.1}
+                      readOnly
+                    />
                   </TableCell>
                 </TableRow>
               ))}
