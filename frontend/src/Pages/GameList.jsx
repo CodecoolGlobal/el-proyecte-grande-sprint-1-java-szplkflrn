@@ -148,7 +148,7 @@ export default function GameList() {
           }
         : { "Content-Type": "application/json" };
       const response = await fetch(
-        `/api/games/search?boardGameName=${searchField}`,
+        `/api/all/search?boardGameName=${searchField}`,
         {
           method: "GET",
           headers: headers,
@@ -182,7 +182,7 @@ export default function GameList() {
   const filterByCategoryFetch = async (chosenCategory) => {
     try {
       const response = await fetch(
-        `/api/games/category?publicID=${chosenCategory}`
+        `/api/all/category?category=${chosenCategory}`
       );
       if (!response.ok) {
         throw new Error(
@@ -198,7 +198,7 @@ export default function GameList() {
 
   const filterByMaxPlayerFetch = async (maxPlayer) => {
     try {
-      const response = await fetch(`/api/games/maxplayer?max=${maxPlayer}`);
+      const response = await fetch(`/api/all/maxplayer?max=${maxPlayer}`);
       if (!response.ok) {
         throw new Error(
           `Error fetching games filtered by max player: ${response.statusText}`
@@ -213,7 +213,7 @@ export default function GameList() {
 
   const filterByMinPlayerFetch = async (minPlayer) => {
     try {
-      const response = await fetch(`/api/games/minplayer?min=${minPlayer}`);
+      const response = await fetch(`/api/all/minplayer?min=${minPlayer}`);
       if (!response.ok) {
         throw new Error(
           `Error fetching games filtered by min player: ${response.statusText}`
@@ -228,7 +228,7 @@ export default function GameList() {
 
   const filterByRatingFetch = async (rating) => {
     try {
-      const response = await fetch(`/api/games/rating?rating=${rating}`);
+      const response = await fetch(`/api/all/rating?rating=${rating}`);
       if (!response.ok) {
         throw new Error(
           `Error fetching games filtered by ratings: ${response.statusText}`
@@ -244,7 +244,7 @@ export default function GameList() {
   const filterByDescriptionFetch = async (description) => {
     try {
       const response = await fetch(
-        `/api/games/description?desc=${description}`
+        `/api/all/description?desc=${description}`
       );
       if (!response.ok) {
         throw new Error(
@@ -261,7 +261,7 @@ export default function GameList() {
   const filterByPublisherFetch = async (chosenPublisher) => {
     try {
       const response = await fetch(
-        `/api/games/publisher?publicID=${chosenPublisher}`
+        `/api/all/publisher?publisherName=${chosenPublisher}`
       );
       if (!response.ok) {
         throw new Error(
@@ -299,7 +299,7 @@ export default function GameList() {
       filterGamesFetch(searchField);
     } else {
       setSearchField("");
-      //filterGamesFetch(searchField);
+      filterGamesFetch(searchField);
     }
   }, [searchField]);
 
@@ -320,7 +320,7 @@ export default function GameList() {
       filterByDescriptionFetch(description);
     } else {
       setSearchField("");
-      //filterByDescriptionFetch(description);
+      filterByDescriptionFetch(description);
     }
   }, [description]);
 
@@ -329,7 +329,7 @@ export default function GameList() {
       filterByMinPlayerFetch(minPlayer);
     } else {
       setMinPlayer(0);
-      //filterByMinPlayerFetch(minPlayer);
+      filterByMinPlayerFetch(minPlayer);
     }
   }, [minPlayer]);
 
@@ -338,7 +338,7 @@ export default function GameList() {
       filterByMaxPlayerFetch(maxPlayer);
     } else {
       setMaxPlayer(100);
-      //filterByMaxPlayerFetch(maxPlayer);
+      filterByMaxPlayerFetch(maxPlayer);
     }
   }, [maxPlayer]);
 
@@ -347,7 +347,7 @@ export default function GameList() {
       filterByRatingFetch(rating);
     } else {
       setRating(0.0);
-      //filterByRatingFetch(rating);
+      filterByRatingFetch(rating);
     }
   }, [rating]);
 
@@ -512,7 +512,7 @@ export default function GameList() {
                         {publishers.map((publisher, index) => (
                           <MenuItem
                             key={publisher.publisherName + index}
-                            value={publisher.publicID}
+                            value={publisher.publisherName}
                           >
                             {publisher.publisherName}
                           </MenuItem>
@@ -534,7 +534,7 @@ export default function GameList() {
                           categories.map((category, index) => (
                             <MenuItem
                               key={category.name + index}
-                              value={category.publicID}
+                              value={category.name}
                             >
                               {category.name}
                             </MenuItem>
