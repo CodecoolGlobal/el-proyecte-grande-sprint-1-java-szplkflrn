@@ -270,17 +270,17 @@ export default function GameDetails() {
                   !favorizedIDs.includes(boardGame.publicID) ?
                     <div>
                       <Button onClick={handleAddToFavorites}>Add to favorites</Button><br></br>
-                      <FormControl>
+                    </div>
+                    : <h4>Boardgame added to your favorites!</h4>
+                  : null
+                }
+                <FormControl>
                         <Typography variant="h6">Rate the game!</Typography>
                         <Rating name="half-rating-read" precision={0.5} value={rating} onChange={handleRatingChange} />
                         <Button variant="contained" color="primary" onClick={() => handleSubmitRating(boardGame.publicID)}>
                           Submit
                         </Button>
                       </FormControl>
-                    </div>
-                    : <h4>Boardgame added to your favorites!</h4>
-                  : null
-                }
               </div>
             </div>
             <br />

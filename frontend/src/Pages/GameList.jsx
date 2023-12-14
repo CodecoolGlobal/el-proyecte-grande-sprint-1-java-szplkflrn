@@ -352,7 +352,7 @@ export default function GameList() {
   }, [rating]);
 
   function createData(
-    publicID,
+    publicId,
     gameName,
     minPlayer,
     maxPlayer,
@@ -365,7 +365,7 @@ export default function GameList() {
     averageRating
   ) {
     return {
-      publicID,
+      publicId,
       gameName,
       minPlayer,
       maxPlayer,
@@ -381,7 +381,7 @@ export default function GameList() {
 
   const rows = games.map((game) => {
     return createData(
-      game.publicID,
+      game.publicId,
       game.gameName,
       game.minPlayer,
       game.maxPlayer,
@@ -579,7 +579,7 @@ export default function GameList() {
               {displayedRows.map((row) => (
                 <TableRow key={row.gameName}>
                   <TableCell component="th" scope="row" style={{ width: 160 }}>
-                    <Link border={"none"} href={`/games/${row.publicID}`}>
+                    <Link border={"none"} href={`/games/${row.publicId}`}>
                       {row.gameName}
                     </Link>
                   </TableCell>
