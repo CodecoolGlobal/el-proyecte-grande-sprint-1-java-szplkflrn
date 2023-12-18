@@ -1,19 +1,32 @@
-import * as React from 'react';
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import * as React from "react";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
-  Rating, FormControl,
-  Grid, TextField, Button, Paper, TableRow,
-  TableHead, TableContainer, TableCell, TableBody, Table,
-  Accordion, AccordionSummary, AccordionDetails, Card, CardContent, Typography
-} from '@mui/material';
+  Rating,
+  FormControl,
+  Grid,
+  TextField,
+  Button,
+  Paper,
+  TableRow,
+  TableHead,
+  TableContainer,
+  TableCell,
+  TableBody,
+  Table,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Card,
+  CardContent,
+  Typography,
+} from "@mui/material";
 import "./GameDetails.css";
 
-
 const imgStyle = {
-  maxWidth: 300
-}
+  maxWidth: 300,
+};
 
 export default function GameDetails() {
   const { id } = useParams();
@@ -26,21 +39,23 @@ export default function GameDetails() {
     setRating(newValue);
   };
 
-
   const userFetch = async () => {
     try {
       const userToken = localStorage.getItem("usertoken");
       const headers = userToken
         ? {
-          Authorization: `Bearer ${userToken}`,
-          "Content-Type": "application/json",
-        }
+            Authorization: `Bearer ${userToken}`,
+            "Content-Type": "application/json",
+          }
         : { "Content-Type": "application/json" };
 
-      const response = await fetch(`/api/users/${localStorage.getItem("userID")}`, {
-        method: "GET",
-        headers: headers,
-      });
+      const response = await fetch(
+        `/api/users/${localStorage.getItem("userID")}`,
+        {
+          method: "GET",
+          headers: headers,
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();
@@ -51,7 +66,7 @@ export default function GameDetails() {
     } catch (error) {
       console.error("Error fetching user data: ", error);
     }
-  }
+  };
 
   useEffect(() => {
     userFetch();
@@ -120,7 +135,6 @@ export default function GameDetails() {
     }
   };
 
-
   const handleAddToFavorites = async () => {
     const userId = localStorage.getItem("userID");
     const uuid = boardGame.publicID;
@@ -129,25 +143,23 @@ export default function GameDetails() {
       const userToken = localStorage.getItem("usertoken");
       const headers = userToken
         ? {
-          Authorization: `Bearer ${userToken}`,
-          "Content-Type": "application/json",
-        }
+            Authorization: `Bearer ${userToken}`,
+            "Content-Type": "application/json",
+          }
         : { "Content-Type": "application/json" };
 
       const data = {
         uuid
       };
 
-
-
       const response = await fetch(`/api/users/${userId}`, {
         method: "PATCH",
         headers: headers,
-        body: JSON.stringify(data.uuid)
+        body: JSON.stringify(data.uuid),
       });
 
       if (response.ok) {
-        location.reload()
+        location.reload();
       } else {
         throw new Error("Update user failed");
       }
@@ -156,16 +168,14 @@ export default function GameDetails() {
     }
   };
 
-
-
   const fetchReviewsForGame = async (id) => {
     try {
       const userToken = localStorage.getItem("usertoken");
       const headers = userToken
         ? {
-          Authorization: `Bearer ${userToken}`,
-          "Content-Type": "application/json",
-        }
+            Authorization: `Bearer ${userToken}`,
+            "Content-Type": "application/json",
+          }
         : { "Content-Type": "application/json" };
 
       const response = await fetch(`/api/reviews/${id}`, {
@@ -221,9 +231,9 @@ export default function GameDetails() {
       const userToken = localStorage.getItem("usertoken");
       const headers = userToken
         ? {
-          Authorization: `Bearer ${userToken}`,
-          "Content-Type": "application/json",
-        }
+            Authorization: `Bearer ${userToken}`,
+            "Content-Type": "application/json",
+          }
         : { "Content-Type": "application/json" };
 
       const response = await fetch(`/api/games/${id}`, {
@@ -267,9 +277,7 @@ export default function GameDetails() {
       const createdReview = await createReview(review);
       setIsAccordionExpanded(false);
 
-      // Wait for the review creation to complete and then fetch the updated reviews
       await Promise.all([fetchReviewsForGame(id), createdReview]);
-
     } catch (error) {
       console.error("Error creating review: ", error);
     }
