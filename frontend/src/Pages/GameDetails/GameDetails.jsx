@@ -276,10 +276,18 @@ export default function GameDetails() {
   };
 
   useEffect(() => {
-    fetchBoardGame(id);
-    fetchReviewsForGame(id);
+    const fetchGameData = async () => {
+      await fetchBoardGame(id);
+      await fetchReviewsForGame(id);
+    };
+  
+    fetchGameData();
   }, [id]);
-
+  useEffect(() => {
+    if (boardGame) {
+      fetchRatingForGame();
+    }
+  }, [boardGame]);
 
   const favorizedIDs = user ? user.favoriteBoardGamePublicIDS : [];
 
