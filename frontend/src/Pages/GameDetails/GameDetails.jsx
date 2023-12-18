@@ -57,21 +57,25 @@ export default function GameDetails() {
     userFetch();
   }, []);
 
-
-  const handleSubmitRating = async (id) => {
+  const fetchSubmitRating = async () => {
     try {
       const userToken = localStorage.getItem("usertoken");
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${userToken}`,
       };
-  
-      const response = await fetch(`/api/games/ratethegame/${id}`, {
-        method: 'POST',
+
+      const sentRating = {};
+      sentRating.ratingNumber = rating;
+      sentRating.appUserPublicID = localStorage.getItem("userID");
+      sentRating.boardGamePublicID = boardGame.publicID;
+
+      const response = await fetch(`/api/ratings`, {
+        method: "POST",
         headers: headers,
-        body: rating,
+        body: JSON.stringify(sentRating),
       });
-  
+
       if (response.ok) {
         return await response.text();
       } else {
