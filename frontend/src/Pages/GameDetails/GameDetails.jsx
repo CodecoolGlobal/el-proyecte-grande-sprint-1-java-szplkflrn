@@ -298,27 +298,36 @@ export default function GameDetails() {
           <CardContent>
             Categories:
             {boardGame.categories.map((cat) => (
-              <Typography key={cat.publicID} sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+              <Typography
+                key={cat.publicID}
+                sx={{ fontSize: 14 }}
+                color="text.secondary"
+                gutterBottom
+              >
                 {cat.name}
               </Typography>
             ))}
-
             <div className="flex-container">
               <div className="flex-child magenta">
-                <img src='https://potentialplusuk.org/wp-content/uploads/2020/04/game-catan_960.jpg' style={imgStyle} alt="Game" />
+                <img
+                  src="https://potentialplusuk.org/wp-content/uploads/2020/04/game-catan_960.jpg"
+                  style={imgStyle}
+                  alt="Game"
+                />
               </div>
               <div className="flex-child-green">
-                <Typography variant="h5">
-                  {boardGame.gameName}
-                </Typography>
+                <Typography variant="h5">{boardGame.gameName}</Typography>
                 <Typography color="textSecondary">
                   {boardGame.description}
                 </Typography>
                 <br></br>
-                {localStorage.getItem("username") ?
-                  !favorizedIDs.includes(boardGame.publicID) ?
+                {localStorage.getItem("username") ? (
+                  !favorizedIDs.includes(boardGame.publicID) ? (
                     <div>
-                      <Button onClick={handleAddToFavorites}>Add to favorites</Button><br></br>
+                      <Button onClick={handleAddToFavorites}>
+                        Add to favorites
+                      </Button>
+                      <br></br>
                     </div>
                     : <h4>Boardgame added to your favorites!</h4>
                   : null
@@ -339,9 +348,12 @@ export default function GameDetails() {
               <br />
               <br />
             </Typography>
-
             <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+              <Table
+                sx={{ minWidth: 650 }}
+                size="small"
+                aria-label="a dense table"
+              >
                 <TableHead>
                   <TableRow>
                     <TableCell>Min Player</TableCell>
@@ -363,9 +375,16 @@ export default function GameDetails() {
               </Table>
             </TableContainer>
             <br />
-            {localStorage.getItem("username") ?
-              <Accordion expanded={isAccordionExpanded} onChange={handleAccordionToggle}>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+            {localStorage.getItem("username") ? (
+              <Accordion
+                expanded={isAccordionExpanded}
+                onChange={handleAccordionToggle}
+              >
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                >
                   <Typography variant="h6">Write Review</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
@@ -405,13 +424,15 @@ export default function GameDetails() {
                   {reviewObjects.map((review) => (
                     <div key={review.publicID}>
                       <Typography variant="h6">{review.description}</Typography>
-                      <Typography variant="body2">Review by: {review.appUserName}</Typography>
+                      <Typography variant="body2">
+                        Review by: {review.appUserName}
+                      </Typography>
                       <br />
                     </div>
                   ))}
                 </AccordionDetails>
-              </Accordion> : null
-            }
+              </Accordion>
+            ) : null}
           </CardContent>
         </Card>
       ) : (
