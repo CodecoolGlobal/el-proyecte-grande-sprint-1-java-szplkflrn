@@ -85,7 +85,11 @@ export default function GameDetails() {
       console.error("Error submitting rating: ", error);
     }
   };
-
+  const handleSubmitRating = () => {
+    fetchSubmitRating();
+    setSubmitRating(true);
+  }
+  
 
   const handleAccordionToggle = () => {
     setIsAccordionExpanded(!isAccordionExpanded);
