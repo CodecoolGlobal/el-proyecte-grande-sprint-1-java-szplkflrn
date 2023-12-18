@@ -183,6 +183,39 @@ export default function GameDetails() {
     }
   };
 
+  const fetchRatingForGame = async () => {
+    try {
+      const userToken = localStorage.getItem("usertoken");
+      const userID = localStorage.getItem("userID");
+      const boardGamePublicID = boardGame.publicID;
+      const headers = userToken
+        ? {
+            Authorization: `Bearer ${userToken}`,
+            "Content-Type": "application/json",
+          }
+        : { "Content-Type": "application/json" };
+
+      const response = await fetch(
+        `/api/ratings/check-existence?appUserPublicID=${userID}&boardGamePublicID=${boardGamePublicID}`,
+        {
+          method: "GET",
+          headers: headers,
+        }
+      );
+      
+      if (response.ok) {
+        const data = await response.json();
+        setCheckedRating(data);
+      } else if (response.status === 204) {
+        setCheckedRating(null);
+      } else {
+        console.error(`Error fetching rating: ${response.statusText}`);
+      }
+    } catch (error) {
+      console.error("Error fetching rating: ", error);
+    }
+  };
+
   const fetchBoardGame = async (id) => {
     try {
       const userToken = localStorage.getItem("usertoken");
