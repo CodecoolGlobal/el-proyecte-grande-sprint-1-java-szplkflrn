@@ -34,6 +34,7 @@ export default function GameDetails() {
   const [reviewObjects, setReviewObjects] = useState([]);
   const [isAccordionExpanded, setIsAccordionExpanded] = useState(false);
   const [user, setUser] = useState(null);
+  const [checkedRating, setCheckedRating] = useState(null);
   const [rating, setRating] = useState(0);
   const handleRatingChange = (event, newValue) => {
     setRating(newValue);
@@ -337,16 +338,38 @@ export default function GameDetails() {
                       </Button>
                       <br></br>
                     </div>
-                    : <h4>Boardgame added to your favorites!</h4>
-                  : null
-                }
-                <FormControl>
-                        <Typography variant="h6">Rate the game!</Typography>
-                        <Rating name="half-rating-read" precision={0.5} value={rating} onChange={handleRatingChange} />
-                        <Button variant="contained" color="primary" onClick={() => handleSubmitRating(boardGame.publicID)}>
-                          Submit
-                        </Button>
-                      </FormControl>
+                  ) : (
+                    <h4>Board game added to your favorites!</h4>
+                  )
+                ) : null}
+                {checkedRating !== null ? (
+                  <><h4>Your rating:</h4>
+                  <Rating
+                    name="customized-10"
+                    precision={0.1}
+                    max={10}
+                    value={checkedRating.ratingNumber}
+                  />
+                  </>
+                ) : (
+                  <FormControl>
+                    <Typography variant="h6">Rate the game!</Typography>
+                    <Rating
+                      name="customized-10"
+                      max={10}
+                      precision={0.1}
+                      value={rating}
+                      onChange={handleRatingChange}
+                    />
+                    {submitRating ? (<h4>Thank you for your rating!</h4>) : (<Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => handleSubmitRating()}
+                    >
+                      Submit
+                    </Button>)}
+                  </FormControl>
+                )}
               </div>
             </div>
             <br />
@@ -418,8 +441,8 @@ export default function GameDetails() {
                   </div>
                 </AccordionDetails>
               </Accordion>
-              : null}
-            {boardGame.reviews.length ?
+            ) : null}
+            {boardGame.reviews.length ? (
               <Accordion>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
