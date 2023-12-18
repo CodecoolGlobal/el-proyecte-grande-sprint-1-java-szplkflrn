@@ -36,6 +36,7 @@ export default function GameDetails() {
   const [user, setUser] = useState(null);
   const [checkedRating, setCheckedRating] = useState(null);
   const [rating, setRating] = useState(0);
+  const [submitRating, setSubmitRating] = useState(false);
   const handleRatingChange = (event, newValue) => {
     setRating(newValue);
   };
@@ -432,7 +433,11 @@ export default function GameDetails() {
                           />
                         </Grid>
                         <Grid item xs={12}>
-                          <Button type="submit" variant="contained" color="primary">
+                          <Button
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                          >
                             Add review
                           </Button>
                         </Grid>
