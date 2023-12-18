@@ -55,4 +55,10 @@ public class RatingService {
     public List<Rating> findAllRatingsByBoardGame_Id(UUID boardGameId) {
         return ratingRepository.findAllByBoardGame_PublicID(boardGameId);
     }
+
+    public Rating checkIfRatingExist(UUID appUserPublicID, UUID boardGamePublicID) {
+        BoardGame boardGame = boardGameRepository.findBoardGameByPublicID(boardGamePublicID);
+        AppUser appUser = appUserRepository.findAppUsersByPublicID(appUserPublicID);
+        return ratingRepository.findByAppUserAndAndBoardGame(appUser, boardGame);
+    }
 }

@@ -1,19 +1,32 @@
-import * as React from 'react';
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import * as React from "react";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
-  Rating, FormControl,
-  Grid, TextField, Button, Paper, TableRow,
-  TableHead, TableContainer, TableCell, TableBody, Table,
-  Accordion, AccordionSummary, AccordionDetails, Card, CardContent, Typography
-} from '@mui/material';
+  Rating,
+  FormControl,
+  Grid,
+  TextField,
+  Button,
+  Paper,
+  TableRow,
+  TableHead,
+  TableContainer,
+  TableCell,
+  TableBody,
+  Table,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Card,
+  CardContent,
+  Typography,
+} from "@mui/material";
 import "./GameDetails.css";
 
-
 const imgStyle = {
-  maxWidth: 300
-}
+  maxWidth: 300,
+};
 
 export default function GameDetails() {
   const { id } = useParams();
@@ -21,26 +34,30 @@ export default function GameDetails() {
   const [reviewObjects, setReviewObjects] = useState([]);
   const [isAccordionExpanded, setIsAccordionExpanded] = useState(false);
   const [user, setUser] = useState(null);
+  const [checkedRating, setCheckedRating] = useState(null);
   const [rating, setRating] = useState(0);
+  const [submitRating, setSubmitRating] = useState(false);
   const handleRatingChange = (event, newValue) => {
     setRating(newValue);
   };
-
 
   const userFetch = async () => {
     try {
       const userToken = localStorage.getItem("usertoken");
       const headers = userToken
         ? {
-          Authorization: `Bearer ${userToken}`,
-          "Content-Type": "application/json",
-        }
+            Authorization: `Bearer ${userToken}`,
+            "Content-Type": "application/json",
+          }
         : { "Content-Type": "application/json" };
 
-      const response = await fetch(`/api/users/${localStorage.getItem("userID")}`, {
-        method: "GET",
-        headers: headers,
-      });
+      const response = await fetch(
+        `/api/users/${localStorage.getItem("userID")}`,
+        {
+          method: "GET",
+          headers: headers,
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();
@@ -51,27 +68,31 @@ export default function GameDetails() {
     } catch (error) {
       console.error("Error fetching user data: ", error);
     }
-  }
+  };
 
   useEffect(() => {
     userFetch();
   }, []);
 
-
-  const handleSubmitRating = async (id) => {
+  const fetchSubmitRating = async () => {
     try {
       const userToken = localStorage.getItem("usertoken");
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${userToken}`,
       };
-  
-      const response = await fetch(`/api/games/ratethegame/${id}`, {
-        method: 'POST',
+
+      const sentRating = {};
+      sentRating.ratingNumber = rating;
+      sentRating.appUserPublicID = localStorage.getItem("userID");
+      sentRating.boardGamePublicID = boardGame.publicID;
+
+      const response = await fetch(`/api/ratings`, {
+        method: "POST",
         headers: headers,
-        body: rating,
+        body: JSON.stringify(sentRating),
       });
-  
+
       if (response.ok) {
         return await response.text();
       } else {
@@ -81,7 +102,11 @@ export default function GameDetails() {
       console.error("Error submitting rating: ", error);
     }
   };
-
+  const handleSubmitRating = () => {
+    fetchSubmitRating();
+    setSubmitRating(true);
+  }
+  
 
   const handleAccordionToggle = () => {
     setIsAccordionExpanded(!isAccordionExpanded);
@@ -112,7 +137,6 @@ export default function GameDetails() {
     }
   };
 
-
   const handleAddToFavorites = async () => {
     const userId = localStorage.getItem("userID");
     const uuid = boardGame.publicID;
@@ -121,25 +145,23 @@ export default function GameDetails() {
       const userToken = localStorage.getItem("usertoken");
       const headers = userToken
         ? {
-          Authorization: `Bearer ${userToken}`,
-          "Content-Type": "application/json",
-        }
+            Authorization: `Bearer ${userToken}`,
+            "Content-Type": "application/json",
+          }
         : { "Content-Type": "application/json" };
 
       const data = {
         uuid
       };
 
-
-
       const response = await fetch(`/api/users/${userId}`, {
         method: "PATCH",
         headers: headers,
-        body: JSON.stringify(data.uuid)
+        body: JSON.stringify(data.uuid),
       });
 
       if (response.ok) {
-        location.reload()
+        location.reload();
       } else {
         throw new Error("Update user failed");
       }
@@ -148,16 +170,14 @@ export default function GameDetails() {
     }
   };
 
-
-
   const fetchReviewsForGame = async (id) => {
     try {
       const userToken = localStorage.getItem("usertoken");
       const headers = userToken
         ? {
-          Authorization: `Bearer ${userToken}`,
-          "Content-Type": "application/json",
-        }
+            Authorization: `Bearer ${userToken}`,
+            "Content-Type": "application/json",
+          }
         : { "Content-Type": "application/json" };
 
       const response = await fetch(`/api/reviews/${id}`, {
@@ -175,14 +195,47 @@ export default function GameDetails() {
     }
   };
 
+  const fetchRatingForGame = async () => {
+    try {
+      const userToken = localStorage.getItem("usertoken");
+      const userID = localStorage.getItem("userID");
+      const boardGamePublicID = boardGame.publicID;
+      const headers = userToken
+        ? {
+            Authorization: `Bearer ${userToken}`,
+            "Content-Type": "application/json",
+          }
+        : { "Content-Type": "application/json" };
+
+      const response = await fetch(
+        `/api/ratings/check-existence?appUserPublicID=${userID}&boardGamePublicID=${boardGamePublicID}`,
+        {
+          method: "GET",
+          headers: headers,
+        }
+      );
+      
+      if (response.ok) {
+        const data = await response.json();
+        setCheckedRating(data);
+      } else if (response.status === 204) {
+        setCheckedRating(null);
+      } else {
+        console.error(`Error fetching rating: ${response.statusText}`);
+      }
+    } catch (error) {
+      console.error("Error fetching rating: ", error);
+    }
+  };
+
   const fetchBoardGame = async (id) => {
     try {
       const userToken = localStorage.getItem("usertoken");
       const headers = userToken
         ? {
-          Authorization: `Bearer ${userToken}`,
-          "Content-Type": "application/json",
-        }
+            Authorization: `Bearer ${userToken}`,
+            "Content-Type": "application/json",
+          }
         : { "Content-Type": "application/json" };
 
       const response = await fetch(`/api/games/${id}`, {
@@ -226,19 +279,25 @@ export default function GameDetails() {
       const createdReview = await createReview(review);
       setIsAccordionExpanded(false);
 
-      // Wait for the review creation to complete and then fetch the updated reviews
       await Promise.all([fetchReviewsForGame(id), createdReview]);
-
     } catch (error) {
       console.error("Error creating review: ", error);
     }
   };
 
   useEffect(() => {
-    fetchBoardGame(id);
-    fetchReviewsForGame(id);
+    const fetchGameData = async () => {
+      await fetchBoardGame(id);
+      await fetchReviewsForGame(id);
+    };
+  
+    fetchGameData();
   }, [id]);
-
+  useEffect(() => {
+    if (boardGame) {
+      fetchRatingForGame();
+    }
+  }, [boardGame]);
 
   const favorizedIDs = user ? user.favoriteBoardGamePublicIDS : [];
 
@@ -249,38 +308,69 @@ export default function GameDetails() {
           <CardContent>
             Categories:
             {boardGame.categories.map((cat) => (
-              <Typography key={cat.publicID} sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+              <Typography
+                key={cat.publicID}
+                sx={{ fontSize: 14 }}
+                color="text.secondary"
+                gutterBottom
+              >
                 {cat.name}
               </Typography>
             ))}
-
             <div className="flex-container">
               <div className="flex-child magenta">
-                <img src='https://potentialplusuk.org/wp-content/uploads/2020/04/game-catan_960.jpg' style={imgStyle} alt="Game" />
+                <img
+                  src="https://potentialplusuk.org/wp-content/uploads/2020/04/game-catan_960.jpg"
+                  style={imgStyle}
+                  alt="Game"
+                />
               </div>
               <div className="flex-child-green">
-                <Typography variant="h5">
-                  {boardGame.gameName}
-                </Typography>
+                <Typography variant="h5">{boardGame.gameName}</Typography>
                 <Typography color="textSecondary">
                   {boardGame.description}
                 </Typography>
                 <br></br>
-                {localStorage.getItem("username") ?
-                  !favorizedIDs.includes(boardGame.publicID) ?
+                {localStorage.getItem("username") ? (
+                  !favorizedIDs.includes(boardGame.publicID) ? (
                     <div>
-                      <Button onClick={handleAddToFavorites}>Add to favorites</Button><br></br>
+                      <Button onClick={handleAddToFavorites}>
+                        Add to favorites
+                      </Button>
+                      <br></br>
                     </div>
-                    : <h4>Boardgame added to your favorites!</h4>
-                  : null
-                }
-                <FormControl>
-                        <Typography variant="h6">Rate the game!</Typography>
-                        <Rating name="half-rating-read" precision={0.5} value={rating} onChange={handleRatingChange} />
-                        <Button variant="contained" color="primary" onClick={() => handleSubmitRating(boardGame.publicID)}>
-                          Submit
-                        </Button>
-                      </FormControl>
+                  ) : (
+                    <h4>Board game added to your favorites!</h4>
+                  )
+                ) : null}
+                {checkedRating !== null ? (
+                  <><h4>Your rating:</h4>
+                  <Rating
+                    name="customized-10"
+                    precision={0.1}
+                    max={10}
+                    value={checkedRating.ratingNumber}
+                  />
+                  </>
+                ) : (
+                  <FormControl>
+                    <Typography variant="h6">Rate the game!</Typography>
+                    <Rating
+                      name="customized-10"
+                      max={10}
+                      precision={0.1}
+                      value={rating}
+                      onChange={handleRatingChange}
+                    />
+                    {submitRating ? (<h4>Thank you for your rating!</h4>) : (<Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => handleSubmitRating()}
+                    >
+                      Submit
+                    </Button>)}
+                  </FormControl>
+                )}
               </div>
             </div>
             <br />
@@ -290,9 +380,12 @@ export default function GameDetails() {
               <br />
               <br />
             </Typography>
-
             <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+              <Table
+                sx={{ minWidth: 650 }}
+                size="small"
+                aria-label="a dense table"
+              >
                 <TableHead>
                   <TableRow>
                     <TableCell>Min Player</TableCell>
@@ -314,9 +407,16 @@ export default function GameDetails() {
               </Table>
             </TableContainer>
             <br />
-            {localStorage.getItem("username") ?
-              <Accordion expanded={isAccordionExpanded} onChange={handleAccordionToggle}>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+            {localStorage.getItem("username") ? (
+              <Accordion
+                expanded={isAccordionExpanded}
+                onChange={handleAccordionToggle}
+              >
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                >
                   <Typography variant="h6">Write Review</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
@@ -333,7 +433,11 @@ export default function GameDetails() {
                           />
                         </Grid>
                         <Grid item xs={12}>
-                          <Button type="submit" variant="contained" color="primary">
+                          <Button
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                          >
                             Add review
                           </Button>
                         </Grid>
@@ -342,8 +446,8 @@ export default function GameDetails() {
                   </div>
                 </AccordionDetails>
               </Accordion>
-              : null}
-            {boardGame.reviews.length ?
+            ) : null}
+            {boardGame.reviews.length ? (
               <Accordion>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
@@ -356,13 +460,15 @@ export default function GameDetails() {
                   {reviewObjects.map((review) => (
                     <div key={review.publicID}>
                       <Typography variant="h6">{review.description}</Typography>
-                      <Typography variant="body2">Review by: {review.appUserName}</Typography>
+                      <Typography variant="body2">
+                        Review by: {review.appUserName}
+                      </Typography>
                       <br />
                     </div>
                   ))}
                 </AccordionDetails>
-              </Accordion> : null
-            }
+              </Accordion>
+            ) : null}
           </CardContent>
         </Card>
       ) : (
