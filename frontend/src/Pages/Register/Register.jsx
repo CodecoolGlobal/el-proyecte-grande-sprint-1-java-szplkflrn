@@ -16,7 +16,6 @@ const Register = ({ onSave, onCancel }) => {
       acc[k] = v;
       return acc;
     }, {});
-    user.favoriteBoardGamePublicIDS = "";
     user.reviews = [];
     user.favoriteBoardGamePublicIDS = [];
     user.ratings = [];
