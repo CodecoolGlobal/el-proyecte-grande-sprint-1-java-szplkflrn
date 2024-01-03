@@ -1,0 +1,4 @@
+SQL_PORT=${your sql port}
+DATABASE=${your database name}
+LOG_FOLDER=${your log folder path}
+SECRET_KEY=${your secret key}
