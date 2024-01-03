@@ -39,13 +39,13 @@
 
 # Usage
 
-**Clone with the following command line:**
+## Database
 
-```bash
-# Clone this repository
-git clone https://github.com/CodecoolGlobal/el-proyecte-grande-sprint-1-java-szplkflrn.git
+**With a dummy database:**
+*Create an empty database and run the query in the db/import.sql to initialize a dummy database with already existing data*
 
-```
+**With an empty database:**
+*Create an empty database and run the query in the backend/src/main/resources/db/migration/init-schema.sql to initialize a database with only the schema*
 
 ## Frontend 
 
@@ -67,10 +67,6 @@ npm run dev
 
 ### Option 1: Without an IDE
 
-- **Create a database for testing the application**
-- **Navigate to {local_folder_of_cloned_project/backend/src/resources/db/migration}**
-- **Open "init-schema.sql" and copy the query**
-- **Open the created test database with a query tool and run the copied query to initialzie the database**
 - **Run the following command lines**
 
 ```bash
@@ -81,30 +77,12 @@ cd {local_folder_of_cloned_project/backend}
 mvn clean install
 
 # Run the applicaiton
-java -jar -Dspring.datasource.url=jdbc:postgresql://localhost:5432/${database} -Dlogging.file.path=${log_folder_path} -Dspring.datasource.password=${password} -Dapplication.secret=${secret_key} -Dapplication.username=${username} bytebattlers-0.0.1-SNAPSHOT.jar
+java -jar -DSQL_PORT=${your_sql_port} -DPASSWORD=${your_database_password} -DSECRET_KEY=${your_secret_key} -DDATABASE=${your_database_name} -DLOG_FOLDER=${your_log_folder_path} -DUSERNAME=${your_db_user_name} -DSQL_SERVER=${your_sql_server}
 ```
-
-### Option 2: With an IDE
-
-- **Create a database for testing the application**
-- **Navigate to {local_folder_of_cloned_project/backend/src/resources/db/migration}**
-- **Open "init-schema.sql" and copy the query**
-- **Open the created test database with a query tool and run the copied query to initialzie the database**
-- **Change the required local enviromental variables values to your system settings (e.g. "DATABASE", "PASSWORD", etc)**
-- **Run the ByteBattlersApplication**
-
 
 ##  Running with Docker
 
-- Create a .env file in the ${local_folder_of_cloned_project}
-- Fill out the followings and copy them into the .env file
-```env
-
-SQL_PORT=${your sql port}
-DATABASE=${your database name}
-LOG_FOLDER=${your log folder path}
-SECRET_KEY=${your secret key}
-```
+- Rename the teamplate_env file in the ${local_folder_of_cloned_project} to .env and fill out the requested variables
 
 ```bash
 # Navigate to the local folder
@@ -116,4 +94,3 @@ docker-compose up
 # See also
 [Checkout our WIKI page](https://github.com/CodecoolGlobal/el-proyecte-grande-sprint-1-java-szplkflrn/wiki)
 
-# License
