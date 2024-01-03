@@ -65,8 +65,6 @@ npm run dev
 
 ## Backend
 
-### Option 1: Without an IDE
-
 - **Run the following command lines**
 
 ```bash
