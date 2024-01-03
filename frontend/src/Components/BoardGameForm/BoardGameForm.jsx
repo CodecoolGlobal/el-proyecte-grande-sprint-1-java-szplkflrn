@@ -14,23 +14,23 @@ const BoardGameForm = ({ onSave, onCancel }) => {
             "Content-Type": "application/json",
           }
         : { "Content-Type": "application/json" };
-  
+
       const response = await fetch("/api/publishers", {
         method: "GET",
         headers: headers,
       });
-  
+
       if (!response.ok) {
         throw new Error(`Error fetching publishers: ${response.statusText}`);
       }
-  
+
       const data = await response.json();
       setPublishers(data);
     } catch (error) {
       console.error("Error fetching publishers:", error);
     }
   };
-  
+
 
   const categoriesFetch = async () => {
     try {
@@ -41,23 +41,23 @@ const BoardGameForm = ({ onSave, onCancel }) => {
             "Content-Type": "application/json",
           }
         : { "Content-Type": "application/json" };
-  
+
       const response = await fetch("/api/categories", {
         method: "GET",
         headers: headers,
       });
-  
+
       if (!response.ok) {
         throw new Error(`Error fetching categories: ${response.statusText}`);
       }
-  
+
       const data = await response.json();
       setCategories(data);
     } catch (error) {
       console.error("Error fetching categories:", error);
     }
   };
-  
+
 
 
 
@@ -72,14 +72,14 @@ const BoardGameForm = ({ onSave, onCancel }) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const entries = [...formData.entries()];
-  
+
     const isAnyFieldEmpty = entries.some(([, v]) => !v);
-  
+
     if (isAnyFieldEmpty) {
       alert("Please fill in all the fields");
       return;
     }
-  
+
     const selectedCategories = formData.getAll("categories")
       .map((categoryID) => {
         const category = categories.find((c) => c.publicID === categoryID);
@@ -92,23 +92,23 @@ const BoardGameForm = ({ onSave, onCancel }) => {
         }
         return null;
       })
-      .filter(category => !!category); 
-  
+      .filter(category => !!category);
+
     const boardGame = {
       ...Object.fromEntries(entries),
       categories: selectedCategories.map(category => ({
         ...category,
       }))
     };
-  
+
     boardGame.reviews = [];
     boardGame.appUserPublicIDS = [];
     boardGame.rating_count = 0;
-    boardGame.rating = 0;
-    
+    boardGame.ratings = [] ;
+
     onSave(boardGame);
   };
-  
+
 
 
   return (
